@@ -10,7 +10,11 @@ const CameraStack = ()=>{
     return(
         <Stack.Navigator>
             <Stack.Screen name="cameraHome" component={CameraHomeScreen} options={{headerShown:false}}  />
-            <Stack.Screen name="live" component={LiveScreen}  />
+            <Stack.Screen name="live" component={LiveScreen}
+                options={{
+                    title: 'Select camera in tile to play'
+                }}
+            />
         </Stack.Navigator>
     )
 }

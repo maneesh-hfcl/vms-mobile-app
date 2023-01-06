@@ -53,5 +53,19 @@ export const globalStyles = StyleSheet.create({
     },
     view_padding_top:{
         paddingTop:80
-    }
+    },
+    modalContent:{
+        height:'70%',
+        backgroundColor:'#fff',
+        bottom:'8%',
+        position:'absolute',
+        width:'100%',  
+        borderTopWidth:2,
+        elevation:3,
+        borderColor:'#000',
+        shadowOffset:{width:1, height:1},
+        shadowColor:'#333',
+        shadowOpacity:0.3,
+        shadowRadius:2,      
+    },
 })
