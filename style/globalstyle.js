@@ -12,7 +12,13 @@ export const globalStyles = StyleSheet.create({
     },
     container_login_view:{
         padding:30,
-       flex:1
+       flex:1,
+
+    },
+    container_main:{
+        paddingTop:10,
+        paddingHorizontal:8,
+        flex:1
     },
     text_input:{
         borderWidth:1,
@@ -30,6 +36,13 @@ export const globalStyles = StyleSheet.create({
         marginTop:10,
         paddingHorizontal:2,
         paddingVertical:2
+    },
+    text_form:{
+        color:'gray',
+        marginHorizontal:5,
+        marginTop:5,
+        paddingHorizontal:2,
+        paddingVertical:0
     },
     touchable_btn:{
         backgroundColor:'#1742d1',
@@ -56,7 +69,7 @@ export const globalStyles = StyleSheet.create({
     },
     modalContent:{
         height:'70%',
-        backgroundColor:'#fff',
+        backgroundColor:'#e4e9f7',
         bottom:'8%',
         position:'absolute',
         width:'100%',  
@@ -68,4 +81,29 @@ export const globalStyles = StyleSheet.create({
         shadowOpacity:0.3,
         shadowRadius:2,      
     },
+    container_form:{
+        backgroundColor:'#fff',
+        
+        marginVertical:5,
+        paddingVertical:10,
+        paddingHorizontal:5,
+        borderRadius:5
+    },
+    text_form_input:{
+        color:'#000',
+    },
+    form_btn_text:{
+        marginVertical:0,
+        marginHorizontal:5,
+        color:'yellow'
+    },
+    form_btn:{
+        backgroundColor:'#1742d1',
+        alignItems:'center',
+        marginVertical:1,
+        marginHorizontal:0,
+        paddingHorizontal:5,
+        paddingVertical:5,
+        borderRadius:5,      
+    }
 })

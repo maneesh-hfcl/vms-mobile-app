@@ -1,5 +1,5 @@
-import React from "react";
-import {View, Text, StyleSheet, Image, TextInput, TouchableOpacity} from 'react-native';
+import React, { useEffect } from "react";
+import {View, Text, StyleSheet, Image, TextInput, TouchableOpacity, Alert} from 'react-native';
 import HeaderCardComponent from "../component/card/headerCard";
 import FooterScreen from "../component/footer";
 import { globalStyles } from "../style/globalstyle";
@@ -8,7 +8,12 @@ const logoIcon = require('../assets/icons/logo.png')
 
 const LoginScreen = ({navigation})=>{
 
+    useEffect(()=>{
+
+    },[])
+
     const pressHandler = ()=>{
+  
         navigation.navigate("Home");
     }
 

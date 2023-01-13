@@ -7,6 +7,8 @@ import ConfigStack from "../stack/configStack";
 import { globalStyles } from "../../style/globalstyle";
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { ScrollView } from 'react-native-gesture-handler';
+import EventHomeScreen from "../../screen/eventHomeScreen";
+import MoreHomeScreen from "../../screen/moreHomeScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -23,48 +25,6 @@ const ConfigScreen = ()=>{
         <View>
             <Text>Configuration screen</Text>
         </View>
-    )
-}
-
-const EventScreen = ()=>{
-    return(
-        <View>
-            <Text>Event screen</Text>
-        </View>
-    )
-}
-
-const MoreScreen = ({navigation})=>{
-    const pressHandler = ()=>{
-        navigation.navigate('Login')
-    }
-    return(
-            <View style={globalStyles.container_login_view}>
-                <Text style={[globalStyles.text,{alignSelf:'center'}]}>Click to logout from the application</Text>
-            <TouchableOpacity style={[globalStyles.touchable_btn, globalStyles.touchable_btn_logout]} onPress={pressHandler}>
-                <Text style={globalStyles.text_btn}>Logout</Text>
-            </TouchableOpacity>
-
-            </View>
-            // <View style={{flex:1}}>
-            //     <View style={{flex:1}}>
-            //         <Text>hello sir</Text>
-            //     </View>
-            //     <View style={{flex:0.3}}>
-            //         <ScrollView>
-            //             <Text style={{fontSize:40}}>
-            //             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            //             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-            //             minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            //             aliquip ex ea commodo consequat. Duis aute irure dolor in
-            //             reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            //             pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            //             culpa qui officia deserunt mollit anim id est laborum.
-            //             </Text>
-            //         </ScrollView>
-            //         </View>
-                
-            // </View>
     )
 }
 
@@ -100,12 +60,12 @@ const TabHome = ({navigation})=>{
                         tabBarIcon:()=> <Ionicons name="settings" size={20} color="black" />
                     }} 
                 /> 
-            <Tab.Screen name="Events" component={EventScreen}
+            <Tab.Screen name="Events" component={EventHomeScreen}
                 options={{
                     tabBarIcon:()=>(<MaterialIcons name="event-available" size={20} color="black" />)
                 }}
             />
-            <Tab.Screen name="More" component={MoreScreen}
+            <Tab.Screen name="More" component={MoreHomeScreen}
                 options={{
                     tabBarIcon:()=>(<Feather name="more-horizontal" size={20} color="black" />)
                 }}

@@ -3,21 +3,22 @@ import {View, Text, StyleSheet, Alert, ScrollView, FlatList, TouchableOpacity, M
 import { globalStyles } from "../../style/globalstyle";
 import { Entypo, Ionicons, MaterialIcons, Feather } from '@expo/vector-icons';
 import MapComponent from "../../component/mapComponent";
+import {WebView} from "react-native-webview";
 
 
 const LiveScreen = ()=>{
     const initTileCam = [
-        {indx:0, cam:'Select'},
-        {indx:1, cam:'Select'},
-        {indx:2, cam:'Select'},
-        {indx:3, cam:'Select'},
-        {indx:4, cam:'Select'},
-        {indx:5, cam:'Select'},
-        {indx:6, cam:'Select'},
-        {indx:7, cam:'Select'},
-        {indx:8, cam:'Select'},
-        {indx:9, cam:'Select'},
-        {indx:10, cam:'Select'},
+        {indx:0, cam:'Select', isCurSel:false},
+        {indx:1, cam:'Select', isCurSel:false},
+        {indx:2, cam:'Select', isCurSel:false},
+        {indx:3, cam:'Select', isCurSel:false},
+        {indx:4, cam:'Select', isCurSel:false},
+        {indx:5, cam:'Select', isCurSel:false},
+        {indx:6, cam:'Select', isCurSel:false},
+        {indx:7, cam:'Select', isCurSel:false},
+        {indx:8, cam:'Select', isCurSel:false},
+        {indx:9, cam:'Select', isCurSel:false},
+        {indx:10, cam:'Select', isCurSel:false},
         
     ]
     const[tileCam, setTileCam] = useState([])
@@ -34,18 +35,35 @@ const LiveScreen = ()=>{
         console.log(tileCam)
     }
 
-    const pressHandlerCam = ()=>{
-//        Alert.alert('you have pressed cam')
-        setIsModalVisible(true)
+    const pressHandlerCam = (itm)=>{
+           let tempTileCam = [...tileCam]
+           let selItm = tempTileCam.find(x=> x.indx == itm.indx)
+           selItm.isCurSel = true
+           setTileCam(tempTileCam)
+           console.log(tileCam) 
+           setIsModalVisible(true)
+    }
+
+    const camNamePressHandler = (elemCam)=>{
+        let tempTileCam = [...tileCam];
+        let findCam = tempTileCam.find(x=>x.isCurSel == true)
+        findCam.cam = elemCam.name
+        setTileCam(tempTileCam)
+//        Alert.alert("u have pressed the camera");
+        console.log(elemCam)
+        dialogClose();
     }
 
     const renderItems = (item)=>{
         return(
             <View style={[styles.vw_tile_inner]}>
-                <View style={{flex:1, alignItems:'center', justifyContent:'center'}}>
-                    <Entypo name="video-camera" size={30} color="#c7c7c7" />
+                <View style={{flex:1}}>
+                    {/* <Entypo name="video-camera" size={30} color="#c7c7c7" /> */}
+                    <WebView style={{flex:1}}
+                        source={{uri:"http://192.168.2.205:5000/htmlvideostream/video.html"}}
+                    />
                 </View>
-                <TouchableOpacity onPress={pressHandlerCam}>
+                <TouchableOpacity onPress={() => pressHandlerCam(item)}>
                     <View style={styles.vw_tile_text_container}>
                         <Text style={styles.vw_tile_text}>{item.cam}</Text>
                     </View>
@@ -57,6 +75,11 @@ const LiveScreen = ()=>{
     const dialogClose = ()=>{
 //        Alert.alert('close the dialog')
         setIsModalVisible(false)
+        let tempTileCam = [...tileCam]
+        let selItm = tempTileCam.find(x=> x.isCurSel == true)
+        if(selItm)
+            selItm.isCurSel = false
+        setTileCam(tempTileCam)
     }
 
     return(
@@ -74,7 +97,7 @@ const LiveScreen = ()=>{
         //     } 
       
         // </View>
-        <View style={{marginVertical:20, marginHorizontal:3}}>
+        <View style={{marginVertical:20, marginHorizontal:3, flex:1}}>
             <FlatList numColumns={2} showsVerticalScrollIndicator={true}
                 data={tileCam}
                 renderItem={({item}) => (renderItems(item)) }
@@ -85,7 +108,7 @@ const LiveScreen = ()=>{
                 visible={isModalVisible} 
             >
                 <View style={globalStyles.modalContent}  >
-                   <MapComponent pressHanderClose={dialogClose} />
+                   <MapComponent pressHanderClose={dialogClose} camNamePressHandler={camNamePressHandler} />
                 </View>
             </Modal>
         </View>

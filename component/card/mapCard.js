@@ -1,36 +1,18 @@
 import React from "react";  
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { FontAwesome5 } from '@expo/vector-icons';
+import { FontAwesome5, FontAwesome } from '@expo/vector-icons';
 
 const MapCard = ({children, menuText, pressMapHandler, iconType})=>{
     return(
         <View style={styles.card_menu_view}>
             <TouchableOpacity onPress={() => pressMapHandler(menuText)}>
-                <View style={{flexDirection:'row'}}>
+                <View style={{flexDirection:'row', marginHorizontal:10}}>
                     {children}
+                    <FontAwesome name="map-marker" size={20} color="#014d17" />
                     <Text style={styles.card_menu_text}>{menuText}</Text>
                     <FontAwesome5 name={iconType?'caret-up':'caret-down'} size={24} color="gray" style={styles.card_menu_down_icon} />
                 </View>
             </TouchableOpacity>
-            {
-                iconType &&
-            
-                <View style={styles.card_vw_cam}>
-                    <TouchableOpacity>
-                        <Text style={styles.card_cam_text}>Camera 1</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <Text style={styles.card_cam_text}>Camera 1</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <Text style={styles.card_cam_text}>Camera 1</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <Text style={styles.card_cam_text}>Camera 1</Text>
-                    </TouchableOpacity>
-                    
-                </View>
-            }
         </View>
     )
 }
@@ -46,16 +28,18 @@ const styles = StyleSheet.create({
         paddingBottom:10
     },
     card_menu_view:{
-        backgroundColor:'#dfdfdf',
+        backgroundColor:'#ccd4e6',
         marginHorizontal:10,
-        marginVertical:8,
+        marginVertical:0,
         paddingTop:10,
         paddingHorizontal:0,
-        borderRadius:10
+        borderTopLeftRadius:5,
+        borderTopRightRadius:5,
+        marginTop:10
     },
     card_menu_down_icon:{
         marginVertical:0,
-        marginHorizontal:10,
+        marginHorizontal:0,
         paddingBottom:10
     },
     card_vw_cam:{
