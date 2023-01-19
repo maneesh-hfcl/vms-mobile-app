@@ -9,16 +9,16 @@ import {WebView} from "react-native-webview";
 const LiveScreen = ()=>{
     const initTileCam = [
         {indx:0, cam:'Select', isCurSel:false},
-        {indx:1, cam:'Select', isCurSel:false},
-        {indx:2, cam:'Select', isCurSel:false},
-        {indx:3, cam:'Select', isCurSel:false},
-        {indx:4, cam:'Select', isCurSel:false},
-        {indx:5, cam:'Select', isCurSel:false},
-        {indx:6, cam:'Select', isCurSel:false},
-        {indx:7, cam:'Select', isCurSel:false},
-        {indx:8, cam:'Select', isCurSel:false},
-        {indx:9, cam:'Select', isCurSel:false},
-        {indx:10, cam:'Select', isCurSel:false},
+         {indx:1, cam:'Select', isCurSel:false},
+         {indx:2, cam:'Select', isCurSel:false},
+         {indx:3, cam:'Select', isCurSel:false},
+        // {indx:4, cam:'Select', isCurSel:false},
+        // {indx:5, cam:'Select', isCurSel:false},
+        // {indx:6, cam:'Select', isCurSel:false},
+        // {indx:7, cam:'Select', isCurSel:false},
+        // {indx:8, cam:'Select', isCurSel:false},
+        // {indx:9, cam:'Select', isCurSel:false},
+        // {indx:10, cam:'Select', isCurSel:false},
         
     ]
     const[tileCam, setTileCam] = useState([])
