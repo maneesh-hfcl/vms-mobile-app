@@ -1,0 +1,11 @@
+###
+POST http://192.168.2.205:5005/vm/vmd/pvss?spc=M;L;ITEM_hap HTTP/1.1
+
+###
+
+POST http://192.168.2.197:5005/vm/vmd/pvss?spc=M;L;ITEM_hap;1920:-1:-1.0  HTTP/1.1
+
+###
+
+POST http://172.17.26.50:5006/vm/vmd/pvss?spc=M;L;Hik_42;1920:-1:-1.0 HTTP/1.1
+

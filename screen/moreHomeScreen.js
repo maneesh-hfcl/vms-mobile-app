@@ -1,5 +1,5 @@
 import { Video } from "expo-av";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {View, Text, StyleSheet, TouchableOpacity, Alert} from 'react-native'
 import {WebView} from "react-native-webview";
 import { globalStyles } from "../style/globalstyle";
@@ -7,7 +7,47 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const MoreHomeScreen = ({navigation})=>{
     const[dataBlob, setDataBlob] = useState([])
+    const[htmlCode, setHtmlCode] = useState('')
+    const htmlPage = require("../html/video.html")
+
+
     let web_url = "http://192.168.2.205:5005"
+    const htmlInitCode = `
+        <html>
+            <head>
+                <script>
+                    var mimeCodec = 'video/mp4; codecs="avc1.640028"';
+                    alert(window)
+                    console.log('hello')
+                    var mediasource = new MediaSource();
+                    alert('hello')
+                    //alert(window.MediaSource)
+                    window.onload = ()=>{
+                        //alert('good')
+                        alert(mimeCodec)
+                        if(MediaSource.isTypeSupported(mimeCodec))
+                        {
+                            alert('yes')
+                        }
+                        else{
+                            alert('false')
+                        }
+                    }
+                </script>
+            </head>
+            <body>
+                <p>Hello sir</p>
+                <p>`+htmlPage+` </p>
+                <iframe src="`+htmlPage+`" />
+            </body>
+        </html>
+    `
+
+    useEffect(()=>{
+        setHtmlCode(htmlInitCode)
+        alert(htmlPage)
+    },[])
+
     const pressHandler = ()=>{
           navigation.navigate('Login');
     }
@@ -89,7 +129,7 @@ const MoreHomeScreen = ({navigation})=>{
                 <Text>Add Store data</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={getStoreData} style={{marginVertical:20,
-                 alignItems:'center',
+                 alignItems:'center'
               
                  }}> 
                 <Text>Get Store data</Text>
@@ -106,6 +146,11 @@ const MoreHomeScreen = ({navigation})=>{
                  }}> 
                 <Text>First Store data</Text>
             </TouchableOpacity> */}
+
+            <WebView 
+                style={{flex:1}}
+                source ={{html: htmlCode}}
+            />
         </View>
     )
 }

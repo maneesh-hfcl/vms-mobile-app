@@ -4,15 +4,15 @@ import {View, Text, StyleSheet, TextInput, TouchableOpacity, TouchableWithoutFee
 const BaseContainer = ({children})=>{
     return(
         
-            // <KeyboardAvoidingView style={styles.container}
-            //     behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            //     >
-            //     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                    <View style={styles.container}>
+            <KeyboardAvoidingView style={styles.container}
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                >
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                    <SafeAreaView style={styles.container}>
                         {children}
-                    </View>
-            //     </TouchableWithoutFeedback>
-            // </KeyboardAvoidingView>
+                    </SafeAreaView>
+                </TouchableWithoutFeedback>
+            </KeyboardAvoidingView>
         
     )
 }

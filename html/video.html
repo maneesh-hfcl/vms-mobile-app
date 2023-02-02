@@ -1,0 +1,24 @@
+<html>
+    <head>
+        <title>Video page</title>
+        <script>
+            var mimeCodec = 'video/mp4; codecs="avc1.640028"';
+            //alert(window.MediaSource)
+            window.onload = ()=>{
+                //alert('good')
+               // alert(window)
+                if(window.MediaSource != null)
+                {
+                    alert('yes')
+                }
+                else{
+                    alert('false')
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <h1>This is the video page</h1>
+        <iframe src="http://192.168.2.197:5005/video.html" ></iframe>
+    </body>
+</html>
