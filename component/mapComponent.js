@@ -3,6 +3,8 @@ import {View, Text, StyleSheet, FlatList, TouchableOpacity, Alert} from 'react-n
 import MapCard from "./card/mapCard";
 import { AntDesign, FontAwesome, Ionicons } from '@expo/vector-icons';
 import CamListComponent from "./camlistComponent";
+import Config from ".././configuration/config";
+import {LoadApiData} from ".././shared/fetchUrl";
 
 const MapComponent = ({pressHanderClose, camNamePressHandler})=>{
 
@@ -47,25 +49,52 @@ const MapComponent = ({pressHanderClose, camNamePressHandler})=>{
     },[])
 
     const loadData = ()=>{
-        setMaplst(initMapLst)
+        //setMaplst(initMapLst)
+        loadMap();
+    }
+
+    const loadMap = async()=>{
+        try {
+//            let uri = Config.ApiUrl + "/users"
+            jsondata = await LoadApiData("/map")
+            console.log(jsondata);
+            let initLst = jsondata.map((elem) =>({
+                id : elem.id,
+                mapsym : elem.mapsym.trimEnd(),
+                mapname : elem.mapname.trimEnd(),
+                isparent: elem.mapown==0?true:false,
+                parentId: elem.mapown
+                })
+            )
+            console.log(initLst);
+            setMaplst(initLst)
+//            return json.movies;
+          } catch (error) {
+            console.error(error);
+          }
     }
 
     const renderItems = (item)=>{
         return(
             <View>
-                <MapCard menuText={item.name} 
-                    pressMapHandler={pressMapHandler} iconType={item.isSelect} 
-                />
+                {item.parentId == 0 &&
+                    <MapCard menuText={item.mapname} menuId={item.id}
+                        pressMapHandler={pressMapHandler} iconType={item.isSelect} 
+                    />
+                }
                 {
-                    item.isSelect && 
-                    <CamListComponent camList={loadCamArr(item.id)} key={item.id} camNamePress={camNamePressHandler} />
-                    
+                    item.isSelect &&
+                    <View> 
+                        
+                        <CamListComponent camList={loadCamArr(item.id)} key={item.id} camNamePress={camNamePressHandler} />
+                    </View>
                 }
             </View>
         )
     }
 
     const loadCamArr = (id)=>{
+
         if(id == 1) 
             return initCamMap1Lst;
         else if(id==2)
@@ -76,11 +105,12 @@ const MapComponent = ({pressHanderClose, camNamePressHandler})=>{
             return []
         }
 
-    const pressMapHandler = (itm)=>{
-       // Alert.alert(item);
-
-       let tempArr = maplst.map((item) => {
-            return item.name == itm ? { ...item, isSelect: (!item.isSelect),
+    const pressMapHandler = (itmId)=>{
+        console.log(itmId)
+        let tempMapArr = maplst.filter(elem => elem.parentId == itmId)
+        console.log(tempMapArr);
+        let tempArr = maplst.map((item) => {
+            return item.id == itmId ? { ...item, isSelect: (!item.isSelect),
                 camArr:loadCamArr(item.id)
             
             } : item

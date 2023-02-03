@@ -2,14 +2,14 @@ import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { FontAwesome5, FontAwesome } from '@expo/vector-icons';
 
-const MapCard = ({children, menuText, pressMapHandler, iconType})=>{
+const MapCard = ({children, menuText, menuId, pressMapHandler, iconType})=>{
     return(
         <View style={styles.card_menu_view}>
-            <TouchableOpacity onPress={() => pressMapHandler(menuText)}>
+            <TouchableOpacity onPress={() => pressMapHandler(menuId)}>
                 <View style={{flexDirection:'row', marginHorizontal:10}}>
                     {children}
                     <FontAwesome name="map-marker" size={20} color="#014d17" />
-                    <Text style={styles.card_menu_text}>{menuText}</Text>
+                    <Text style={styles.card_menu_text}>{menuText}/{menuId}</Text>
                     <FontAwesome5 name={iconType?'caret-up':'caret-down'} size={24} color="gray" style={styles.card_menu_down_icon} />
                 </View>
             </TouchableOpacity>

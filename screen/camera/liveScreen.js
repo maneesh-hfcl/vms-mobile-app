@@ -4,9 +4,10 @@ import { globalStyles } from "../../style/globalstyle";
 import { Entypo, Ionicons, MaterialIcons, Feather } from '@expo/vector-icons';
 import MapComponent from "../../component/mapComponent";
 import {WebView} from "react-native-webview";
+import StackMap from "../../navigation/stack/mapStack";
 
 
-const LiveScreen = ()=>{
+const LiveScreen = ({navigation, route})=>{
     const initTileCam = [
         {indx:0, cam:'Select', isCurSel:false},
          {indx:1, cam:'Select', isCurSel:false},
@@ -25,10 +26,21 @@ const LiveScreen = ()=>{
     const[isModalVisible, setIsModalVisible] = useState(false)
 
     useEffect(()=>{
-// //        Alert.alert('Loading camera tiles')
+      //  Alert.alert('Loading camera tiles')
         loadData();
 
     },[])
+
+    useEffect(()=>{
+        console.log("calling route id")
+        console.log(route.params?.camId)
+        if(route.params?.camId != null)
+        {
+            console.log("camera present");
+            camNamePressHandler(route.params.camId)
+        }
+//        pressHandlerCam(route.params?.camId)
+    },[route.params?.camId])
 
     const loadData =()=>{
         setTileCam(initTileCam)
@@ -38,16 +50,23 @@ const LiveScreen = ()=>{
     const pressHandlerCam = (itm)=>{
            let tempTileCam = [...tileCam]
            let selItm = tempTileCam.find(x=> x.indx == itm.indx)
+
            selItm.isCurSel = true
            setTileCam(tempTileCam)
            console.log(tileCam) 
-           setIsModalVisible(true)
+           //setIsModalVisible(true)
+           navigation.navigate("MapHome",{id:0})
+        
+    }
+
+    const pressMapHandler = ()=>{
+        Alert.alert('u pressed map')
     }
 
     const camNamePressHandler = (elemCam)=>{
         let tempTileCam = [...tileCam];
         let findCam = tempTileCam.find(x=>x.isCurSel == true)
-        findCam.cam = elemCam.name
+        findCam.cam = elemCam
         setTileCam(tempTileCam)
 //        Alert.alert("u have pressed the camera");
         console.log(elemCam)
@@ -59,9 +78,9 @@ const LiveScreen = ()=>{
             <View style={[styles.vw_tile_inner]}>
                 <View style={{flex:1}}>
                     {/* <Entypo name="video-camera" size={30} color="#c7c7c7" /> */}
-                    <WebView style={{flex:1}}
+                    {/* <WebView style={{flex:1}}
                         source={{uri:"http://192.168.2.205:5000/htmlvideostream/video.html"}}
-                    />
+                    /> */}
                 </View>
                 <TouchableOpacity onPress={() => pressHandlerCam(item)}>
                     <View style={styles.vw_tile_text_container}>
@@ -103,14 +122,17 @@ const LiveScreen = ()=>{
                 renderItem={({item}) => (renderItems(item)) }
             />
 
-            <Modal
-                transparent={true} 
+            {/* <Modal
+                transparent={false} 
                 visible={isModalVisible} 
             >
                 <View style={globalStyles.modalContent}  >
                    <MapComponent pressHanderClose={dialogClose} camNamePressHandler={camNamePressHandler} />
+                   <StackMap /> 
+
                 </View>
-            </Modal>
+            </Modal> */}
+
         </View>
 
 

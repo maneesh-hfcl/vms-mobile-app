@@ -14,13 +14,13 @@ import WebView from "react-native-webview";
 
 const PlayVideo = ()=>{
     const[dataBlob, setDataBlob] = useState([])
-    const web_url = "http://192.168.244.25:5005"
-    const ws_url = "ws://192.168.244.25:7008/"
+    const web_url = "http://192.168.2.197:5005"
+    const ws_url = "ws://192.168.2.197:7008/"
     const url_token = "QtjEq1mDWNYh0f8qidy+WhmCnENl5YwMEzu0CNYGxdurTfK2mSuJHhzxpqvmZR1P7qd62c6koaGudqEmKNx/kLzMnhoXI0F5bX+PTOH5Tho=";
-    const m3usUri = "http://192.168.244.25:5005/hls/"
+    const m3usUri = "http://192.168.2.197:5005/hls/"
     const video = useRef(null)
 
-    var ws ;
+    const[wsArr, setWsArr] = useState([])
     const[base64Encode, setBase64Encode] = useState('');
     const[count,setCount] = useState(0)
     const bufferStream = useRef('')
@@ -116,6 +116,10 @@ const PlayVideo = ()=>{
 //        console.log(base64Encode);
        // writeToFile()
        // delStoreData()
+       if(wsArr.length < 1) return;
+       console.log(wsArr[0])
+       let ws = wsArr[0]
+
         if(ws)
         {
             console.log("closing websocket");   
@@ -132,7 +136,9 @@ const PlayVideo = ()=>{
         var boolFirst = false;
         var chkItmRecv = 0;
         console.log(ws_url);
-        ws = new WebSocket(ws_url);
+        let ws = new WebSocket(ws_url);
+        
+
         ws.binaryType = 'blob';
         var base64Append = ''
         //ws.url = ws_url
@@ -250,6 +256,8 @@ const PlayVideo = ()=>{
             
             console.log(e.code, e.reason);
         };
+
+        setWsArr(prev => [...prev, ws])
     }
 
     const storeData =  (value)=>{
