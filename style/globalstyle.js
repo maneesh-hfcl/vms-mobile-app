@@ -71,7 +71,6 @@ export const globalStyles = StyleSheet.create({
         height:'70%',
         backgroundColor:'#e4e9f7',
         bottom:'8%',
-        position:'absolute',
         width:'100%',  
         borderTopWidth:2,
         elevation:3,
@@ -79,7 +78,8 @@ export const globalStyles = StyleSheet.create({
         shadowOffset:{width:1, height:1},
         shadowColor:'#333',
         shadowOpacity:0.3,
-        shadowRadius:2,      
+        shadowRadius:2,
+        marginTop:'60%',      
     },
     container_form:{
         backgroundColor:'#fff',

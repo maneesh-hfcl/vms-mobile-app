@@ -3,6 +3,7 @@ import {View, Text, Button, Alert} from 'react-native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import CameraHomeScreen from "../../screen/cameraHomeScreen";
 import LiveScreen from "../../screen/camera/liveScreen";
+import MapListScreen from "../../screen/camera/maplistScreen";
 
 const Stack = createNativeStackNavigator()
 
@@ -32,7 +33,6 @@ const MapHome = ({navigation, route})=>{
 }
 
 
-
 const CamHome = ({navigation})=>{
         const pressHandler = ()=>{
         //        Alert.alert('cam alert')
@@ -49,7 +49,7 @@ const CamHome = ({navigation})=>{
 const CameraStack = ()=>{
     const getCamId = ()=>{
         Alert.alert("camera id`")
-    }
+     }
     return(
         <Stack.Navigator id="camStck">
             <Stack.Screen name="cameraHome" component={CameraHomeScreen} options={{headerShown:false}}  />
@@ -59,8 +59,8 @@ const CameraStack = ()=>{
                 }}
             />
             <Stack.Group screenOptions={{presentation:'transparentModal'}}>
-                <Stack.Screen name="MapHome" component={MapHome} options={{headerShown:false}} />
-                <Stack.Screen name="CamHome" component={CamHome} />
+                <Stack.Screen name="MapHome" component={MapListScreen} options={{headerShown:false}} />
+
             </Stack.Group>
 
         </Stack.Navigator>

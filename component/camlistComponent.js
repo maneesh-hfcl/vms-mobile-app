@@ -1,14 +1,22 @@
 import React, { useEffect, useState } from "react";
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native'
 import { FlatList } from "react-native-gesture-handler";
-import { AntDesign, Octicons } from '@expo/vector-icons';
+import { AntDesign, Octicons, Ionicons, Foundation, MaterialCommunityIcons } from '@expo/vector-icons';
 import MapCard from "./card/mapCard";
 
-const CamListComponent = ({camList, camNamePress})=>{
+const CamListComponent = ({mapId, camNamePress})=>{
+    const camList =[
+        {id:1, name:'Hfcl sec 32 6th floor cafeteria camera 2 times probable'},
+        {id:2, name:'Cam_162'},
+        {id:3, name:'Cam_163'},
+        {id:4, name:'Cam_164'},
+    ]
+    
     const[camArr, setCamArr] = useState([])
+
     useEffect(()=>{
         setCamArr(camList)
-    },[camList])
+    },[])
 
     const renderItems = (item)=>{
         return(
@@ -25,25 +33,36 @@ const CamListComponent = ({camList, camNamePress})=>{
     }
 
     return(
-        <View style={styles.card_vw_outer}>
-            <MapCard menuText="Child" menuId={2}
-                 iconType={true}  />
-            {/* <FlatList numColumns={} 
-                data={camArr}
-                keyExtractor = {item => item.id}
-                renderItem = {({item})=>(renderItems(item))}
-                ListEmptyComponent = {emptyList}
-    /> */}
+
         <View style={styles.card_vw_cam}>
            { camArr.length > 0 &&
                 camArr.map((elem, indx) =>(
 
-                    <TouchableOpacity onPress={() => camNamePress(elem)} key={indx}>
-                        <View style={{flexDirection:'row', alignItems:'center', justifyContent:'center'}}>
-                            <Octicons name="device-camera-video" size={15} color="green" />
-                            <Text style={styles.card_cam_text} >{elem.name}</Text>
+                    
+                        <View style={{ flexDirection:'row', borderBottomColor:'#d5d5d5',
+                                     borderBottomWidth:1, marginVertical:5}}>
+                            <View style={{flexDirection:'row', flex:1, alignItems:'center', 
+                                        marginHorizontal:5,
+                                        
+                                        
+                                        }}>
+                                <MaterialCommunityIcons name="cctv" size={24} color="#3d488f" />
+                                <TouchableOpacity onPress={() => camNamePress(elem)} key={indx}>
+                                    <Text style={styles.card_cam_text} >{elem.name}</Text>
+                                </TouchableOpacity>
+                            </View>
+                            
+                                <View style={{flexDirection:'column', marginHorizontal:10, marginVertical:5}}>
+                                    <Ionicons name="play-sharp" size={22} color="green" />
+                                    <Text style={{fontSize:10, color:'#707070'}}>Live</Text>
+                                </View>
+                                <View style={{flexDirection:'column', marginHorizontal:10, marginVertical:5}}>
+                                    <Foundation name="record" size={24} color="red" />
+                                    <Text style={{fontSize:10, color:'#707070'}}>Rec</Text>
+                                </View>
+                            
                         </View>
-                    </TouchableOpacity>
+
                     
                 ))
             } 
@@ -53,7 +72,7 @@ const CamListComponent = ({camList, camNamePress})=>{
             }
       
          </View>
-         </View>
+
     )
 }
 
@@ -66,18 +85,17 @@ const styles = StyleSheet.create({
         borderRightWidth:1,
         backgroundColor: '#fff',
         borderColor:'#dfdfdf',
-        paddingHorizontal:0,
+        paddingHorizontal:10,
         paddingVertical:0,
       
-        marginHorizontal:5,
+        marginHorizontal:0,
         paddingTop:5,
         borderBottomLeftRadius:5,
         borderBottomRightRadius:5,
         
     },
     card_vw_cam:{
-        flexWrap:"wrap",
-        flexDirection:"row",
+        flex:1,
         marginHorizontal:10,
         marginVertical:10
     },
@@ -87,7 +105,7 @@ const styles = StyleSheet.create({
         marginRight:20,
         color:'#3075db',
         fontSize:16,
-        textDecorationLine:'underline'
+
     },
     card_cam_text_empty:{
         paddingHorizontal:5,
