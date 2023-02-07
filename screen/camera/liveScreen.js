@@ -55,8 +55,8 @@ const LiveScreen = ({navigation, route})=>{
            setTileCam(tempTileCam)
            console.log(tileCam) 
            //setIsModalVisible(true)
-           Alert.alert('push')
-           navigation.navigate("MapHome",{mapid:0, count:1})
+           //Alert.alert('push')
+           navigation.push("MapHome",{mapid:0, count:1})
         
     }
 

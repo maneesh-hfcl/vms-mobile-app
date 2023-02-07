@@ -6,11 +6,11 @@ const MapCard = ({children, menuText, menuId, pressMapHandler, iconType})=>{
     return(
         <View style={styles.card_menu_view}>
             <TouchableOpacity onPress={() => pressMapHandler(menuId)}>
-                <View style={{flexDirection:'row', alignContent:'center'}}>
+                <View style={{flexDirection:'row', alignContent:'center', justifyContent:'center'}}>
                     {children}
-                    <FontAwesome name="map-marker" size={18} color="#014d17" />
-                    <Text style={styles.card_menu_text}>{menuText}/{menuId}</Text>
-                    <FontAwesome5 name={iconType?'caret-up':'caret-right'} size={20} color="gray" style={styles.card_menu_down_icon} /> 
+                    <FontAwesome name="map-marker" size={18} color="#014d17" style={{alignSelf:'center'}} />
+                    <Text style={styles.card_menu_text}>{menuText}</Text>
+                    {/* <FontAwesome5 name={iconType?'caret-up':'caret-right'} size={20} color="gray" style={styles.card_menu_down_icon} />  */}
                 </View>
             </TouchableOpacity>
         </View>
@@ -23,8 +23,10 @@ const styles = StyleSheet.create({
 
         flex:1,
         color:'black',
-        marginHorizontal:5,
-        fontWeight:'bold'
+        marginHorizontal:8,
+        fontWeight:'bold',
+        marginVertical:3,
+        fontSize:13
     },
     card_menu_view:{
         backgroundColor:'#fff',
@@ -34,7 +36,7 @@ const styles = StyleSheet.create({
         borderWidth:2,
         paddingVertical:5,
         paddingHorizontal:10,
-        marginHorizontal:10,
+        marginHorizontal:2,
         marginVertical:10
     },
     card_menu_down_icon:{

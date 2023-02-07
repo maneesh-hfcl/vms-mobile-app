@@ -79,7 +79,7 @@ export const globalStyles = StyleSheet.create({
         shadowColor:'#333',
         shadowOpacity:0.3,
         shadowRadius:2,
-        marginTop:'60%',      
+        marginTop:'6or30%',      
     },
     container_form:{
         backgroundColor:'#fff',
@@ -105,5 +105,11 @@ export const globalStyles = StyleSheet.create({
         paddingHorizontal:5,
         paddingVertical:5,
         borderRadius:5,      
+    },
+    card_cam_text_empty:{
+        paddingHorizontal:5,
+        paddingVertical:5,
+        color:'gray',
+        fontSize:15
     }
 })
