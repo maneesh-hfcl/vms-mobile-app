@@ -24,12 +24,21 @@ const LiveScreen = ({navigation, route})=>{
     ]
     const[tileCam, setTileCam] = useState([])
     const[isModalVisible, setIsModalVisible] = useState(false)
+    
 
     useEffect(()=>{
       //  Alert.alert('Loading camera tiles')
+        console.log("This is the load data screen");
         loadData();
 
     },[])
+
+    useEffect(()=>{
+        //  Alert.alert('Loading camera tiles')
+        console.log("You selected: " + route.params?.selCamera);
+        if(route.params?.selCamera)
+            camNamePressHandler(route.params?.selCamera)
+      },[route.params?.selCamera])
 
     useEffect(()=>{
         console.log("calling route id")
@@ -56,7 +65,7 @@ const LiveScreen = ({navigation, route})=>{
            console.log(tileCam) 
            //setIsModalVisible(true)
            //Alert.alert('push')
-           navigation.push("MapHome",{mapid:0, count:1})
+           navigation.push("MapHome",{mapid:0, count:1 })
         
     }
 
@@ -131,6 +140,15 @@ const LiveScreen = ({navigation, route})=>{
                    <MapComponent pressHanderClose={dialogClose} camNamePressHandler={camNamePressHandler} />
                    <StackMap /> 
 
+                </View>
+            </Modal> */}
+
+            {/* <Modal
+                transparent={false} 
+                visible={isModalVisible} 
+            >
+                <View style={globalStyles.modalContent}>
+                    <Text>Hello, modal</Text>
                 </View>
             </Modal> */}
 

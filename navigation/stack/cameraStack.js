@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import CameraHomeScreen from "../../screen/cameraHomeScreen";
 import LiveScreen from "../../screen/camera/liveScreen";
 import MapListScreen from "../../screen/camera/maplistScreen";
+import ModalComponent from "../../component/modalComponent";
 
 const Stack = createNativeStackNavigator()
 
@@ -60,7 +61,9 @@ const CameraStack = ()=>{
             />
             <Stack.Group screenOptions={{presentation:'transparentModal'}}>
                 <Stack.Screen name="MapHome" component={MapListScreen} options={{headerShown:false}} />
-
+                <Stack.Screen name="ModalRecording" component={ModalComponent} 
+                    options={{headerShown:false}}
+                />
             </Stack.Group>
 
         </Stack.Navigator>

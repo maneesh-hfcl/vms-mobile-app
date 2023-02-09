@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {View, Text, StyleSheet, Alert, TouchableOpacity} from 'react-native'
+import {View, Text, StyleSheet, Alert, TouchableOpacity, Modal} from 'react-native'
 import MapComponent from "../../component/mapComponent";
 import { globalStyles } from "../../style/globalstyle";
 import { StackActions } from "@react-navigation/native";
@@ -7,9 +7,10 @@ import CamListComponent from "../../component/camlistComponent";
 import { AntDesign, FontAwesome, Ionicons } from '@expo/vector-icons';
 
 const MapListScreen = ({navigation, route})=>{
-    const{mapid, count} = route.params;
+    const{mapid, count, onSelectCam} = route.params;
     const[countTimes, setCountTimes] = useState(0)
     const[camMapId, setCamMapId] = useState(0)
+    const[isModalVisible, setIsModalVisible] = useState(false)
 
     useEffect(()=>{
       //  alert(route.params?.mapid)
@@ -17,6 +18,7 @@ const MapListScreen = ({navigation, route})=>{
 //        setMapid(route.params?.mapid)
   //      console.log(`count: ${route.params?.count}`);
         setCountTimes(count)
+
     },[route])
 
     const pressMapHandler = (itmId)=>{
@@ -40,9 +42,19 @@ const MapListScreen = ({navigation, route})=>{
                 navigation.pop();
     }
 
-    const camNamePress = ()=>{
-        Alert.alert('cam press')
+    const pressHandlerCamLive = (devsym)=>{
+//        Alert.alert('cam press')
+        // navigation.dispatch(
+        //     StackActions.replace('live',{selCamera:'abcd'})
+        // )
+        navigation.navigate('live',{selCamera:devsym});
     }
+
+    const pressHandlerCamRec = (devsym)=>{
+     //   navigation.navigate('live', {selCamera:devsym})
+        navigation.push("ModalRecording",{selCam:devsym})
+    }
+
 
     const loadCamMapId = (mapid)=>{
         //Alert.alert("loading cams" + mapid)
@@ -69,10 +81,15 @@ const MapListScreen = ({navigation, route})=>{
                 pressCloseDialog={pressCloseDialog}
                 pressCloseDialogCurr={pressCloseDialogCurr}
                 loadCamMapId = {loadCamMapId}
+                
                 />
             {camMapId>0 && 
-                <CamListComponent camNamePress={camNamePress} mapId={camMapId} />  
+                <CamListComponent mapId={camMapId} pressHandlerCamLive={pressHandlerCamLive}
+                pressHandlerCamRec={pressHandlerCamRec}
+                />  
             } 
+
+
 
         </View>
     )

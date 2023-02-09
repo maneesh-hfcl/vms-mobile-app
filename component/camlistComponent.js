@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
-import {View, Text, StyleSheet, TouchableOpacity, Alert, ActivityIndicator} from 'react-native'
+import {View, Text, StyleSheet, TouchableOpacity, Alert, ActivityIndicator, Modal} from 'react-native'
 import { FlatList } from "react-native-gesture-handler";
 import { AntDesign, Octicons, Ionicons, Foundation, MaterialCommunityIcons } from '@expo/vector-icons';
 import MapCard from "./card/mapCard";
 import {LoadApiData} from ".././shared/fetchUrl";
 import ActivityIndicatorComponent from "./activityIndicatorComponent";
+import { globalStyles } from "../style/globalstyle";
 
-const CamListComponent = ({mapId, camNamePress})=>{
+const CamListComponent = ({mapId, camNamePress, pressHandlerCamLive, pressHandlerCamRec})=>{
     const camList =[
         {id:1, name:'Hfcl sec 32 6th floor cafeteria camera 2 times probable'},
         {id:2, name:'Cam_162'},
@@ -18,7 +19,7 @@ const CamListComponent = ({mapId, camNamePress})=>{
         {id:8, name:'Cam_164'},
         {id:9, name:'Cam_1641'},
     ]
-    
+        
     const[camArr, setCamArr] = useState([])
     const[isLoading, setIsLoading] = useState(true)
 
@@ -36,7 +37,7 @@ const CamListComponent = ({mapId, camNamePress})=>{
         try {
             console.log(mapid);
             jsondata = await LoadApiData("/devicesMap/"+mapid)
-            console.log(jsondata);
+         //   console.log(jsondata);
            
             let initLst = jsondata.map((elem) =>({
                 id : elem.id,
@@ -52,7 +53,7 @@ const CamListComponent = ({mapId, camNamePress})=>{
           }
     }
 
-
+   
     const EmptyList = ()=>{
         return(
             <Text style={styles.card_cam_text_empty}>No cameras present</Text>
@@ -74,12 +75,16 @@ const CamListComponent = ({mapId, camNamePress})=>{
                 </View>
                 
                 <View style={{flexDirection:'column', marginHorizontal:10, marginVertical:3}}>
-                    <Ionicons name="play-sharp" size={22} color="green" />
-                    <Text style={{fontSize:10, color:'#707070'}}>Live</Text>
+                    <TouchableOpacity onPress={() => pressHandlerCamLive(elem.devsym)}>
+                        <Ionicons name="play-sharp" size={22} color="green" />
+                        <Text style={{fontSize:10, color:'#707070'}}>Live</Text>
+                    </TouchableOpacity>
                 </View>
                 <View style={{flexDirection:'column', marginHorizontal:15, marginVertical:3}}>
-                    <Foundation name="record" size={24} color="red" />
-                    <Text style={{fontSize:10, color:'#707070'}}>Rec</Text>
+                    <TouchableOpacity onPress={()=> pressHandlerCamRec(elem.devsym)}>
+                        <Foundation name="record" size={24} color="red" />
+                        <Text style={{fontSize:10, color:'#707070'}}>Rec</Text>
+                    </TouchableOpacity>
                 </View>
             
             </View>
@@ -118,6 +123,7 @@ const CamListComponent = ({mapId, camNamePress})=>{
         )
 
         }
+
         </View>
     )
         

@@ -46,12 +46,12 @@ const MapComponent = ({pressMapHandler,mapid, camMapId,loadCamMapId})=>{
 
             let rootMap = initLst.filter(elem => 
                 mapid == 0?(elem.parentId == mapid):(elem.id == mapid))[0]
-            console.log(rootMap);
-            console.log(rootMap.id);
-            console.log(initLst)
+           // console.log(rootMap);
+           // console.log(rootMap.id);
+           // console.log(initLst)
             camMapId = rootMap.id;    
             let initLstFilter = initLst.filter(elem => elem.parentId == rootMap.id)
-            console.log(initLstFilter);
+           // console.log(initLstFilter);
             setSelMap(rootMap);
             setMaplst(initLstFilter)
 //            return json.movies;
