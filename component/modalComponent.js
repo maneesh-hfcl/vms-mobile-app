@@ -4,16 +4,22 @@ import { globalStyles } from "../style/globalstyle";
 import RecordingBar from "./recordingBar";
 import { AntDesign, FontAwesome, Ionicons, Entypo, Fontisto } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import DatetTimePickerModal from 'react-native-modal-datetime-picker'
+import { Picker } from "@react-native-picker/picker";
 
 const ModalComponent = ({navigation, route})=>{
     const{selCam} = route.params;
-    const [date, setDate] = useState(new Date(1598051730000));
+    const [date, setDate] = useState((new Date()).toDateString());
     const[showDate, setShowDate] = useState(false);
     const platform = (Platform.OS == "ios")
+    const[time, setTime] = useState(new Date());
+    const[mode, setMode] = useState('date')
+    const[showTime, setShowTime] = useState(false)
+    const[recBarTime, setRecBarTime] = useState(null)
     
     const pressCloseDialog = ()=>{
-                navigation.pop();
-            }
+        navigation.pop();
+    }
 
     const onChange = (event, value) =>{
         
@@ -26,30 +32,83 @@ const ModalComponent = ({navigation, route})=>{
 //        alert(showDate);
     }
 
-    const pressHandlerShowdate = ()=>{
+    const showDatePickerDate = ()=>{
+        setShowTime(false)    
         setShowDate(true)
+
+    }
+
+    const hideDatePickerDate = ()=>{
+        setShowDate(false)
+        setShowTime(false)
+    }
+
+    const handleConfirmDate = (value)=>{
+        
+            setDate(value.toDateString())
+        
+        setShowDate(false)
+    }
+
+    const showDatePickerTime = ()=>{
+       // Alert.alert('showing time only')
+       setShowDate(false)
+        setShowTime(true)
+    }
+
+    const hideDatePickerTime = ()=>{
+        setShowDate(false)
+        setShowTime(false)
+    }
+
+    const handleConfirmTime = (value)=>{
+        console.log(value.toTimeString())
+        setTime(value)
+        setRecBarTime(value);
+        setShowTime(false)
+    }
+
+
+    const pressPlyRec = (startTime,endTime)=>{
+        //Alert.alert('hello')
+        console.log(startTime +":"+endTime)
+    }
+
+    const selRecTime = (selTime)=>{
+        //Alert.alert(selTime)
+        console.log('Sel rec time:' + selTime)
+        setTime(selTime)
+        let obj = new Date(selTime)
+        //setDate(obj)
+        console.log(obj.getHours())
+      //  Alert.alert('play recording time')
     }
 
     return(
         <View style={styles.modal_view}>
+            <View style={{opacity:0.6,backgroundColor:'black', flex:1}}>
+                
+            </View>
             <View style={styles.modal_header}>
                 <View style={{flex:1, flexDirection:'row', paddingVertical:20}}>
                     <View style={{flex:1}}>
-                        <View style={{flex:0, flexDirection:'row', backgroundColor:'transparent', marginBottom:10 }}>
-                            <Entypo name="video-camera" size={16} color="gray" />
-                            <Text style={{color:'#fff', marginHorizontal:8}}>{route.params && selCam}</Text>
+                        <View style={{flex:0, flexDirection:'row', backgroundColor:'transparent', marginBottom:20, justifyContent:'center' }}>
+                            <Entypo name="video-camera" size={18} color="gray" style={{alignSelf:'center'}} />
+                            <Text style={{color:'#b7b7b7', fontSize:18, marginHorizontal:8}}>{route.params && selCam}</Text>
                             
                         </View>
                         <View style={{ flexDirection:'row', backgroundColor:'transparent'}}>
                             <View style={{ flexDirection:'row', flex:1, backgroundColor:'transparent'}}>
-                                <Fontisto name="date" size={15} color="cyan" style={{}} />
-                                <Text style={{color:'white', flex:0.70, marginHorizontal:10}}>{date.toDateString()}</Text>
-                                <TouchableOpacity onPress={pressHandlerShowdate}>
-                                    <Text style={{color:'white', flex:0.70, marginHorizontal:10}}>{date.length > 0 ? date:'Select date'}</Text>
+                                <Fontisto name="date" size={17} color="cyan" style={{}} />
+                                {/* <Text style={{color:'white', flex:0.70, marginHorizontal:10}}>{date.toDateString()}</Text> */}
+                                <TouchableOpacity style={{flex:0.8}} onPress={showDatePickerDate}>
+                                    <Text style={{color:'white', marginHorizontal:10}}>{date}</Text>
                                  </TouchableOpacity>                                    
                                
-                                <Ionicons name="time-outline" size={18} color="cyan" />
-                                <Text style={{color:'#fff', marginHorizontal:10}} >{route.params && selCam}</Text>
+                                <Ionicons name="time-outline" size={18} color="cyan" style={{alignSelf:'flex-start'}} />
+                                <TouchableOpacity onPress={showDatePickerTime}>
+                                    <Text style={{color:'#fff', marginHorizontal:5}} >{time.toTimeString().substring(0,5)}</Text>
+                                </TouchableOpacity>
                             </View>
                         </View>
 
@@ -59,47 +118,26 @@ const ModalComponent = ({navigation, route})=>{
                     <Ionicons name="close" size={25} color="#fff" style={{marginHorizontal:0, marginVertical:5}} />
                 </TouchableOpacity>
             </View>
-            <RecordingBar />
-            <View style={styles.modal_footer}>
-                <Text style={{color:'#dedede', fontSize:12}}>Recording is shown in hours{Platform.OS}</Text>
-                
-            </View>
+             { date && <RecordingBar camId={selCam} recDate={date} recTime={recBarTime} pressPlyRec={pressPlyRec} selRecTime={selRecTime} /> } 
+            
+             
+            <DatetTimePickerModal 
+                isVisible = {showDate}
+                mode='date'
+                onConfirm = {handleConfirmDate}
+                onCancel = {hideDatePickerDate}
+                textColor="#4a4a4a"
+            />
 
-
-            { showDate && platform &&
-
-                <View style={{
-                    position:"absolute",
-                    alignSelf:'center',
-                    shadowColor: 'gray',
-                    shadowOffset: {width: 0, height: 0},
-                    shadowOpacity:0.5,
-                    shadowRadius: 15,
-                    backgroundColor:'white',
-                    borderRadius:15,
-                    paddingHorizontal:10,
-                    
-                    paddingVertical:10
-                }}>
-                            <DateTimePicker
-                                testID="dateTimePicker"
-                                value={date}
-                                mode='date'
-                                is24Hour={true}
-                                onChange={onChange}
-                                textColor={'black'}
-                                display={"spinner"}
-                                style={{
-                                    fontSize:11,
-                                }}
-                            />
-                        <TouchableOpacity style={globalStyles.touchable_btn} onPress={()=>setShowDate(false)}>
-                            <Text style={globalStyles.text_btn}>Ok</Text>
-                        </TouchableOpacity>
-                </View>
-                
-            }
-
+            <DatetTimePickerModal 
+                isVisible = {showTime}
+                mode='time'
+                onConfirm = {handleConfirmTime}
+                onCancel = {hideDatePickerTime}
+                textColor="#4a4a4a"
+                date={time}
+            />
+            
         </View>
 
 
@@ -111,9 +149,10 @@ export default ModalComponent;
 const styles = StyleSheet.create({
     modal_view:{
         flex:1,
-        justifyContent:'center',        
+        justifyContent:'flex-end',        
         backgroundColor:'transparent',
-                
+        opacity:1,
+
     },
     modal_header:{
         backgroundColor:'#000',
@@ -125,7 +164,7 @@ const styles = StyleSheet.create({
         backgroundColor:'#000',
         alignItems:'center',
         paddingVertical:5,
-        paddingBottom:10
+        paddingBottom:20
 
     }
     

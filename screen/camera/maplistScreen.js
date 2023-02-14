@@ -62,7 +62,7 @@ const MapListScreen = ({navigation, route})=>{
     }
 
     return(
-        <View style={[globalStyles.modalContent,{backgroundColor:'#fff', height:'75%', marginTop:'50%'}]}>
+        <View style={[globalStyles.modalContent,{backgroundColor:'#fff', marginTop:150, flex:0.95}]}>
             <View style={{flexDirection:"row",justifyContent:'flex-end'}}>
                 { count > 1 &&
                 <TouchableOpacity onPress={pressCloseDialogCurr} style={{flex:1, flexDirection:'row', justifyContent:'flex-start'}}>

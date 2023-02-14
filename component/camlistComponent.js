@@ -98,11 +98,12 @@ const CamListComponent = ({mapId, camNamePress, pressHandlerCamLive, pressHandle
             (
                 <ActivityIndicatorComponent />
         ):(
-                <View>
+                <View style={{}}>
                     <View  style={styles.listText}>
                         <Text style={{color:"#dedede", fontSize:13, fontStyle:'italic'}}>Cameras in above map</Text>
                     </View>
                     <FlatList 
+                        style={{backgroundColor:'#fff'}}
                         data={camArr}
                         keyExtractor={item => item.id}
                         renderItem = {({item}) =>(

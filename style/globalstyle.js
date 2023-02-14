@@ -70,7 +70,7 @@ export const globalStyles = StyleSheet.create({
     modalContent:{
         height:'70%',
         backgroundColor:'#e4e9f7',
-        bottom:'8%',
+        bottom:'0%',
         width:'100%',  
         borderTopWidth:2,
         elevation:3,
