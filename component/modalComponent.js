@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import {View, Text, StyleSheet, TouchableOpacity, Alert, Platform} from 'react-native'
+import {View, Text, StyleSheet, TouchableOpacity, Alert, Platform, Pressable} from 'react-native'
 import { globalStyles } from "../style/globalstyle";
 import RecordingBar from "./recordingBar";
-import { AntDesign, FontAwesome, Ionicons, Entypo, Fontisto } from '@expo/vector-icons';
+import { AntDesign, FontAwesome, Ionicons, Entypo, Fontisto, MaterialIcons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import DatetTimePickerModal from 'react-native-modal-datetime-picker'
 import { Picker } from "@react-native-picker/picker";
@@ -92,23 +92,37 @@ const ModalComponent = ({navigation, route})=>{
             <View style={styles.modal_header}>
                 <View style={{flex:1, flexDirection:'row', paddingVertical:20}}>
                     <View style={{flex:1}}>
-                        <View style={{flex:0, flexDirection:'row', backgroundColor:'transparent', marginBottom:20, justifyContent:'center' }}>
+                        <View style={{ flexDirection:'row', backgroundColor:'transparent', marginBottom:20, justifyContent:'center' }}>
                             <Entypo name="video-camera" size={18} color="gray" style={{alignSelf:'center'}} />
                             <Text style={{color:'#b7b7b7', fontSize:18, marginHorizontal:8}}>{route.params && selCam}</Text>
                             
                         </View>
-                        <View style={{ flexDirection:'row', backgroundColor:'transparent'}}>
-                            <View style={{ flexDirection:'row', flex:1, backgroundColor:'transparent'}}>
-                                <Fontisto name="date" size={17} color="cyan" style={{}} />
-                                {/* <Text style={{color:'white', flex:0.70, marginHorizontal:10}}>{date.toDateString()}</Text> */}
-                                <TouchableOpacity style={{flex:0.8}} onPress={showDatePickerDate}>
-                                    <Text style={{color:'white', marginHorizontal:10}}>{date}</Text>
-                                 </TouchableOpacity>                                    
-                               
-                                <Ionicons name="time-outline" size={18} color="cyan" style={{alignSelf:'flex-start'}} />
-                                <TouchableOpacity onPress={showDatePickerTime}>
-                                    <Text style={{color:'#fff', marginHorizontal:5}} >{time.toTimeString().substring(0,5)}</Text>
-                                </TouchableOpacity>
+                        <View style={{ flexDirection:'row'}}>
+                            <View style={{ flexDirection:'row', flex:1, 
+                                        backgroundColor:'transparent', alignItems:'center',
+                                        
+                                        justifyContent:'space-between'
+                                        }}>
+                                <View style={{flexDirection:'row'}}>            
+                                    <Fontisto name="date" size={17} color="cyan" style={{}} />
+                                    {/* <Text style={{color:'white', flex:0.70, marginHorizontal:10}}>{date.toDateString()}</Text> */}
+                                    <TouchableOpacity style={{}} onPress={showDatePickerDate}>
+                                        <Text style={{color:'white', marginHorizontal:10}}>{date}</Text>
+                                    </TouchableOpacity>                                    
+                                </View>
+                                <View style={{flexDirection:'row'}}>
+                                    <Ionicons name="time-outline" size={18} color="cyan" style={{}} />
+                                    <TouchableOpacity onPress={showDatePickerTime} style={{}}>
+                                        <Text style={{color:'#fff', marginHorizontal:5}} >{time.toTimeString().substring(0,5)}</Text>
+                                    </TouchableOpacity>
+                                </View>        
+                                <Pressable style={styles.circle_btn} onPress={() => Alert.alert('You have pressed the button')}>
+                                    <View style={{flexDirection:'row',  alignItems:'center'}}>
+                                        <Text style={[styles.play_btn]}>Play</Text>
+                                        <MaterialIcons name="play-arrow" size={24} style={styles.icon_color} />
+                                    </View>
+                                </Pressable>
+
                             </View>
                         </View>
 
@@ -117,7 +131,7 @@ const ModalComponent = ({navigation, route})=>{
                 <TouchableOpacity onPress={pressCloseDialog}>
                     <Ionicons name="close" size={25} color="#fff" style={{marginHorizontal:0, marginVertical:5}} />
                 </TouchableOpacity>
-            </View>
+             </View>
              { date && <RecordingBar camId={selCam} recDate={date} recTime={recBarTime} pressPlyRec={pressPlyRec} selRecTime={selRecTime} /> } 
             
              
@@ -166,6 +180,20 @@ const styles = StyleSheet.create({
         paddingVertical:5,
         paddingBottom:20
 
+    },
+    play_btn:{
+        color:'yellow'
+    },
+    icon_color:{
+        color:'#fac79d'
+    },
+    circle_btn:{
+        paddingHorizontal:5,
+        paddingVertical:2,
+        borderRadius:5,
+        borderWidth:1,
+        backgroundColor:'#303030',
+        borderColor:'#454545'
     }
     
 })

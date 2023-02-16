@@ -1,0 +1,56 @@
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { View, Text } from "react-native";
+import { MaterialIcons } from '@expo/vector-icons';
+import { LnkBtnCard } from "../../component/card/lnkBtnCard";
+import EventTypeListComponent from "../../component/event/eventTypeListComponent";
+import CamlistSrchComponent from "../../component/event/camlistSrchComponent";
+
+const Tab = createMaterialTopTabNavigator()
+
+const DateSearchComponent = ()=>{
+    return(
+        <View>
+            <Text>Date search screen</Text>
+        </View>
+    )
+}
+
+const CameraSearchComponent = ()=>{
+    return(
+        <View>
+            <Text>Camera search screen</Text>
+        </View>
+    )
+}
+
+const TabSearchEvent = ()=>{
+    return(
+        <Tab.Navigator>
+            <Tab.Screen name="eventSearch" component={EventTypeListComponent} 
+                options={{
+                    title:'Event',
+                    tabBarLabel:()=>(<Text>Event</Text>)
+            
+            }}
+            />
+            
+            <Tab.Screen name="camSearch" component={CamlistSrchComponent} 
+                options={{
+                    tabBarLabel : ()=>(
+                        <Text>Camera</Text>
+
+                )
+            }}
+            />
+            <Tab.Screen name="dateSearch" component={DateSearchComponent}
+                options={{
+                    title:'Date',
+                    tabBarLabel:()=>(<Text>Date</Text>)
+
+            }}
+            />
+        </Tab.Navigator>
+    )
+}
+
+export default TabSearchEvent;

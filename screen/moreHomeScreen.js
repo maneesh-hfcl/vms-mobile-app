@@ -11,8 +11,6 @@ const MoreHomeScreen = ({navigation})=>{
     const[htmlCode, setHtmlCode] = useState('')
     const htmlPage = require("../html/video.html")
 
-
-    let web_url = "http://192.168.2.205:5005"
     const htmlInitCode = `
         <html>
             <head>
@@ -45,8 +43,7 @@ const MoreHomeScreen = ({navigation})=>{
     `
 
     useEffect(()=>{
-        setHtmlCode(htmlInitCode)
-        alert(htmlPage)
+
     },[])
 
     const pressHandler = ()=>{
@@ -123,35 +120,7 @@ const MoreHomeScreen = ({navigation})=>{
             <TouchableOpacity style={[globalStyles.touchable_btn, globalStyles.touchable_btn_logout]} onPress={pressHandler}>
                 <Text style={globalStyles.text_btn}>Logout</Text>
             </TouchableOpacity>
-            {/* <TouchableOpacity onPress={pressHandlerAPI} style={{marginVertical:20,
-                 alignItems:'center',
-              
-                 }}>
-                <Text>Add Store data</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={getStoreData} style={{marginVertical:20,
-                 alignItems:'center'
-              
-                 }}> 
-                <Text>Get Store data</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={delStoreData} style={{marginVertical:20,
-                 alignItems:'center',
-              
-                 }}> 
-                <Text>Delete Store data</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={getFirstStoreData} style={{marginVertical:20,
-                 alignItems:'center',
-              
-                 }}> 
-                <Text>First Store data</Text>
-            </TouchableOpacity> */}
-
-            <WebView 
-                style={{flex:1}}
-                source ={{html: htmlCode}}
-            />
+        
         </View>
     )
 }

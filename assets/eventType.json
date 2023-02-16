@@ -1,0 +1,80 @@
+{
+    "events":[
+        {
+            "id":1,
+            "name":"Camera Tampering"
+        },
+        {
+            "id":2,
+            "name":"Intrusion Detection"
+        },
+        {
+            "id":3,
+            "name":"Loitering Detection"
+        },
+        {
+            "id":4,
+            "name":"Fallen Person Detection"
+        },
+        {
+            "id":5,
+            "name":"human Detection"
+        },
+        {
+            "id":6,
+            "name":"Vehicle Detection"
+        },
+        {
+            "id":7,
+            "name":"Concerned Face"
+        },
+        {
+            "id":8,
+            "name":"NoConcern"
+        },
+        {
+            "id":9,
+            "name":"Threat"
+        },
+        {
+            "id":16,
+            "name":"Unregistered Face"
+        },
+        {
+            "id":17,
+            "name":"White list"
+        },
+        {
+            "id":18,
+            "name":"Black list"
+        },
+        {
+            "id":22,
+            "name":"White list"
+        },
+        {
+            "id":19,
+            "name":"Black list"
+        },
+        {
+            "id":20,
+            "name":"White list"
+        },
+        {
+            "id":21,
+            "name":"Black list"
+        },
+        {
+            "id":23,
+            "name":"Black list"
+        },
+        {
+            "id":24,
+            "name":"Black list"
+        },
+        {
+            "id":25,
+            "name":"Black list"
+        }
+    ]
+}

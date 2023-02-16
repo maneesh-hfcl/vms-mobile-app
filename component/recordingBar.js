@@ -90,7 +90,7 @@ export default function RecordingBar({camId, recDate, pressPlyRec, selRecTime, r
         console.log('calling use effect rec time')
         let width = recTime != undefined ? calcX(recTime?.toTimeString().substring(0,5)):-1
         if(width > -1)
-            sliderScrollview.current?.scrollTo({x: width })
+            sliderScrollview.current?.scrollTo({x: width - centerPos })
         //console.log('recTime: ' + recTime?.toTimeString().substring(0,5))
 
     },[recTime])
