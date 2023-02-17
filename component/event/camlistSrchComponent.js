@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Text, FlatList } from "react-native";
 import { LoadApiData } from "../../shared/fetchUrl";
+import ActivityIndicatorComponent from "../activityIndicatorComponent";
 import ChkItemCardComponent from "../card/chkItemCard";
 
-const CamlistSrchComponent = ()=>{
+const CamlistSrchComponent = ({itemchecked})=>{
     const[camLst, setCamLst] = useState([])
+    const[isLoading, setIsLoading] = useState(true)
+
     useEffect(()=>{
         loadData()
     },[])
@@ -26,7 +29,7 @@ const CamlistSrchComponent = ()=>{
             devnm: 'All'
         }, ...initLst]
         setCamLst(initLst);
-
+        setIsLoading(false)
     }
 
     const setIsCheckedChange = (elemId, value)=>{
@@ -36,6 +39,7 @@ const CamlistSrchComponent = ()=>{
         let findElem = tempArr.find(el => el.id == elemId)
         findElem.isChecked = value;
         setCamLst(tempArr)
+        itemchecked('camera', findElem.name)
 //       console.log(tempArr)
     }
 
@@ -47,11 +51,19 @@ const CamlistSrchComponent = ()=>{
 
     return(
         <View style={{ backgroundColor:'#fff',paddingHorizontal:20,paddingVertical:20}}>
-            <FlatList style={{paddingBottom:10, marginBottom:5,height:'100%'}}
-                data={camLst}
-                keyExtractor={item => item.id}
-                renderItem = {({item})=>(renderItems(item))}
-            />
+            {
+                isLoading?(
+                    <ActivityIndicatorComponent />
+                ):(
+                    <FlatList style={{paddingBottom:10, marginBottom:5,height:'100%'}}
+                    data={camLst}
+                    keyExtractor={item => item.id}
+                    renderItem = {({item})=>(renderItems(item))}
+                />
+
+                )
+            }
+ 
         </View>
     )
 }

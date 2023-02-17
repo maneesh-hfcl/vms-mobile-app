@@ -9,6 +9,7 @@ import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { ScrollView } from 'react-native-gesture-handler';
 import EventHomeScreen from "../../screen/eventHomeScreen";
 import MoreHomeScreen from "../../screen/moreHomeScreen";
+import EventStack from "../stack/eventStack";
 
 const Tab = createBottomTabNavigator();
 
@@ -60,7 +61,7 @@ const TabHome = ({navigation})=>{
                         tabBarIcon:()=> <Ionicons name="settings" size={20} color="black" />
                     }} 
                 /> 
-            <Tab.Screen name="Events" component={EventHomeScreen}
+            <Tab.Screen name="Events" component={EventStack}
                 options={{
                     tabBarIcon:()=>(<MaterialIcons name="event-available" size={20} color="black" />)
                 }}

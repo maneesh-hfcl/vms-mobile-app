@@ -17,7 +17,7 @@ export const globalStyles = StyleSheet.create({
     },
     container_main:{
         paddingTop:10,
-        paddingHorizontal:8,
+        paddingHorizontal:0,
         flex:1
     },
     text_input:{
@@ -70,7 +70,7 @@ export const globalStyles = StyleSheet.create({
     modalContent:{
         height:'70%',
         backgroundColor:'#e4e9f7',
-        bottom:'0%',
+        bottom:'8%',
         width:'100%',  
         borderTopWidth:2,
         elevation:3,

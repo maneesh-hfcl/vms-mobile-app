@@ -2,33 +2,38 @@ import React from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
 
-export const LnkBtnCard = ({label, iconSize, iconName, iconColor, pressLnkHandler})=>{
+export const LnkBtnCard = ({children,label, iconSize, iconName, iconColor, pressLnkHandler, color, labelColor})=>{
     return(
-        <Pressable onPress={() => pressLnkHandler(label)} style={styles.lnk_outer}>
-            <MaterialIcons name={iconName} size={iconSize} color={iconColor} />
-            <Text style={styles.lnk_text}>{label}</Text>
-        </Pressable>
-
+        <View style={[styles.lnk_outer,color?{backgroundColor:color}:{}]}>
+            <Pressable onPress={() => pressLnkHandler(label)} style={{flexDirection:'row'}} >
+                <MaterialIcons name={iconName} size={iconSize} color={iconColor} />
+                { label != '' && 
+                    <Text style={[styles.lnk_text,{color:labelColor}]}>{label}</Text>
+                }
+            </Pressable>
+            {children}
+        </View>    
     )
 }
 
 const styles = StyleSheet.create({
     lnk_outer:{
         marginHorizontal:5,
-        marginVertical:5,
+        marginVertical:0,
         borderWidth:1,
-        borderColor:'#d7d7d7',
+        borderColor:'#b7b7b7',
         borderRadius:10,
-        backgroundColor:'#e7e7e7',
+        backgroundColor:'#c7c7c7',
         flexDirection:'row',
-        paddingVertical:3,
-        paddingHorizontal:5,
+        paddingVertical:1,
+        paddingHorizontal:1,
         alignItems:'center'
     },
     lnk_text:{
-
-        marginHorizontal:5,
-        marginVertical:5,
-        color:'black'
+        marginLeft:1,
+        marginRight:6,
+        marginVertical:2,
+        color:'black',
+        fontSize:13   
     }
 })

@@ -1,4 +1,4 @@
 export default{
-    ApiUrl : "http://172.17.26.47:5006"
-
+    ApiUrl : "http://192.168.2.197:5006"
+//    ApiUrl : "http://192.168.103.25:5006"
 }
