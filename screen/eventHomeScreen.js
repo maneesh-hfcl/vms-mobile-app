@@ -18,7 +18,9 @@ const EventHomeScreen = ({navigation})=>{
     const[fltrEdt, setFltrEdt] = useState(null)
     
     const pressLnkHandler = (type)=>{
+        setIsLoadingVisible(true)
         setIsModalVisible(true)
+        setIsLoadingVisible(false)
     }
 
     const pressDialogClose = ()=>{
@@ -46,8 +48,7 @@ const EventHomeScreen = ({navigation})=>{
                 <EvtSearchBarComponent fltrEvnt={fltrEvnt} fltrCam={fltrCam} pressLnkHandler={pressLnkHandler} />
             </View>
             <EventDataComponent pressLnkHandler={pressLnkHandlerBtn} />
-            <LoadingDialogComponent isVisible={false} />
-
+            <LoadingDialogComponent isVisible={isLoadingVisible} />
             {
                 <Modal animationType="slide"
                     transparent={true}

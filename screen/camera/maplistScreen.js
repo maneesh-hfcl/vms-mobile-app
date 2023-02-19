@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {View, Text, StyleSheet, Alert, TouchableOpacity, Modal} from 'react-native'
+import {View, Text, StyleSheet, Alert, TouchableOpacity, Modal, Pressable} from 'react-native'
 import MapComponent from "../../component/mapComponent";
 import { globalStyles } from "../../style/globalstyle";
 import { StackActions } from "@react-navigation/native";
@@ -62,8 +62,14 @@ const MapListScreen = ({navigation, route})=>{
     }
 
     return(
-        <View style={[globalStyles.modalContent,{backgroundColor:'#fff', marginTop:150, flex:0.95}]}>
-            <View style={{flexDirection:"row",justifyContent:'flex-end'}}>
+        <View style={[{ flex:1}]}>
+            <Pressable onPress={pressCloseDialog} style={{flex:0.25}}>
+                
+            </Pressable>
+            <View style={[styles.modal_dialog,{ flex:0.75
+        
+            }]}>
+            <View style={{flexDirection:"row",justifyContent:'flex-end', backgroundColor:'#fff'}}>
                 { count > 1 &&
                 <TouchableOpacity onPress={pressCloseDialogCurr} style={{flex:1, flexDirection:'row', justifyContent:'flex-start'}}>
                  
@@ -83,13 +89,15 @@ const MapListScreen = ({navigation, route})=>{
                 loadCamMapId = {loadCamMapId}
                 
                 />
-            {camMapId>0 && 
+            {camMapId>0 &&
+                <View style={{flex:1, marginBottom:80}}> 
                 <CamListComponent mapId={camMapId} pressHandlerCamLive={pressHandlerCamLive}
                 pressHandlerCamRec={pressHandlerCamRec}
                 />  
+                </View>
             } 
 
-
+        </View>
 
         </View>
     )
@@ -104,5 +112,17 @@ const styles = StyleSheet.create({
         borderTopWidth:1,
         backgroundColor:'#fff',
         marginTop:'40%'
-    }
+    },
+    modal_dialog:{
+        borderRadius:25,
+        backgroundColor:'#fff',
+          flex:1,
+   //   borderTopRightRadius:10,
+
+      borderWidth:1,
+      borderColor:"#e7e7e7",
+      paddingHorizontal:10,
+      paddingVertical:10,
+      
+  }
 })

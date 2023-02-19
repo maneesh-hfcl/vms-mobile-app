@@ -1,16 +1,28 @@
 import Checkbox from "expo-checkbox";
-import React from "react";
-import {Text, View, StyleSheet} from 'react-native'
+import React, { useRef, useState } from "react";
+import {Text, View, StyleSheet, Pressable} from 'react-native'
 
 const ChkItemCardComponent = ({elem, setIsCheckedChange})=>{
+    const[checkElem, setCheckElem] = useState(elem.isChecked)
+
+    const setValueChange = ()=>{
+        setCheckElem(!checkElem)
+        setIsCheckedChange(elem.id, checkElem)
+    }
+
     return(
+
             <View style={{flexDirection:'row', marginHorizontal:10, marginVertical:5}}>
-                <Checkbox
-                    value={elem.isChecked}
-                    onValueChange = {(value) => setIsCheckedChange(elem.id, value)}
-                    color={elem.isChecked?'#46a3fa': '#a7a7a7'}
+                
+                <Checkbox 
+                    value={checkElem}
+                    onValueChange = {setValueChange}
+                    color={checkElem?'#46a3fa': '#a7a7a7'} 
+
                 />
-                <Text style={{marginHorizontal:10}}>{elem.name}</Text>
+                <Pressable onPress={setValueChange}>
+                    <Text style={{marginHorizontal:10}}>{elem.name}</Text>
+                </Pressable>
             </View>
     )
 }

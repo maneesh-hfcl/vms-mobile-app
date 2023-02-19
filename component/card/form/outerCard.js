@@ -4,7 +4,7 @@ import { globalStyles } from "../../../style/globalstyle";
 
 const FormOuterCard = ({children})=>{
     return(
-        <View style={globalStyles.container_form}>
+        <View style={[globalStyles.container_form,{}]}>
             {children}
         </View>
     )

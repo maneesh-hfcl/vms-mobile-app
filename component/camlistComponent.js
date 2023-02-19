@@ -40,11 +40,23 @@ const CamListComponent = ({mapId, camNamePress, pressHandlerCamLive, pressHandle
          //   console.log(jsondata);
            
             let initLst = jsondata.map((elem) =>({
-                id : elem.id,
+                id : Math.random()*20,
                 devsym : elem.devsym.trimEnd(),
                 devname : elem.devnm.trimEnd()
             })
             );//.filter( elem => elem.parentId == mapid)
+            initLst = [...initLst, {
+                id:21,
+                devsym:'TEMP',
+                devname:'TEMP'
+
+            }]
+            initLst = [...initLst, {
+                id:22,
+                devsym:'TEMP2',
+                devname:'TEMP2'
+
+            }]
             setCamArr(initLst)
 //            return json.movies;
             setIsLoading(false)
@@ -149,9 +161,7 @@ const styles = StyleSheet.create({
         
     },
     card_vw_cam:{
-        flex:1,
-        marginHorizontal:0,
-        marginBottom:10,
+        
 
     },
     card_cam_text:{

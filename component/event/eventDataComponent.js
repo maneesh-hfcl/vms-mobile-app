@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Text, View, StyleSheet, FlatList, Alert } from "react-native";
 import { LoadApiData } from "../../shared/fetchUrl";
+import ActivityIndicatorComponent from "../activityIndicatorComponent";
 import ItemEventTemplate from "../card/itemEventTemplate";
+import LoadingDialogComponent from "../loadingDialogComponent";
 
 const EventDataComponent = ({pressLnkHandler})=>{
     const[evtLst, setEvtLst] = useState([]);
+    const[isLoadingVisible, setIsLoadingVisible] = useState(false)
     useEffect(()=>{
+        setIsLoadingVisible(true)
         loadData()
     },[])
 
@@ -18,12 +22,11 @@ const EventDataComponent = ({pressLnkHandler})=>{
             evtype: 'Intrusion Detection',//elem.evtype,
             evstate: elem.evstate,
             objids: elem.objids.trim(),
-            
-
         })
         )
 
         setEvtLst(initLst);
+        setIsLoadingVisible(false)
     }
 
 
@@ -35,11 +38,14 @@ const EventDataComponent = ({pressLnkHandler})=>{
     }
 
     return(
-             <FlatList
-                data={evtLst}
-                keyExtractor={item => item.id}
-                renderItem ={({item})=> renderItems(item)}
-            />
+            <View>
+                <LoadingDialogComponent isVisible={isLoadingVisible} />
+                <FlatList
+                    data={evtLst}
+                    keyExtractor={item => item.id}
+                    renderItem ={({item})=> renderItems(item)}
+                />
+            </View>
     
     )
 }

@@ -7,8 +7,12 @@ import WrkstnScreen from "../../screen/configuration/wrkstnScreen";
 import UserScreen from "../../screen/configuration/userScreen";
 import GroupScreen from "../../screen/configuration/groupScreen";
 import EditSrvrScreen from "../../screen/configuration/server/editSrvrScreen";
+import NavHeaderIcon from "../../component/card/navHeaderIcon";
+import { MaterialIcons } from '@expo/vector-icons';
+import AddSrvrScreen from "../../screen/configuration/server/addSrvrScreen";
 
 const Stack = createNativeStackNavigator()
+
 
 const ConfigStack = ()=>{
     return(
@@ -17,6 +21,7 @@ const ConfigStack = ()=>{
             <Stack.Screen name="server" component={ServerScreen}
                 options={{
                     title:'Server'
+                    
                 }}
             />
             <Stack.Screen name="workstation" component={WrkstnScreen}
@@ -37,6 +42,11 @@ const ConfigStack = ()=>{
             <Stack.Screen name="editServer" component={EditSrvrScreen}
                 options={{
                     title:'Edit Server'
+                }}
+            />
+            <Stack.Screen name="addServer" component={AddSrvrScreen}
+                options={{
+                    title:'Add Server'
                 }}
             />
         </Stack.Navigator>
