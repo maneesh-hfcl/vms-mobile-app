@@ -21,7 +21,7 @@ const EventDataComponent = ({pressLnkHandler})=>{
             evtime: elem.evtime,
             evtype: 'Intrusion Detection',//elem.evtype,
             evstate: elem.evstate,
-            objids: elem.objids.trim(),
+            objids: elem.objids?.trim(),
         })
         )
 

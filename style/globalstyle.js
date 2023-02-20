@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 
 export const globalStyles = StyleSheet.create({
     container_header:{
-        backgroundColor:'#000',
+        backgroundColor:'#2a2e36',
         alignItems:'center'
     },
     container_header_logo:{

@@ -5,10 +5,12 @@ import { MaterialIcons } from '@expo/vector-icons';
 export const LnkBtnCard = ({children,label, iconSize, iconName, iconColor, pressLnkHandler, color, labelColor})=>{
     return(
         <View style={[styles.lnk_outer,color?{backgroundColor:color}:{}]}>
-            <Pressable onPress={() => pressLnkHandler(label)} style={{flexDirection:'row'}} >
-                <MaterialIcons name={iconName} size={iconSize} color={iconColor} />
+            <Pressable onPress={() => pressLnkHandler(label)} style={{flexDirection:'row', alignItems:'center'}} >
+                <MaterialIcons name={iconName} size={iconSize} color={iconColor} style={{}} />
                 { label != '' && 
-                    <Text style={[styles.lnk_text,{color:labelColor}]}>{label}</Text>
+                    <Text style={[styles.lnk_text,{color:labelColor},
+                        iconName=='app-registration'?{fontSize:15, marginVertical:8,paddingHorizontal:5}:''
+                    ]}>{label}</Text>
                 }
             </Pressable>
             {children}

@@ -5,19 +5,19 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 //import * as FileSystem from 'expo-file-system';
 import WebView from "react-native-webview";
 //import RNFS from 'react-native-fs';
-
+import Config from '../../configuration/config'
 // ...
 
 //const text = await FileSystem.readFile(Dirs.CacheDir + '/test.txt');
 
 
 
-const PlayVideo = ()=>{
+const PlayVideo = ({camToPlay})=>{
     const[dataBlob, setDataBlob] = useState([])
-    const web_url = "http://192.168.2.197:5005"
-    const ws_url = "ws://192.168.2.197:7008/"
+    const web_url = Config.WebUrl
+    const ws_url = Config.WebsocketUrl //"ws://192.168.2.197:7008/"
     const url_token = "QtjEq1mDWNYh0f8qidy+WhmCnENl5YwMEzu0CNYGxdurTfK2mSuJHhzxpqvmZR1P7qd62c6koaGudqEmKNx/kLzMnhoXI0F5bX+PTOH5Tho=";
-    const m3usUri = "http://192.168.2.197:5005/hls/"
+    const m3usUri = Config.VideoUrl  //"http://192.168.2.197:5005/hls/"
     const video = useRef(null)
 
     const[wsArr, setWsArr] = useState([])
@@ -29,7 +29,7 @@ const PlayVideo = ()=>{
     let boolFirst = false;
 
     const getWebToken = ()=>{
-        const camId = "ITEM_hap"
+        const camId = camToPlay //"ITEM_hap"
         const type = 'L'
         const encParams = "480:-1:-1.0"
 //        const encParams = ""
@@ -161,7 +161,7 @@ const PlayVideo = ()=>{
          {
             if(e.data.includes('m3u8'))
             {
-                let dataUri = m3usUri + e.data //"133196337947594084.m3u8"
+                let dataUri = m3usUri + "/" + e.data //"133196337947594084.m3u8"
                 console.log(dataUri)
                 setBase64Encode(dataUri)
 

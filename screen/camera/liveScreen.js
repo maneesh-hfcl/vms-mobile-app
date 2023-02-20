@@ -5,6 +5,7 @@ import { Entypo, Ionicons, MaterialIcons, Feather } from '@expo/vector-icons';
 import MapComponent from "../../component/mapComponent";
 import {WebView} from "react-native-webview";
 import StackMap from "../../navigation/stack/mapStack";
+import PlayVideo from "./playVideo";
 
 
 const LiveScreen = ({navigation, route})=>{
@@ -75,8 +76,11 @@ const LiveScreen = ({navigation, route})=>{
 
     const camNamePressHandler = (elemCam)=>{
         let tempTileCam = [...tileCam];
+        console.log('cam name press handler');
+        console.log(tempTileCam);
         let findCam = tempTileCam.find(x=>x.isCurSel == true)
-        findCam.cam = elemCam
+        console.log(findCam)
+        findCam.cam = elemCam?elemCam:'Select'
         setTileCam(tempTileCam)
 //        Alert.alert("u have pressed the camera");
         console.log(elemCam)
@@ -91,6 +95,11 @@ const LiveScreen = ({navigation, route})=>{
                     {/* <WebView style={{flex:1}}
                         source={{uri:"http://192.168.2.205:5000/htmlvideostream/video.html"}}
                     /> */}
+                    {
+                        item.cam != 'Select' &&
+                        <PlayVideo camToPlay ={item.cam}/>
+                    }
+
                 </View>
                 <TouchableOpacity onPress={() => pressHandlerCam(item)}>
                     <View style={styles.vw_tile_text_container}>

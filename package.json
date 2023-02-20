@@ -35,7 +35,11 @@
     "react-native-tab-view": "^3.4.0",
     "react-native-web": "~0.18.9",
     "react-native-webview": "11.23.1",
-    "react-native-pager-view": "6.0.1"
+    "react-native-pager-view": "6.0.1",
+    "expo-device": "~5.0.0",
+    "expo-constants": "~14.0.2",
+    "expo-cellular": "~5.0.1",
+    "expo-splash-screen": "~0.17.5"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

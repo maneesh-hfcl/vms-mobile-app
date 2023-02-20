@@ -8,12 +8,15 @@ import FormBtn from "../../component/card/form/touchableCard";
 import { LnkBtnCard } from "../../component/card/lnkBtnCard";
 import { LoadApiData } from "../../shared/fetchUrl";
 import { MaterialIcons } from '@expo/vector-icons';
+import ActivityIndicatorComponent from "../../component/activityIndicatorComponent";
+import LoadingDialogComponent from "../../component/loadingDialogComponent";
 
 const ServerScreen = ({navigation})=>{
 
     const initLst = []
 
     const[srvrLst, setSrvrLst] = useState([])
+    const[isLoading, setIsLoading] = useState(false)
 
     useEffect(()=>{
         navigation.setOptions({
@@ -48,6 +51,7 @@ const ServerScreen = ({navigation})=>{
             )
             console.log(initLst)
             setSrvrLst(initLst)
+            setIsLoading(false)
         }
         catch{
 
@@ -107,11 +111,14 @@ const ServerScreen = ({navigation})=>{
 
     return(
             <View style={[globalStyles.container_main]}>
+                <LoadingDialogComponent isVisible={isLoading} />
+                {srvrLst.length > 0 &&
                 <FlatList 
                     data={srvrLst}
                     keyExtractor={item => item.id}
                     renderItem = {({item})=>(renderItems(item))}
                 />
+                }
             </View>
 
     )
