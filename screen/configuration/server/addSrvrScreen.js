@@ -1,9 +1,13 @@
 import React from "react";
-import {View, Text, StyleSheet} from 'react-native'
+import {View, Text, StyleSheet, TextInput, Button} from 'react-native'
+
+import LoadingDialogComponent from "../../../component/loadingDialogComponent";
+import { globalStyles } from "../../../style/globalstyle";
+
 
 const AddSrvrScreen = ()=>{
     return (
-        <View>
+        <View style={globalStyles.container_main}>
             <Text>Add server screen</Text>
         </View>
     )

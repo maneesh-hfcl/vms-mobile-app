@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import {View, Text, StyleSheet, Image, Alert, Platform, Button} from 'react-native'
+import {View, Text, StyleSheet, Image, Alert, Platform, Button, TextInput} from 'react-native'
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { globalStyles } from "../style/globalstyle";
 import HeaderCardComponent from "../component/card/headerCard";
@@ -10,6 +10,7 @@ import  Constants  from "expo-constants";
 import LoadingDialogComponent from "../component/loadingDialogComponent";
 import * as Device from 'expo-device'
 import * as Notifications from 'expo-notifications'
+import {useForm, Controller} from 'react-hook-form'
 
 
 Notifications.setNotificationHandler({
@@ -87,6 +88,14 @@ const RegDeviceScreen = ({navigation})=>{
     const[notification, setNotification] = useState(false)
     const notificationListener = useRef()
     const responseListener = useRef()
+    
+   // const {register, handleSubmit, setValue, errors} = useForm();
+   const { control, handleSubmit, formState: { errors } } = useForm({
+    defaultValues: {
+      firstName: '',
+      lastName: ''
+        }
+    });
 
     useEffect(()=>{
   
@@ -103,6 +112,8 @@ const RegDeviceScreen = ({navigation})=>{
 
         getRegDeviceId()
 
+//        registerForm()
+
         return ()=>{
             Notifications.removeNotificationSubscription(notificationListener.current)
             Notifications.removeNotificationSubscription(responseListener.current)
@@ -112,6 +123,12 @@ const RegDeviceScreen = ({navigation})=>{
 
     },[])
 
+    // useEffect(()=>{
+    //     register({name: 'firstName'}, {required:true})
+    //     register({name:'lastName'})
+    // },[register])
+
+    console.log(errors)
     const notifySettings = async ()=>{
         
     }
@@ -123,6 +140,11 @@ const RegDeviceScreen = ({navigation})=>{
             setIsLoading(false)
             navigation.navigate('Home')
         }
+
+    }
+
+    const registerForm = ()=>{
+
     }
 
     const pressLnkHandler = async ()=>{
@@ -135,6 +157,11 @@ const RegDeviceScreen = ({navigation})=>{
         }
     }
 
+    const onSubmit = (data)=>{
+       // console.log(errors)
+       // console.log("Error above")
+       // console.log(data)
+    }
 
     return(
         
@@ -190,12 +217,15 @@ const RegDeviceScreen = ({navigation})=>{
                 >
 
                 </Button>
-         </View>
+
+         </View>       
     )
 }
 
 export default RegDeviceScreen;
 
 const styles = StyleSheet.create({
-    
+  input:{
+    borderWidth:1
+  }  
 })
