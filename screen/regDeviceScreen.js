@@ -57,7 +57,7 @@ async function registerForPushNotificationAsync(){
         }
         
         if(finalStatus !=='granted'){
-            Alert.alert('failed to get notification');
+           // Alert.alert('failed to get notification');
            // return;
         }
         console.log(finalStatus)

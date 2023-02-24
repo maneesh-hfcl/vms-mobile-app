@@ -80,10 +80,13 @@ const LiveScreen = ({navigation, route})=>{
         console.log(tempTileCam);
         let findCam = tempTileCam.find(x=>x.isCurSel == true)
         console.log(findCam)
+        if(findCam != null)
+        {
         findCam.cam = elemCam?elemCam:'Select'
         setTileCam(tempTileCam)
 //        Alert.alert("u have pressed the camera");
         console.log(elemCam)
+        }
         dialogClose();
     }
 
@@ -182,26 +185,27 @@ const styles = StyleSheet.create({
 
     },
     vw_tile_inner:{
-        borderWidth:1,
-        borderColor:"#fff",
-        backgroundColor:'#808080',
+        borderRightWidth:1,
+        borderColor:"#909090",
+        backgroundColor:'#404040',
         height:150,
        flex:1,
-       marginVertical:1
+
     },
     vw_tile_text_container:{
-        backgroundColor:'#e4e9f7',
+        backgroundColor:'#394a66',
         alignItems:'center',
-        paddingVertical:4,
-        borderBottomColor:'lightgray',
-        borderBottomWidth:0,
-        marginVertical:1,
-        marginHorizontal:0
+        paddingVertical:3,
+
+        borderBottomWidth:1,
+        marginVertical:0,
+        marginHorizontal:0,
+        borderBottomColor:'#909090'
 
     },
     vw_tile_text:{
-        color:'#404040',
-        fontSize:14,
+        color:'#a7a7a7',
+        fontSize:13,
         fontWeight:'bold'
     },
     scrollView: {

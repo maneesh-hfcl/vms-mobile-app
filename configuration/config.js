@@ -5,5 +5,5 @@ export default{
     ApiUrl : "http://119.252.208.55:8010",
     WebUrl: "http://119.252.208.55:8060",
     WebsocketUrl: "http://119.252.208.55:8050",
-    VideoUrl: "http://119.252.208.55:8050/hls" 
+    VideoUrl: "http://119.252.208.55:8060/hls" 
 }

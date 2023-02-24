@@ -9,6 +9,7 @@ const AddSrvrScreen = ()=>{
     return (
         <View style={globalStyles.container_main}>
             <Text>Add server screen</Text>
+            <TextInput />
         </View>
     )
 }

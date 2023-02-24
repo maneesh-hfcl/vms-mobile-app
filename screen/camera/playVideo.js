@@ -1,6 +1,6 @@
 import { Video } from "expo-av";
-import React, { useRef, useState } from "react";
-import {View, Text, StyleSheet, TouchableOpacity, Image, Alert} from 'react-native'
+import React, { useEffect, useRef, useState } from "react";
+import {View, Text, StyleSheet, TouchableOpacity, Image, Alert, ActivityIndicator} from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 //import * as FileSystem from 'expo-file-system';
 import WebView from "react-native-webview";
@@ -25,8 +25,15 @@ const PlayVideo = ({camToPlay})=>{
     const[count,setCount] = useState(0)
     const bufferStream = useRef('')
     const[indx,setIndx] = useState(0)
+    const[isLoadingVideo, setIsLoadingVideo] = useState(false)
     
     let boolFirst = false;
+
+    useEffect(()=>{
+        setIsLoadingVideo(true)
+        pressHandlerSocketConn()
+//setBase64Encode('hello')
+    },[camToPlay])
 
     const getWebToken = ()=>{
         const camId = camToPlay //"ITEM_hap"
@@ -106,7 +113,7 @@ const PlayVideo = ({camToPlay})=>{
 //        var ws_url= "ws://192.168.2.205:7008";
        // Alert.alert(URL.createObjectURL());
        // return;
-    
+        
         getWebToken();
   
     }
@@ -336,8 +343,7 @@ const PlayVideo = ({camToPlay})=>{
     }
 
     return(
-        <View style={{flex:1}}>
-            <Text>Playing video</Text>
+        <View style={{ flex:1, alignContent:'center', justifyContent:'center',alignItems:'center'}}>
           
 
             {/* <Video
@@ -362,32 +368,47 @@ const PlayVideo = ({camToPlay})=>{
 
             {base64Encode.length > 0 &&
                 <Video ref={video}
+  //                   source={{ uri: 'http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8' }}
                     source={{uri: base64Encode}}
                     rate={1.0}
                 volume={1.0}
                 isMuted={true}
-
+                style={{flex:1, width:'100%', height:'100%'}}
                 shouldPlay={true}
-                style={{marginHorizontal:10, width:300, height:200}}
+                resizeMode="contain"
                 useNativeControls
                 isLooping
+//                onLoadStart={() => setIsLoadingVideo(true)}
+                onLoad = {() => setIsLoadingVideo(false)}
+                // posterSource= {require("../../assets/image/loadingVideo.gif")}
+                // posterStyle={{alignSelf:'center', flex:1}}
+                // usePoster
                     // onPlaybackStatusUpdate={chkPlaybackStatus}
               />
             }
-            <TouchableOpacity onPress={pressHandlerSocketConn} style={{marginVertical:10, alignItems:'center'}}>
+
+            { isLoadingVideo && 
+            <View style={{
+                position:"absolute", alignSelf:'center',height:'100%', justifyContent:'center'
+            }}>
+                <ActivityIndicator color={'#b7b7b7'} />
+                <Text style={{color:'#b7b7b7', marginVertical:8,fontSize:12, fontWeight:'bold'}}>Loading</Text>
+
+            </View>
+            }
+
+            {/* <TouchableOpacity onPress={pressHandlerSocketConn} style={{marginVertical:10, alignItems:'center'}}>
                 <Text>Connect socket</Text>
                 <Text>{count}</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={getFirstStoreData} style={{marginVertical:10, alignItems:'center'}} >
-                <Text>Get first data</Text>
-            </TouchableOpacity>
+        
             <TouchableOpacity onPress={pressHandlerDisconnect} 
                 style={{
                     marginVertical:10,
                     alignItems:'center',
                  }}>
                 <Text>Disconnect</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
             {/* <WebView  
                 style={{flex:1}}
