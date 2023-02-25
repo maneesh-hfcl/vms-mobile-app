@@ -392,7 +392,7 @@ setBase64Encode('hello')
                 position:"absolute", alignSelf:'center',height:'100%', justifyContent:'center'
             }}>
                 <ActivityIndicator color={'#b7b7b7'} />
-                <Text style={{color:'#b7b7b7', marginVertical:8,fontSize:12, fontWeight:'bold'}}>Loading</Text>
+                <Text style={{color:'#b7b7b7', marginVertical:9,fontSize:12, fontWeight:'bold'}}>Loading</Text>
 
             </View>
             }

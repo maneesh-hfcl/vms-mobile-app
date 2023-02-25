@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {View, Text, StyleSheet, Alert, ScrollView, FlatList, TouchableOpacity, Modal} from 'react-native'
 import { globalStyles } from "../../style/globalstyle";
-import { Entypo, Ionicons, MaterialIcons, Feather } from '@expo/vector-icons';
+import { Entypo, Ionicons, MaterialIcons, Feather, FontAwesome, MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 import MapComponent from "../../component/mapComponent";
 import {WebView} from "react-native-webview";
 import StackMap from "../../navigation/stack/mapStack";
@@ -14,8 +14,8 @@ const LiveScreen = ({navigation, route})=>{
          {indx:1, cam:'Select', isCurSel:false},
          {indx:2, cam:'Select', isCurSel:false},
          {indx:3, cam:'Select', isCurSel:false},
-        // {indx:4, cam:'Select', isCurSel:false},
-        // {indx:5, cam:'Select', isCurSel:false},
+         {indx:4, cam:'Select', isCurSel:false},
+         {indx:5, cam:'Select', isCurSel:false},
         // {indx:6, cam:'Select', isCurSel:false},
         // {indx:7, cam:'Select', isCurSel:false},
         // {indx:8, cam:'Select', isCurSel:false},
@@ -25,8 +25,8 @@ const LiveScreen = ({navigation, route})=>{
     ]
     const[tileCam, setTileCam] = useState([])
     const[isModalVisible, setIsModalVisible] = useState(false)
+    const[numColumns,setNumColumns] = useState(2)
     
-
     useEffect(()=>{
       //  Alert.alert('Loading camera tiles')
         console.log("This is the load data screen");
@@ -92,7 +92,28 @@ const LiveScreen = ({navigation, route})=>{
 
     const renderItems = (item)=>{
         return(
-            <View style={[styles.vw_tile_inner]}>
+            // <View style={[styles.vw_tile_inner, numColumns==1?{height:200}:{}]}>
+            //     <View style={{flex:1}}>
+            //         {/* <Entypo name="video-camera" size={30} color="#c7c7c7" /> */}
+            //         {/* <WebView style={{flex:1}}
+            //             source={{uri:"http://192.168.2.205:5000/htmlvideostream/video.html"}}
+            //         /> */}
+            //         {
+            //             item.cam != 'Select' &&
+            //             <PlayVideo camToPlay ={item.cam}/>
+            //         }
+
+            //     </View>
+            //     <TouchableOpacity onPress={() => pressHandlerCam(item)}>
+            //         <View style={styles.vw_tile_text_container}>
+            //             <Text style={styles.vw_tile_text}>{item.cam}</Text>
+            //         </View>
+            //     </TouchableOpacity>
+            // </View>
+
+            <View key={item.indx} style={[styles.vw_tile_inner,
+                {width:'50%'}
+                ,numColumns==1?{height:200, width:'100%'}:{}]}>
                 <View style={{flex:1}}>
                     {/* <Entypo name="video-camera" size={30} color="#c7c7c7" /> */}
                     {/* <WebView style={{flex:1}}
@@ -109,7 +130,7 @@ const LiveScreen = ({navigation, route})=>{
                         <Text style={styles.vw_tile_text}>{item.cam}</Text>
                     </View>
                 </TouchableOpacity>
-            </View>
+                </View>
         )
     }
 
@@ -138,11 +159,35 @@ const LiveScreen = ({navigation, route})=>{
         //     } 
       
         // </View>
-        <View style={{marginVertical:20, marginHorizontal:3, flex:1}}>
-            <FlatList numColumns={2} showsVerticalScrollIndicator={true}
+        <View style={[globalStyles.container_main, {flex:1, paddingTop:0}]}>
+            <View style={{flexDirection:'row', justifyContent:'flex-end', 
+                marginHorizontal:10, marginVertical:10}}>
+                <FontAwesome5 name="columns" size={18} color={numColumns==2?"#394a66":"#a7a7a7"} 
+                    style={{marginHorizontal:8}} onPress={()=> setNumColumns(2)} />
+                <MaterialIcons name="table-rows" size={18} 
+                    color={numColumns==1?"#394a66":"#a7a7a7"} 
+                    style={{marginHorizontal:1}}
+                    onPress={()=> setNumColumns(1)}
+                />
+            </View>
+            {/* <FlatList key={numColumns} numColumns={numColumns} showsVerticalScrollIndicator={true}
                 data={tileCam}
+                keyExtractor={item => item.indx}
                 renderItem={({item}) => (renderItems(item)) }
-            />
+            /> */}
+
+            <ScrollView showsVerticalScrollIndicator={false}>
+                <View style={{
+                    flexDirection:'row', flexWrap:'wrap'
+                }}>
+                    {
+                        tileCam.map(item=>(
+                            renderItems(item)
+                        ))
+                    }
+    
+                </View>
+            </ScrollView>
 
             {/* <Modal
                 transparent={false} 
@@ -185,11 +230,11 @@ const styles = StyleSheet.create({
 
     },
     vw_tile_inner:{
-        borderRightWidth:1,
+        borderWidth:0.5,
         borderColor:"#909090",
-        backgroundColor:'#404040',
+        backgroundColor:'#000',
         height:150,
-       flex:1,
+       
 
     },
     vw_tile_text_container:{
@@ -197,7 +242,7 @@ const styles = StyleSheet.create({
         alignItems:'center',
         paddingVertical:3,
 
-        borderBottomWidth:1,
+        borderBottomWidth:0.5,
         marginVertical:0,
         marginHorizontal:0,
         borderBottomColor:'#909090'
