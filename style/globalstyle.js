@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 
 export const globalStyles = StyleSheet.create({
     container_header:{
-        backgroundColor:'#2a2e36',
+    backgroundColor:'#2a2e36',
         alignItems:'center'
     },
     container_header_logo:{
@@ -11,22 +11,22 @@ export const globalStyles = StyleSheet.create({
 
     },
     container_login_view:{
-        padding:30,
+        padding:30, 
        flex:1,
 
     },
     container_main:{
         paddingTop:10,
         paddingHorizontal:0,
-        flex:1,
+
         backgroundColor:'#fff'
     },
     text_input:{
-        borderWidth:1,
-        marginHorizontal:5,
-        marginVertical:5,
+        borderBottomWidth:1,
+        marginHorizontal:2,
+        marginVertical:0,
         paddingHorizontal:5,
-        paddingVertical:8,
+        paddingVertical:3,
         borderColor:'#c7c7c7',
         fontSize:15
     },
