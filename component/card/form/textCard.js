@@ -14,7 +14,7 @@ const TextCard = ({children,heading, flx, align})=>{
             {children}
         </Text>
     )
-}
+}   
 
 export default TextCard;
 

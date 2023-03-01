@@ -35,7 +35,7 @@ const CamListComponentCopy = ({camList, camNamePress})=>{
                 ListEmptyComponent = {emptyList}
     /> */}
         <View style={styles.card_vw_cam}>
-           { camArr.length > 0 &&
+           { camArr.length > 0 &&   
                 camArr.map((elem, indx) =>(
 
                     <TouchableOpacity onPress={() => camNamePress(elem)} key={indx}>

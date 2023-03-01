@@ -18,24 +18,26 @@ export const globalStyles = StyleSheet.create({
     container_main:{
         paddingTop:10,
         paddingHorizontal:0,
-
+        flex:1,
         backgroundColor:'#fff'
     },
     text_input:{
         borderBottomWidth:1,
-        marginHorizontal:2,
+
+        marginHorizontal:0,
         marginVertical:0,
-        paddingHorizontal:5,
+        paddingHorizontal:3,
         paddingVertical:3,
         borderColor:'#c7c7c7',
-        fontSize:15
+        fontSize:15,
+
     },
     text:{
         fontSize:15,
         color:'gray',
-        marginHorizontal:5,
+        marginHorizontal:3,
         marginTop:10,
-        paddingHorizontal:2,
+        paddingHorizontal:0,
         paddingVertical:2
     },
     text_form:{

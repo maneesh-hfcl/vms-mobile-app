@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {View, Text, StyleSheet, FlatList, TouchableOpacity, Alert, Pressable} from 'react-native'
 import { globalStyles } from "../../style/globalstyle";
-import { Entypo, FontAwesome } from '@expo/vector-icons';
+import { Entypo, FontAwesome5 } from '@expo/vector-icons';
 import FormOuterCard from "../../component/card/form/outerCard";
 import TextCard from "../../component/card/form/textCard";
 import FormBtn from "../../component/card/form/touchableCard";
@@ -64,7 +64,7 @@ const ServerScreen = ({navigation})=>{
         navigation.navigate("editServer")
     }
 
-    const renderItems = (item)=>{
+    const renderItemsOld = (item)=>{
         return(
             <FormOuterCard key={item.id}>
                 <View style={{marginHorizontal:0}}>
@@ -106,6 +106,64 @@ const ServerScreen = ({navigation})=>{
                 </View>
                 </View>
             </FormOuterCard>
+        )
+    }
+
+    const renderItems = (item)=>{
+        return(
+            <View style={{flexDirection:'row',
+                borderBottomWidth:1,
+                borderBottomColor:'#c7c7c7',
+                padding:0
+            }}>
+                <React.Fragment>
+                    {/* <Image source={require("../../assets/icons/logo.png")} 
+                        resizeMode="contain"
+                        style={{backgroundColor:'#000', width:80, 
+                        height:80, marginVertical:5}}
+                    /> */}
+                    <View style={{
+                        borderWidth:1,
+                        borderColor:'#c7c7c7',
+                        marginHorizontal:5,
+                        marginVertical:5,
+                        borderRadius:5,
+                        width:60, height:60,
+                        justifyContent:'center',
+                        alignItems:'center',
+                        backgroundColor:'#c7c7c7'
+                    }}>
+                        <FontAwesome5 name="server" size={24} color="black" />
+                    </View>
+                </React.Fragment>
+                <View style={{flex:1, marginVertical:10, marginHorizontal:10}}>
+                    <View style={{flexDirection:'row', marginBottom:5}}>
+                        <Text style={{fontSize:18, flex:1}}> {item.nvsym} </Text>
+                        <LnkBtnCard iconName={'edit'} 
+                                iconColor={'#707070'}
+                                color={'#fff'}
+                                labelColor={'#395fb3'}
+                                iconSize={18}
+                                
+                                label='Modify' pressLnkHandler={pressHandlerEdit} 
+                            />
+                    </View>
+                    <View style={{flexDirection:'row', flexWrap:'wrap'}}>
+                        
+                        <Text style={{fontSize:13, color:'#808080'}}> {item.nvdsc} </Text>
+                        <Entypo name="dot-single" size={18} color="black" />
+                        <Text style={{fontSize:13, color:'#808080'}}> {item.nvtype} </Text>
+                        <Entypo name="dot-single" size={18} color="black" />
+                        <Text style={{fontSize:13, color:'#808080'}}> {'Ready to use'} </Text>
+                        <Entypo name="dot-single" size={18} color="black" />
+                        <Text style={{fontSize:13, color:'#808080'}}> {item.nvip} </Text>
+                        <Entypo name="dot-single" size={18} color="black" />
+                        <Text style={{fontSize:13, color:'#808080'}}> {item.nvpt} </Text>
+                    </View>
+                    
+                </View>
+            </View>
+        
         )
     }
 
