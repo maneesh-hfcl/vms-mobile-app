@@ -10,6 +10,9 @@ import { LoadApiData } from "../../shared/fetchUrl";
 import { MaterialIcons } from '@expo/vector-icons';
 import ActivityIndicatorComponent from "../../component/activityIndicatorComponent";
 import LoadingDialogComponent from "../../component/loadingDialogComponent";
+import Swipeable from 'react-native-gesture-handler/Swipeable';
+import { RectButton } from "react-native-gesture-handler";
+import { Animated } from "react-native";
 
 const ServerScreen = ({navigation})=>{
 
@@ -109,8 +112,45 @@ const ServerScreen = ({navigation})=>{
         )
     }
 
+    const renderEdit = (progress, dragX)=>{
+        const trans = dragX.interpolate({
+            inputRange: [0, 10, 100, 100],
+            outputRange: [-10, 0, 0, 1],
+          });
+          console.log(trans)
+          return (
+            // <View style={{backgroundColor:'#f7e4d7'
+            //     , paddingHorizontal:5
+            //     , borderBottomColor:'#c7c7c7'
+            //     , borderBottomWidth:1
+
+            //     , justifyContent:'center'}}>
+            //     <LnkBtnCard iconName={'edit'} 
+            //                     iconColor={'#707070'}
+            //                     color={'#fff'}
+            //                     labelColor={'#395fb3'}
+            //                     iconSize={18}
+                                
+            //                     label='Edit' pressLnkHandler={pressHandlerEdit} 
+            //                 />
+            // </View>
+            <RectButton style={styles.leftAction}>
+            <Animated.Text
+              style={[
+                styles.actionText,
+                {
+                  transform: [{ translateX: trans }],
+                },
+              ]}>
+              Archive
+            </Animated.Text>
+          </RectButton>
+          );
+        };
+
     const renderItems = (item)=>{
         return(
+            <Swipeable renderRightActions={renderEdit} >
             <View style={{flexDirection:'row',
                 borderBottomWidth:1,
                 borderBottomColor:'#c7c7c7',
@@ -139,14 +179,14 @@ const ServerScreen = ({navigation})=>{
                 <View style={{flex:1, marginVertical:10, marginHorizontal:10}}>
                     <View style={{flexDirection:'row', marginBottom:5}}>
                         <Text style={{fontSize:18, flex:1}}> {item.nvsym} </Text>
-                        <LnkBtnCard iconName={'edit'} 
+                        {/* <LnkBtnCard iconName={'edit'} 
                                 iconColor={'#707070'}
                                 color={'#fff'}
                                 labelColor={'#395fb3'}
                                 iconSize={18}
                                 
                                 label='Modify' pressLnkHandler={pressHandlerEdit} 
-                            />
+                            /> */}
                     </View>
                     <View style={{flexDirection:'row', flexWrap:'wrap'}}>
                         
@@ -163,7 +203,7 @@ const ServerScreen = ({navigation})=>{
                     
                 </View>
             </View>
-        
+            </Swipeable>
         )
     }
 
