@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import {View, Text, StyleSheet, Image, TextInput, TouchableOpacity, Alert, Dimensions, TextInputComponent} from 'react-native';
+import {View, Text, StyleSheet, Image, TextInput, TouchableOpacity, Alert, Dimensions, TextInputComponent, TouchableWithoutFeedback, KeyboardAvoidingView} from 'react-native';
 import HeaderCardComponent from "../component/card/headerCard";
 import FooterScreen from "../component/footer";
 import { globalStyles } from "../style/globalstyle";
@@ -102,45 +102,40 @@ const LoginScreen = ({navigation})=>{
             }}>
 
             </View> */}
-            
-            <View style={[{
-                    backgroundColor:'#ededed',
-                    borderTopEndRadius:50,
-                    borderTopStartRadius:50,
-                    paddingTop:100,
-                    marginTop:20,
-                    justifyContent:'flex-start',
-                    paddingHorizontal:40,
-                    paddingBottom:10
-                                    
-                }]}>
 
-                    <Text style={{fontSize:25, fontWeight:'bold', color:'#e37734'}}>Login</Text>
-                    <Text style={{fontSize:13, color:'#856d39',marginVertical:10}}>
-                        Enter your credential to use the application
-                    </Text>
-                </View> 
+            
 
                 <View style={[globalStyles.container_login_view
-                    ,{backgroundColor:'#ededed'}]}>
-                    <View style={{flexDirection:'row', alignItems:'flex-end', 
-                            justifyContent:'flex-end', marginVertical:10,}}>
-                        <FontAwesome name="user-circle" size={23} color="green" 
-                            style={{marginHorizontal:10,
-                            flex:0.1}}
-                        />
-                            {/* <TextInput 
-                                style={[globalStyles.text_input,{flex:1, marginHorizontal:10}
-                                ,focusName=="username"?{borderColor:'#0981e3'}:{}]} 
-                                onFocus={()=> setFocusName('username') }
-                                defaultValue=''                         
-                            /> */}
-                        <View style={{flex:1}}>
-                            <TextInputTemplate isSelect={focusName=="username"} setFocusName={() => {
-                                setFocusName("username")}}  />
-                        </View> 
+                    ,{backgroundColor:'#ededed',
+                        borderRadius:10
+                    }]}> 
+                    <View style={{marginVertical:30}}>
+                        <Text style={{fontSize:25, fontWeight:'bold', color:'#e37734', marginHorizontal:10}}>Login</Text>
+                        <Text style={{fontSize:13, color:'#856d39',marginVertical:10, marginHorizontal:10}}>
+                            Enter your credential to use the application
+                        </Text>
                     </View>
+                {/* <View style={{backgroundColor:'#fff',flex:1}}> */}
+
                     <View style={{flexDirection:'row', alignItems:'flex-end', 
+                            justifyContent:'flex-end', marginVertical:10,}}> 
+                        <FontAwesome name="user-circle" size={23} color="green" 
+                           style={{marginVertical:0, flex:0.1,
+                            marginHorizontal:10}}
+                           />
+                               {/* <TextInput 
+                                   style={[globalStyles.text_input,{flex:1, marginHorizontal:10}
+                                   ,focusName=="username"?{borderColor:'#0981e3'}:{}]} 
+                                   onFocus={()=> setFocusName('username') }
+                                   defaultValue=''                         
+                               /> */}
+                           <View style={{flex:1}}>
+                               <TextInputTemplate isSelect={focusName=="username"} setFocusName={() => {
+                                   setFocusName("username")}}  />
+                           </View> 
+                       </View>
+
+                       <View style={{flexDirection:'row', alignItems:'flex-end', 
                                     justifyContent:'flex-end',
                                     marginVertical:10}}>
                         <FontAwesome name="lock" size={24} color="#9c172d" 
@@ -149,20 +144,31 @@ const LoginScreen = ({navigation})=>{
                         />
                         <View style={{flex:1}}>
                             <TextInputTemplate isSelect={focusName == "password"} 
-                                setFocusName={() => setFocusName("password")} />
+                                setFocusName={() => setFocusName("password")} password={true} />
                         </View>
-                    </View>
-                    <View style={{marginVertical:20}}>
+                    </View> 
+
+
+                    {/* <Text style={{fontSize:25, fontWeight:'bold', color:'#e37734'}}>Login</Text>
+                    <Text style={{fontSize:13, color:'#856d39',marginVertical:10}}>
+                        Enter your credential to use the application
+                    </Text> 
+                    <Text>Username</Text>
+                    <TextInput style={[globalStyles.text_input]} />
+                    <Text>Password</Text>
+                    <TextInput style={[globalStyles.text_input]} /> */}
                     <TouchableOpacity style={globalStyles.touchable_btn} onPress={pressHandler}>
                         <Text style={globalStyles.text_btn}>Go</Text>
                     </TouchableOpacity>
-                    </View>
-                </View>
+
+                {/* </View> */}
+
             
-            <View>
+
+                </View>
                 <FooterScreen />
-            </View>
         </View>
+        
     )
 }
 

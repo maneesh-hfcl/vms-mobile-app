@@ -38,12 +38,13 @@ const EventDataComponent = ({pressLnkHandler})=>{
     }
 
     return(
-            <View>
+            <View style={{flex:1}}>
                 <LoadingDialogComponent isVisible={isLoadingVisible} />
                 <FlatList
                     data={evtLst}
                     keyExtractor={item => item.id}
                     renderItem ={({item})=> renderItems(item)}
+                    
                 />
             </View>
     

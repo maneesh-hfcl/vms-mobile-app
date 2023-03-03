@@ -119,32 +119,31 @@ const ServerScreen = ({navigation})=>{
           });
           console.log(trans)
           return (
-            // <View style={{backgroundColor:'#f7e4d7'
-            //     , paddingHorizontal:5
-            //     , borderBottomColor:'#c7c7c7'
-            //     , borderBottomWidth:1
+            <View style={{backgroundColor:'#f7e3da'
+                , paddingHorizontal:5
+                , borderBottomColor:'#c7c7c7'
+                , borderBottomWidth:1
 
-            //     , justifyContent:'center'}}>
-            //     <LnkBtnCard iconName={'edit'} 
-            //                     iconColor={'#707070'}
-            //                     color={'#fff'}
-            //                     labelColor={'#395fb3'}
-            //                     iconSize={18}
-                                
-            //                     label='Edit' pressLnkHandler={pressHandlerEdit} 
-            //                 />
-            // </View>
-            <RectButton style={styles.leftAction}>
-            <Animated.Text
-              style={[
-                styles.actionText,
-                {
-                  transform: [{ translateX: trans }],
-                },
-              ]}>
-              Archive
-            </Animated.Text>
-          </RectButton>
+                , justifyContent:'center'}}>
+                <LnkBtnCard iconName={'edit'} 
+                                iconColor={'red'}
+                                color={'#fff'}
+                                labelColor={'#395fb3'}
+                                iconSize={18}
+                                label='Edit' pressLnkHandler={pressHandlerEdit} 
+                            />
+            </View>
+        //     <RectButton style={styles.leftAction}>
+        //     <Animated.Text
+        //       style={[
+        //         styles.actionText,
+        //         {
+        //           transform: [{ translateX: trans }],
+        //         },
+        //       ]}>
+        //       Archive
+        //     </Animated.Text>
+        //   </RectButton>
           );
         };
 
@@ -154,7 +153,8 @@ const ServerScreen = ({navigation})=>{
             <View style={{flexDirection:'row',
                 borderBottomWidth:1,
                 borderBottomColor:'#c7c7c7',
-                padding:0
+                padding:0,
+                backgroundColor:'#fff'
             }}>
                 <React.Fragment>
                     {/* <Image source={require("../../assets/icons/logo.png")} 
@@ -171,9 +171,10 @@ const ServerScreen = ({navigation})=>{
                         width:60, height:60,
                         justifyContent:'center',
                         alignItems:'center',
+                        alignSelf:'center',
                         backgroundColor:'#c7c7c7'
                     }}>
-                        <FontAwesome5 name="server" size={24} color="black" />
+                        <FontAwesome5 name="server" size={24} color="#735041" />
                     </View>
                 </React.Fragment>
                 <View style={{flex:1, marginVertical:10, marginHorizontal:10}}>
