@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {View, Text, StyleSheet, TouchableOpacity, Alert, ActivityIndicator, Modal} from 'react-native'
+import {View, Text, StyleSheet, TouchableOpacity, Alert, ActivityIndicator, Modal, Pressable} from 'react-native'
 import { FlatList } from "react-native-gesture-handler";
 import { AntDesign, Octicons, Ionicons, Foundation, MaterialCommunityIcons } from '@expo/vector-icons';
 import MapCard from "./card/mapCard";
@@ -74,14 +74,16 @@ const CamListComponent = ({mapId, camNamePress, pressHandlerCamLive, pressHandle
 
     const renderItems = (elem)=>{
         return(
+            <Pressable>
             <View style={{ flexDirection:'row', borderBottomColor:'#d5d5d5',
             borderBottomWidth:1, marginVertical:3,}}>
+                
                 <View style={{flexDirection:'row', flex:1, alignItems:'center', 
                             marginHorizontal:3,
                             
                             }}>
                     <MaterialCommunityIcons name="cctv" size={24} color="#3d488f" />
-                    <TouchableOpacity onPress={() => camNamePress(elem)}>
+                    <TouchableOpacity>
                         <Text style={styles.card_cam_text} >[{elem.devsym}] {elem.devname}</Text>
                     </TouchableOpacity>
                 </View>
@@ -98,8 +100,9 @@ const CamListComponent = ({mapId, camNamePress, pressHandlerCamLive, pressHandle
                         <Text style={{fontSize:10, color:'#707070'}}>Rec</Text>
                     </TouchableOpacity>
                 </View>
-            
+
             </View>
+            </Pressable>
         )
 
     }
@@ -168,7 +171,7 @@ const styles = StyleSheet.create({
         paddingHorizontal:4,
         paddingVertical:5,
         marginRight:20,
-        color:'#3075db',
+        color:'#000',
         fontSize:14,
 
     },

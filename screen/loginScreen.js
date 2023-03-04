@@ -116,7 +116,7 @@ const LoginScreen = ({navigation})=>{
                         </Text>
                     </View>
                 {/* <View style={{backgroundColor:'#fff',flex:1}}> */}
-
+                     
                     <View style={{flexDirection:'row', alignItems:'flex-end', 
                             justifyContent:'flex-end', marginVertical:10,}}> 
                         <FontAwesome name="user-circle" size={23} color="green" 
@@ -157,7 +157,10 @@ const LoginScreen = ({navigation})=>{
                     <TextInput style={[globalStyles.text_input]} />
                     <Text>Password</Text>
                     <TextInput style={[globalStyles.text_input]} /> */}
-                    <TouchableOpacity style={globalStyles.touchable_btn} onPress={pressHandler}>
+                    <TouchableOpacity style={[globalStyles.touchable_btn,
+                            {marginVertical:30}
+                        ]} 
+                        onPress={pressHandler}>
                         <Text style={globalStyles.text_btn}>Go</Text>
                     </TouchableOpacity>
 

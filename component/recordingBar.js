@@ -1,5 +1,5 @@
 import React,{useState, useEffect, useRef} from "react";
-import {View, Text, StyleSheet, ScrollView, Alert, Button, TouchableOpacity} from 'react-native'
+import {View, Text, StyleSheet, ScrollView, Alert, Button, TouchableOpacity, Pressable} from 'react-native'
 import { globalStyles } from "../style/globalstyle";
 import { MaterialIcons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -258,6 +258,7 @@ export default function RecordingBar({camId, recDate, pressPlyRec, selRecTime, r
                     onMomentumScrollEnd={onScrollViewEnd}
                 horizontal={true}  ref={sliderScrollview} 
                  style={{ backgroundColor:'', paddingBottom:5,}}>
+                    <Pressable>
                 <View style={{backgroundColor:'black', marginHorizontal:0}}>
                     <View style={{flexDirection:'row', marginTop:2}}>
 
@@ -337,11 +338,11 @@ export default function RecordingBar({camId, recDate, pressPlyRec, selRecTime, r
                         // <View style={[styles.vwRecordingBar,{width:200, left:200}]}>
                         // </View>
                          recrdArr.map((item, indx) =>
-                                 <View key={indx}
+                                 <Pressable key={indx}
                                     style={[styles.vwRecordingBar,{left:item.startX, width:(item.endX - item.startX)}]} 
                                     
                                     >
-                                </View>
+                                </Pressable>
 
                                 )
                         
@@ -352,7 +353,7 @@ export default function RecordingBar({camId, recDate, pressPlyRec, selRecTime, r
                     
 
                 </View>
-    
+                </Pressable>
             </ScrollView>
                     
                     <View style={{
