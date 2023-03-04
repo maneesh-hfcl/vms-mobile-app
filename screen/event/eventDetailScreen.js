@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Text, View, StyleSheet, Pressable, Image } from "react-native";  
+import { Text, View, StyleSheet, Pressable, Image, ActivityIndicator} from "react-native";  
 import ItemRowTemplateComponent from "../../component/card/itemRowTemplate";
 import { LoadApiData } from "../../shared/fetchUrl";
 import { globalStyles } from "../../style/globalstyle";
 import Config from '../../configuration/config'
 import { Video } from "expo-av";
 
+
 const EventDetailScreen = ({navigation, route})=>{
     const{type, elem} = route.params;
     const[itmDetail,setItmDetail] = useState(null)
+    const[isImgLoading, setIsImgLoading] = useState(true)
 
     useEffect(()=>{
         loadData()
@@ -26,21 +28,37 @@ const EventDetailScreen = ({navigation, route})=>{
     return(
         <View style={{flex:1,backgroundColor:'transparent'}}>
             
-            <Pressable style={{height:200,backgroundColor:'#fff', opacity:0.8}} onPress={pressDialogClose}> 
+            <Pressable style={{height:'100%',
+                backgroundColor:'#000',
+                
+                
+                opacity:0.3}} onPress={pressDialogClose}> 
             </Pressable>
 
-            <View style={[styles.modal_dialog,{}]}>
-                <View style={{alignItems:'center',marginTop:20, flex:1,
+            <View style={[styles.modal_dialog,{
+                position:'absolute',
+                flex:1,
+                bottom:0,
+                width:'100%',
+                height:'70%'
+            }]}>
+                <View style={{alignItems:'center',marginVertical:20,
                 shadowOffset:{width:3, height:3},
-                shadowOpacity: 0.4,
-                shadowRadius: 5,
-                shadowColor:'#000'
+                flex:1,
+
             }}>
                 { type=='details'?(
-                    <Image 
+                    
+                      
+                    <Image
+                        loadingIndicatorSource={require("../../assets/icons/logo.png")}
+                        
                         style={styles.image}
-                        source={{ uri: Config.ApiUrl +'/image/7b3baad1-38b0-4969-a42e-ff0c4dca2db2.jpg'}}
+                        resizeMode = "contain"
+                        
+                        source={{ uri: Config.ApiUrl +'/image/1'}}
                     />
+                    
                 )
                 
                 :(
@@ -55,11 +73,14 @@ const EventDetailScreen = ({navigation, route})=>{
                 }
         
                 </View>
-                <View>
+                <View style={{flex:0, marginBottom:10}}>
+                    <ItemRowTemplateComponent title={''} content={''} />
                     <ItemRowTemplateComponent title={'Id'} content={elem.id} />
                     <ItemRowTemplateComponent title={'Time'} content={elem.evtime} />
-                    <ItemRowTemplateComponent title={'Name'} content={elem.evtype} />
+                    <ItemRowTemplateComponent title={'Name'} content={elem.evtname} />
                     <ItemRowTemplateComponent title={'Camera'} content={elem.objids} />
+                    <ItemRowTemplateComponent title={'More info'} content={elem.dtabf.split("$")[0]} />
+                    <ItemRowTemplateComponent title={''} content={''} />
                 </View>
             </View>
 
@@ -107,9 +128,9 @@ const styles = StyleSheet.create({
         paddingTop:5,
     },
     image:{
-        width:'90%', 
-        height:'90%', 
-        
-
+        width:'100%', 
+        height:'100%', 
+        marginHorizontal:0,
+        marginVertical:0
     }
 })

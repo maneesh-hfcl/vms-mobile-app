@@ -19,9 +19,10 @@ const EventDataComponent = ({pressLnkHandler})=>{
         let initLst = jsonData.map((elem)=>({
             id: elem.id,
             evtime: elem.evtime,
-            evtype: 'Intrusion Detection',//elem.evtype,
+            evtname: elem.evtname,
             evstate: elem.evstate,
             objids: elem.objids?.trim(),
+            dtabf: elem.dtabf
         })
         )
 
@@ -38,15 +39,16 @@ const EventDataComponent = ({pressLnkHandler})=>{
     }
 
     return(
-            <View style={{flex:1}}>
-                <LoadingDialogComponent isVisible={isLoadingVisible} />
-                <FlatList
+                <FlatList style={{flex:1}}
+                contentContainerStyle={{flexGrow: 1}}
+                scrollEnabled={true}
+                showsVerticalScrollIndicator={true}
                     data={evtLst}
                     keyExtractor={item => item.id}
                     renderItem ={({item})=> renderItems(item)}
                     
                 />
-            </View>
+            
     
     )
 }

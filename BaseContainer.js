@@ -8,7 +8,7 @@ const BaseContainer = ({children})=>{
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                 >
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                    <SafeAreaView style={styles.container}>
+                    <SafeAreaView style={[styles.container, {}]}>
                         {children}
                     </SafeAreaView>
                 </TouchableWithoutFeedback>
@@ -22,7 +22,8 @@ export default BaseContainer;
 const styles = StyleSheet.create({
     container: {
       flex:1,
-      backgroundColor: '#fff',
-    marginTop: 0
+      backgroundColor:'#fff',
+      paddingTop:15 
+
     },
   });

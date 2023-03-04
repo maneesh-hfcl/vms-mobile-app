@@ -10,7 +10,7 @@ const EventStack = ()=>{
             <Stack.Screen 
                 name="EventHome" component={EventHomeScreen} options={{headerShown: false}}
             />
-            <Stack.Group screenOptions={{presentation:'transparentModal'}}>
+            <Stack.Group screenOptions={{presentation:'transparentModal', animation:"slide_from_bottom"}}>
                 <Stack.Screen name="EventDetails" component={EventDetailScreen} options={{headerShown:false}} />
             </Stack.Group>
         </Stack.Navigator>

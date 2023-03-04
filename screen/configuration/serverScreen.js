@@ -119,7 +119,7 @@ const ServerScreen = ({navigation})=>{
           });
           console.log(trans)
           return (
-            <View style={{backgroundColor:'#f7e3da'
+            <View style={{backgroundColor:'#f5f3f2'
                 , paddingHorizontal:5
                 , borderBottomColor:'#c7c7c7'
                 , borderBottomWidth:1
@@ -127,9 +127,9 @@ const ServerScreen = ({navigation})=>{
                 , justifyContent:'center'}}>
                 <LnkBtnCard iconName={'edit'} 
                                 iconColor={'red'}
-                                color={'#fff'}
+                                color={''}
                                 labelColor={'#395fb3'}
-                                iconSize={18}
+                                iconSize={15}
                                 label='Edit' pressLnkHandler={pressHandlerEdit} 
                             />
             </View>

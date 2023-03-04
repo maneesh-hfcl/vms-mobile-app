@@ -2,7 +2,7 @@ import React from "react";
 import { Text, View, StyleSheet } from "react-native";
 import FormOuterCard from "./form/outerCard";
 import TextCard from "./form/textCard";
-import { AntDesign, FontAwesome, Ionicons, MaterialIcons, Entypo } from '@expo/vector-icons';
+import { AntDesign, FontAwesome, Ionicons, MaterialIcons, Entypo, Foundation, MaterialCommunityIcons } from '@expo/vector-icons';
 import { LnkBtnCard } from "./lnkBtnCard";
 
 const ItemEventTemplate = ({elem, pressLnkHandler})=>{
@@ -14,53 +14,15 @@ const ItemEventTemplate = ({elem, pressLnkHandler})=>{
 
     return(
 
+        <View> 
+            <Text>{elem.evtname}</Text>
+            <Text>{elem.evtname}</Text>
+            <Text>{elem.evtname}</Text>
+            <Text>{elem.evtname}</Text>
+            <Text>{elem.evtime}</Text>
 
-        <View style={{flex:1, marginVertical:0, marginHorizontal:0,
-            borderBottomWidth:1,
-            borderBottomColor:'#c7c7c7',
-            padding:0,
-            backgroundColor:'#fff',
-            paddingHorizontal:5,
+        </View>
 
-        }}>
-                    
-                    <View style={{flexDirection:'row', flexWrap:'wrap'}}>
-                        <View style={{flex:1, backgroundColor:'#fff'}}>
-                            <View style={{marginVertical:5}}>
-                                <Text style={{fontSize:15}}>{"Fallen person detection good thing"} </Text>
-                            </View>
-                            <View style={{flexDirection:'row'}}>
-                                <Text style={{fontSize:13, color:'#808080'}}> {ConverToDate(elem.evtime)} </Text>
-                                <Entypo name="dot-single" size={18} color="black" />
-                                <Text style={{fontSize:13, color:'#808080'}}> {elem.objids?"":"Camera 17"} </Text>
-                            </View>
-                        </View>
-                        <View style={{marginVertical:5,
-                                alignItems:'flex-start'
-                                , justifyContent:'flex-end'}}>
-                            <LnkBtnCard iconName={'add'} 
-                            iconColor={'#395fb3'}
-                            color={'#fff'}
-                            labelColor={'#395fb3'}
-                            iconSize={20}
-                            
-                            label='View' pressLnkHandler={() => pressLnkHandler('details', elem)} />
-                            <View style={{marginVertical:5}}>
-                                <LnkBtnCard iconName={'play-arrow'} iconColor={'green'} color='#fff'
-                                    labelColor={'green'}
-                                iconSize={20} label='Play' pressLnkHandler={() => pressLnkHandler('play', elem)} />
-                            </View>
-                        </View>
-                        {/* <Entypo name="dot-single" size={18} color="black" />
-                        <Text style={{fontSize:13, color:'#808080'}}> {'Ready to use'} </Text>
-                        <Entypo name="dot-single" size={18} color="black" />
-                        <Text style={{fontSize:13, color:'#808080'}}> {item.nvip} </Text>
-                        <Entypo name="dot-single" size={18} color="black" />
-                        <Text style={{fontSize:13, color:'#808080'}}> {item.nvpt} </Text> */}
-                    </View>
-
-                    
-            </View>
 
 
 

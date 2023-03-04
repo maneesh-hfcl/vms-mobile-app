@@ -6,7 +6,12 @@ export const LnkBtnCard = ({children,label, iconSize, iconName, iconColor, press
     return(
         <View style={[styles.lnk_outer,color?{backgroundColor:color}:{}]}>
             <Pressable onPress={() => pressLnkHandler(label)} style={{flexDirection:'row', alignItems:'center'}} >
-                <MaterialIcons name={iconName} size={iconSize} color={iconColor} style={{}} />
+                <View style={{borderRadius:20, borderWidth:1, marginHorizontal:3,
+                    borderColor:'#c7c7c7'
+                }}>
+                <MaterialIcons name={iconName} size={iconSize} color={iconColor} 
+                style={{}} />
+                </View>
                 { label != '' && 
                     <Text style={[styles.lnk_text,{color:labelColor},
                         iconName=='app-registration'?{fontSize:15, marginVertical:8,paddingHorizontal:5}:''
@@ -22,10 +27,9 @@ const styles = StyleSheet.create({
     lnk_outer:{
         marginHorizontal:5,
         marginVertical:0,
-        borderWidth:1,
+        borderWidth:0,
         borderColor:'#b7b7b7',
         borderRadius:10,
-        backgroundColor:'#c7c7c7',
         flexDirection:'row',
         paddingVertical:1,
         paddingHorizontal:1,
