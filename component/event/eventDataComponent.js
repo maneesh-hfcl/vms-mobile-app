@@ -39,10 +39,7 @@ const EventDataComponent = ({pressLnkHandler})=>{
     }
 
     return(
-                <FlatList style={{flex:1}}
-                contentContainerStyle={{flexGrow: 1}}
-                scrollEnabled={true}
-                showsVerticalScrollIndicator={true}
+                <FlatList
                     data={evtLst}
                     keyExtractor={item => item.id}
                     renderItem ={({item})=> renderItems(item)}
