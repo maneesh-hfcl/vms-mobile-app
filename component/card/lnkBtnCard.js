@@ -5,7 +5,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 export const LnkBtnCard = ({children,label, iconSize, iconName, iconColor, pressLnkHandler, color, labelColor})=>{
     return(
         <View style={[styles.lnk_outer,color?{backgroundColor:color}:{}]}>
-            <Pressable onPress={() => pressLnkHandler(label)} style={{flexDirection:'row', alignItems:'center'}} >
+            <Pressable onPress={() => {pressLnkHandler(label)}} style={{flexDirection:'row', alignItems:'center'}} >
                 <View style={{borderRadius:20, borderWidth:1, marginHorizontal:3,
                     borderColor:'#c7c7c7'
                 }}>

@@ -48,17 +48,22 @@ const EventDetailScreen = ({navigation, route})=>{
 
             }}>
                 { type=='details'?(
-                    
-                      
+                    <View style={{width:'100%', height:'100%'}}>
+                     { isImgLoading && 
+                        <View style={{marginVertical:50}}>
+                        <ActivityIndicator  />
+                        <Text>Loading </Text>
+                        </View>
+                     }   
                     <Image
-                        loadingIndicatorSource={require("../../assets/icons/logo.png")}
+                        onLoadEnd={() => setIsImgLoading(false)}
                         
                         style={styles.image}
                         resizeMode = "contain"
                         
                         source={{ uri: Config.ApiUrl +'/image/1'}}
                     />
-                    
+                    </View>
                 )
                 
                 :(
@@ -130,6 +135,7 @@ const styles = StyleSheet.create({
     image:{
         width:'100%', 
         height:'100%', 
+
         marginHorizontal:0,
         marginVertical:0
     }

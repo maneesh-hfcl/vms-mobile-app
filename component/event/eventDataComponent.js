@@ -5,11 +5,11 @@ import ActivityIndicatorComponent from "../activityIndicatorComponent";
 import ItemEventTemplate from "../card/itemEventTemplate";
 import LoadingDialogComponent from "../loadingDialogComponent";
 
-const EventDataComponent = ({pressLnkHandler})=>{
+const EventDataComponent = ({pressLnkHandler, setHideLoadingVisible })=>{
     const[evtLst, setEvtLst] = useState([]);
-    const[isLoadingVisible, setIsLoadingVisible] = useState(false)
+   // const[isLoadingVisible, setIsLoadingVisible] = useState(isLoadingVisible)
     useEffect(()=>{
-        setIsLoadingVisible(true)
+   //     setIsLoadingVisible(true)
         loadData()
     },[])
 
@@ -27,7 +27,7 @@ const EventDataComponent = ({pressLnkHandler})=>{
         )
 
         setEvtLst(initLst);
-        setIsLoadingVisible(false)
+        setHideLoadingVisible(false)
     }
 
 

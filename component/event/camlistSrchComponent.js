@@ -4,12 +4,12 @@ import { LoadApiData } from "../../shared/fetchUrl";
 import ActivityIndicatorComponent from "../activityIndicatorComponent";
 import ChkItemCardComponent from "../card/chkItemCard";
 
-const CamlistSrchComponent = ({itemchecked})=>{
-    const[camLst, setCamLst] = useState([])
+const CamlistSrchComponent = ({itemchecked, camLst})=>{
+//    const[camLst, setCamLst] = useState([])
     const[isLoading, setIsLoading] = useState(true)
 
     useEffect(()=>{
-        loadData()
+      //  loadData()
     },[])
 
     const loadData = async ()=>{
@@ -23,12 +23,12 @@ const CamlistSrchComponent = ({itemchecked})=>{
         })
         )
 
-        initLst = [{
-            id : 0,
-            name: 'All',
-            devnm: 'All'
-        }, ...initLst]
-        setCamLst(initLst);
+        // initLst = [{
+        //     id : 0,
+        //     name: 'All',
+        //     devnm: 'All'
+        // }, ...initLst]
+       // setCamLst(initLst);
         setIsLoading(false)
     }
 
@@ -38,8 +38,8 @@ const CamlistSrchComponent = ({itemchecked})=>{
         let tempArr = [... camLst]
         let findElem = tempArr.find(el => el.id == elemId)
         findElem.isChecked = value;
-        setCamLst(tempArr)
-        itemchecked('camera', findElem.name)
+ //       setCamLst(tempArr)
+        itemchecked('camera', findElem.name, value)
 //       console.log(tempArr)
     }
 
@@ -51,19 +51,11 @@ const CamlistSrchComponent = ({itemchecked})=>{
 
     return(
         <View style={{ backgroundColor:'#fff',paddingHorizontal:20,paddingVertical:20}}>
-            {
-                isLoading?(
-                    <ActivityIndicatorComponent />
-                ):(
-                    <FlatList style={{paddingBottom:10, marginBottom:5,height:'100%'}}
+            <FlatList style={{paddingBottom:10, marginBottom:5,height:'100%'}}
                     data={camLst}
                     keyExtractor={item => item.id}
                     renderItem = {({item})=>(renderItems(item))}
                 />
-
-                )
-            }
- 
         </View>
     )
 }

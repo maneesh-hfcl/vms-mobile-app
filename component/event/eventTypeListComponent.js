@@ -6,20 +6,23 @@ import { globalStyles } from "../../style/globalstyle";
 import ActivityIndicatorComponent from "../activityIndicatorComponent";
 import ChkItemCardComponent from "../card/chkItemCard";
 
-const EventTypeListComponent = ({route, itemchecked})=>{
+const EventTypeListComponent = ({route, itemchecked, fltrEvnt, eventLst})=>{
     const eventJsonFile = require("../../assets/eventType.json")
     const[isChecked, setIsChecked] = useState(false);
-    const[eventLst, setEventLst] = useState([])
+  //  const[eventLst, setEventLst] = useState([])
     const[isLoading, setIsLoading] = useState(true)
  //   const{itemchecked} = route.params;
     
     useEffect(()=>{
-        loadData()
+    //    Alert.alert("Loading effect")
+        console.log("loading event list")
+ //       console.log(eventLst)
+   //    loadData()
     },[])
 
     const loadData = ()=>{
         const jsonFile = eventJsonFile;
-        console.log(jsonFile.events[0].name)
+    //    console.log(jsonFile.events[0].name)
         let jsonEvents = jsonFile.events;
         //let tempArr = [...jsonFile.events,{isChecked:false}]
         let tempArr =  jsonEvents.map(elem => {return {...elem, isChecked:false}})
@@ -39,9 +42,9 @@ const EventTypeListComponent = ({route, itemchecked})=>{
         let tempArr = [... eventLst]
         let findElem = tempArr.find(el => el.id == elemId)
         findElem.isChecked = value;
-        setEventLst(tempArr)
+ //       setEventLst(tempArr)
 //       console.log(tempArr)
-        itemchecked('event',findElem)
+        itemchecked('event',findElem, value)
     }
 
     const renderItems = (elem)=>(
@@ -53,9 +56,7 @@ const EventTypeListComponent = ({route, itemchecked})=>{
     return(
             <View style={{ backgroundColor:'#fff',paddingHorizontal:20,paddingVertical:20}}>
                 {
-                    isLoading?(
-                        <ActivityIndicatorComponent />
-                    ):(
+                   
 
                         <FlatList style={{paddingBottom:10, marginBottom:5,height:'100%'}}
                             data={eventLst}
@@ -64,7 +65,7 @@ const EventTypeListComponent = ({route, itemchecked})=>{
                         />
 
 
-                    )
+                    
                 }
 
 

@@ -23,11 +23,13 @@ const CameraSearchComponent = ()=>{
     )
 }
 
-const TabSearchEvent = ({pressChkboxItem})=>{
+const TabSearchEvent = ({pressChkboxItem, fltrEvnt, eventLst, camLst})=>{
     return(
         <Tab.Navigator>
             <Tab.Screen name="eventSearch" 
-                children={()=> <EventTypeListComponent itemchecked={pressChkboxItem} />}
+                children={()=> <EventTypeListComponent 
+                    eventLst={eventLst}
+                    fltrEvnt={fltrEvnt} itemchecked={pressChkboxItem} />}
                 options={{
                     title:'Event',
                     tabBarLabel:()=>(<Text>Event</Text>)
@@ -36,7 +38,9 @@ const TabSearchEvent = ({pressChkboxItem})=>{
             />
             
             <Tab.Screen name="camSearch"
-                children={()=> <CamlistSrchComponent itemchecked={pressChkboxItem} /> }
+                children={()=> <CamlistSrchComponent
+                        camLst={camLst}
+                    itemchecked={pressChkboxItem} /> }
                 options={{
                     tabBarLabel : ()=>(
                         <Text>Camera</Text>
