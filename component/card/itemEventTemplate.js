@@ -46,7 +46,7 @@ const ItemEventTemplate = ({elem, pressLnkHandler})=>{
                                 , borderRadius:5
                                 }}>
                             <View style={{
-                                backgroundColor:'#f5f3f2',
+                                backgroundColor:'#fff',
                                 borderRadius:5
                             }}>        
                             <LnkBtnCard iconName={'add'} 
@@ -60,8 +60,9 @@ const ItemEventTemplate = ({elem, pressLnkHandler})=>{
                             <View style={{marginVertical:5,
                                 borderTopWidth:0,
                                 borderColor:'#fff',
-                                backgroundColor:'#f2fcf3',
-                                borderRadius:5
+                                backgroundColor:'#fff',
+                                borderRadius:5,
+                                marginTop:5
                                 }}>
                                 <LnkBtnCard iconName={'play-arrow'} 
                                 iconColor={'green'} color=''

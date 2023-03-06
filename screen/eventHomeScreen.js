@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { View, Text, StyleSheet, Modal, TouchableOpacity, Pressable, Alert, TouchableHighlight } from "react-native";
+import { View, Text, StyleSheet, Modal, TouchableOpacity, Pressable, Alert, TouchableHighlight, ActivityIndicator } from "react-native";
 import { LnkBtnCard } from "../component/card/lnkBtnCard";
 import CloseIconComponent from "../component/closeIconComponent";
 import EventDataComponent from "../component/event/eventDataComponent";
@@ -10,7 +10,7 @@ import { LoadApiData } from "../shared/fetchUrl";
 import { globalStyles } from "../style/globalstyle";
 import PlayVideo from "./camera/playVideo";
 
-const EventHomeScreen = ({navigation})=>{
+const EventHomeScreen = ({navigation, route})=>{
     const htmlPage = require("../assets/eventType.json")
     const[isModalVisible, setIsModalVisible] = useState(false)
     const[isLoadingVisible, setIsLoadingVisible] = useState(true)
@@ -25,18 +25,30 @@ const EventHomeScreen = ({navigation})=>{
     const[isChecked, setIsChecked] = useState(false);
     const[eventLst, setEventLst] = useState([])
     const[camLst, setCamLst] = useState([])
+    const[isCompLoad, setIsCompLoad] = useState(false)
+    const[sortBy, setSortBy] = useState('')
+    const[sortDir, setSortDir] = useState('')
+    const[sortByName, setSortByName] = useState('Default')
     
     useEffect(()=>{
       //  tempFltrCam = []
       //  tempFltrEvnt = []
-        console.log(tempFltrEvnt)
+        //console.log(tempFltrEvnt)
+        console.log("loading data")
         loadData();
         loadDataCam();
     },[])
 
+    // useEffect(()=>{
+    //     //  tempFltrCam = []
+    //     //  tempFltrEvnt = []
+    //       console.log('from filter sreen')
+    //       setIsModalVisible(true)
+    //   },[route.params?.filter])
+
     const loadData = ()=>{
         const jsonFile = eventJsonFile;
-        console.log(jsonFile.events[0].name)
+//        console.log(jsonFile.events[0].name)
         let jsonEvents = jsonFile.events;
         //let tempArr = [...jsonFile.events,{isChecked:false}]
         let tempArr =  jsonEvents.map(elem => {return {...elem, isChecked:false}})
@@ -45,7 +57,7 @@ const EventHomeScreen = ({navigation})=>{
         //     name: 'All',
         //     devnm: 'All'
         // }, ...tempArr]
-       console.log(tempArr)
+  //     console.log(tempArr)
        setEventLst(tempArr)
 //        setIsLoading(false)
     }
@@ -72,16 +84,19 @@ const EventHomeScreen = ({navigation})=>{
     }
 
     const pressLnkHandler = (type)=>{
-        setIsLoadingVisible(true)
+      //  setIsLoadingVisible(true)
+     
         setIsModalVisible(true)
-        setIsLoadingVisible(false)
+     //   setIsLoadingVisible(false)
         setFltrEvnt([])
+     
+//        setIsCompLoad(true)
       //  setTempFltrEvnt([])
       //  setTempFltrCam([])
     }
 
     const pressDialogClose = ()=>{
-        alert('close')
+   //     alert('close')
         setIsModalVisible(false)
     }
 
@@ -162,30 +177,53 @@ const EventHomeScreen = ({navigation})=>{
         pressDialogClose()
     }
 
+    const onComponentLoading = ()=>{
+     // Alert.alert("Loading component");
+      //setIsModalVisible(true);
+    }
+
+    const pressSortHandler = (sortby, dir, name)=>{
+        console.log("sort by: " + sortby+"/"+dir+"/"+name);
+        setIsLoadingVisible(true)
+        setSortBy(sortby)
+        setSortDir(dir)
+        setSortByName(name)
+        
+
+    }
+
     return(
         <View style={[globalStyles.container_main,{backgroundColor:'#fff',flex:1}]}>
             <View style={{marginHorizontal:10, marginBottom:10}}>
-                <EvtSearchBarComponent fltrEvnt={fltrEvnt} fltrCam={fltrCam} pressLnkHandler={pressLnkHandler} />
+                <EvtSearchBarComponent navigation={navigation}
+                    eventLst={eventLst} camLst={camLst}
+                 fltrEvnt={fltrEvnt} fltrCam={fltrCam} pressLnkHandler={pressLnkHandler} 
+                 pressSortLnkHandler={pressSortHandler}
+                 sortByName={sortByName}
+                 />
             </View>
             <View style={{flex:1}}>
-            <EventDataComponent pressLnkHandler={pressLnkHandlerBtn} setHideLoadingVisible={setHideLoadingVisible}/>
+            <EventDataComponent pressLnkHandler={pressLnkHandlerBtn} 
+                setHideLoadingVisible={setHideLoadingVisible} sortBy={sortBy} sortDir={sortDir} />
             </View>
             <LoadingDialogComponent isVisible={isLoadingVisible} />
+           
             {
+             //   isModalVisible &&
                 <Modal animationType="slide"
                     transparent={true}
                     visible={isModalVisible}
-                    
                 >
+                    
                     <Pressable style={{flex:0.5, backgroundColor:'#fff', opacity:0.7}} onPress={pressDialogClose}>
  
                     </Pressable>
                     <View style={[styles.modal_dialog,{backgroundColor:'#fff', paddingBottom:50}]}>
 
+
                         <TabSearchEvent eventLst={eventLst} 
-                            camLst={camLst}
-                        fltrEvnt={fltrEvnt} pressChkboxItem={pressChkboxItem} />
-                        
+                            camLst={camLst} onComponentLoading = {onComponentLoading}
+                         pressChkboxItem={pressChkboxItem} />
 
                     <TouchableOpacity 
                         onPress={pressApplyFilter}
@@ -196,7 +234,7 @@ const EventHomeScreen = ({navigation})=>{
                             <Text style={[globalStyles.text_btn,{padding:3}]}>Apply filter</Text>
                         </TouchableOpacity>
                         </View>
-                </Modal>
+                </Modal> 
             }
 
         </View>
@@ -208,13 +246,14 @@ export default EventHomeScreen;
 
 const styles = StyleSheet.create({
     modal_dialog:{
-          borderRadius:25,
+          borderTopLeftRadius:25,
+          borderTopRightRadius:25,
           backgroundColor:'#fff',
             flex:1,
      //   borderTopRightRadius:10,
   
         borderWidth:1,
-        borderColor:"#e7e7e7",
+        borderColor:"#d7d7d7",
         paddingHorizontal:10,
         paddingVertical:10,
         

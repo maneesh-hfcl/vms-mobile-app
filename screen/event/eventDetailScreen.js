@@ -84,7 +84,7 @@ const EventDetailScreen = ({navigation, route})=>{
                     <ItemRowTemplateComponent title={'Time'} content={elem.evtime} />
                     <ItemRowTemplateComponent title={'Name'} content={elem.evtname} />
                     <ItemRowTemplateComponent title={'Camera'} content={elem.objids} />
-                    <ItemRowTemplateComponent title={'More info'} content={elem.dtabf.split("$")[0]} />
+                    <ItemRowTemplateComponent title={'Description'} content={elem.dtabf.split("$")[0]} />
                     <ItemRowTemplateComponent title={''} content={''} />
                 </View>
             </View>

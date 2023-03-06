@@ -117,5 +117,13 @@ export const globalStyles = StyleSheet.create({
         paddingVertical:5,
         color:'gray',
         fontSize:15
-    }
+    },
+    text_sort:{
+        color:'#0453cf',
+        marginHorizontal:5,
+        marginTop:5,
+        paddingHorizontal:2,
+        marginVertical:5,
+      //  textDecorationLine:"underline"
+    },
 })

@@ -4,6 +4,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { LnkBtnCard } from "../../component/card/lnkBtnCard";
 import EventTypeListComponent from "../../component/event/eventTypeListComponent";
 import CamlistSrchComponent from "../../component/event/camlistSrchComponent";
+import { useEffect } from "react";
 
 const Tab = createMaterialTopTabNavigator()
 
@@ -23,7 +24,10 @@ const CameraSearchComponent = ()=>{
     )
 }
 
-const TabSearchEvent = ({pressChkboxItem, fltrEvnt, eventLst, camLst})=>{
+const TabSearchEvent = ({pressChkboxItem, fltrEvnt, eventLst, camLst,onComponentLoading})=>{
+    // useEffect(()=>{
+    //     onComponentLoading()
+    // },[])
     return(
         <Tab.Navigator>
             <Tab.Screen name="eventSearch" 

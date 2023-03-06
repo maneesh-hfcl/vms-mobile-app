@@ -5,16 +5,21 @@ import ActivityIndicatorComponent from "../activityIndicatorComponent";
 import ItemEventTemplate from "../card/itemEventTemplate";
 import LoadingDialogComponent from "../loadingDialogComponent";
 
-const EventDataComponent = ({pressLnkHandler, setHideLoadingVisible })=>{
+const EventDataComponent = ({pressLnkHandler, setHideLoadingVisible, sortBy, sortDir })=>{
     const[evtLst, setEvtLst] = useState([]);
    // const[isLoadingVisible, setIsLoadingVisible] = useState(isLoadingVisible)
     useEffect(()=>{
    //     setIsLoadingVisible(true)
         loadData()
-    },[])
+    },[sortBy, sortDir])
 
     const loadData = async()=>{
-        let jsonData = await LoadApiData("/evtlog")
+        let sortByDir = (sortDir!=""?("/"+sortBy+"/"+sortDir):"");
+
+        let eventUrl = "/evtlog" + sortByDir
+        console.log(sortByDir)
+        console.log("eventurl: " + eventUrl);
+        let jsonData = await LoadApiData(eventUrl)
         //console.log(jsonData)
         let initLst = jsonData.map((elem)=>({
             id: elem.id,
@@ -28,6 +33,7 @@ const EventDataComponent = ({pressLnkHandler, setHideLoadingVisible })=>{
 
         setEvtLst(initLst);
         setHideLoadingVisible(false)
+        //Alert.alert("hiding visible")
     }
 
 
