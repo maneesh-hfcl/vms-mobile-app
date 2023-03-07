@@ -25,7 +25,7 @@ const EventHomeScreen = ({navigation, route})=>{
     const[isChecked, setIsChecked] = useState(false);
     const[eventLst, setEventLst] = useState([])
     const[camLst, setCamLst] = useState([])
-    const[isCompLoad, setIsCompLoad] = useState(false)
+    const[isFltrAppld, setIsFltrAppld] = useState(false)
     const[sortBy, setSortBy] = useState('')
     const[sortDir, setSortDir] = useState('')
     const[sortByName, setSortByName] = useState('Default')
@@ -174,7 +174,17 @@ const EventHomeScreen = ({navigation, route})=>{
         })
         setCamLst(tempArrCam)
 
+        console.log("posting data to server")
+        let tempFltrEvntPost = tempArr.filter(elem => elem.isChecked).map(elem => elem.id)
+        // console.log(tempFltrEvntPost)
+        setFltrEvnt(tempFltrEvntPost)
+
+        let tempFltrCamPost = tempArrCam.filter(elem => elem.isChecked).map(elem => elem.name)
+        // console.log(tempFltrCamPost);
+        setFltrCam(tempFltrCamPost)
+        setIsFltrAppld(true)
         pressDialogClose()
+        setIsLoadingVisible(true)
     }
 
     const onComponentLoading = ()=>{
@@ -187,9 +197,31 @@ const EventHomeScreen = ({navigation, route})=>{
         setIsLoadingVisible(true)
         setSortBy(sortby)
         setSortDir(dir)
-        setSortByName(name)
+        setSortByName(name);
+        
         
 
+    }
+
+    const pressLnkRemHandler = ()=>{
+        setFltrEvnt([])
+        setFltrCam([])
+        
+        let tempArr = eventLst.map((elem) => {
+            return {...elem, isChecked:false}
+        })
+        setEventLst(tempArr)
+
+        let tempArrCam = camLst.map((elem) => {
+            return {...elem, isChecked:false}
+        })
+        setCamLst(tempArrCam)
+
+//        console.log(tempArr)
+        setTempFltrEvnt([])
+        setTempFltrCam([])
+        setIsFltrAppld(false)
+        setIsLoadingVisible(true)
     }
 
     return(
@@ -197,13 +229,15 @@ const EventHomeScreen = ({navigation, route})=>{
             <View style={{marginHorizontal:10, marginBottom:10}}>
                 <EvtSearchBarComponent navigation={navigation}
                     eventLst={eventLst} camLst={camLst}
-                 fltrEvnt={fltrEvnt} fltrCam={fltrCam} pressLnkHandler={pressLnkHandler} 
+                  pressLnkHandler={pressLnkHandler} 
                  pressSortLnkHandler={pressSortHandler}
                  sortByName={sortByName}
+                 isFltrAppld={isFltrAppld}
+                 pressLnkRemHandler={pressLnkRemHandler}
                  />
             </View>
             <View style={{flex:1}}>
-            <EventDataComponent pressLnkHandler={pressLnkHandlerBtn} 
+            <EventDataComponent pressLnkHandler={pressLnkHandlerBtn} fltrEvnt={fltrEvnt} fltrCam={fltrCam}
                 setHideLoadingVisible={setHideLoadingVisible} sortBy={sortBy} sortDir={sortDir} />
             </View>
             <LoadingDialogComponent isVisible={isLoadingVisible} />

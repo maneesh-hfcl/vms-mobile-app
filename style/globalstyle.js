@@ -119,8 +119,9 @@ export const globalStyles = StyleSheet.create({
         fontSize:15
     },
     text_sort:{
-        color:'#0453cf',
+        color:'#4072c2',
         marginHorizontal:5,
+        fontWeight:'bold',
         marginTop:5,
         paddingHorizontal:2,
         marginVertical:5,

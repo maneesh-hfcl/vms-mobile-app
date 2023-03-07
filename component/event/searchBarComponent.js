@@ -8,7 +8,7 @@ import CloseIconComponent from "../closeIconComponent";
 import TabSearchEvent from "../../navigation/tab/searchTab";
 import { RadioButton } from "react-native-paper";
 
-const EvtSearchBarComponent = ({navigation, pressLnkHandler, fltrEvnt,fltrCam, pressSortLnkHandler, sortByName})=>{
+const EvtSearchBarComponent = ({navigation, pressLnkHandler, pressLnkRemHandler, fltrEvnt,fltrCam, pressSortLnkHandler, sortByName, isFltrAppld})=>{
     const[isModalVisible, setIsModalVisible] = useState(false)
     const[isChecked, setIsChecked] = useState(sortByName)
 
@@ -27,67 +27,23 @@ const EvtSearchBarComponent = ({navigation, pressLnkHandler, fltrEvnt,fltrCam, p
     return(
         <View>
             <View style={styles.srch_header}>
-                {
-                    (fltrEvnt.length == 0 && fltrCam.length == 0)?
-                    (
-                        <Text style={{flex:1, color:'#979797', marginHorizontal:10}}>Use icon to filter data</Text>
-                    ):(
-                        <View style={{flex:1}}>
-                            <View style={{flexDirection:'row'}}>
-                                <LnkBtnCard pressLnkHandler={pressLnkHandler} 
-                                    label={'Event(' + fltrEvnt.length+')'} 
-                                    iconSize={15}
-                                    iconName={'event-available'}
-                                    iconColor={'#a9a9a9'}
-                                    color={'#4d4d4d'}
-                                    labelColor={'#ededed'}
-                                >
-                                    <Pressable onPress={() => Alert.alert('u pressed the button')}>
-                                        <Entypo name="cross" size={15} color="white" />
-                                    </Pressable>
+              
+                <View style={{}}>
+                    
+                    { isFltrAppld && 
+                        <LnkBtnCard pressLnkHandler={pressLnkRemHandler}
+                            iconName={'highlight-remove'}
+                            iconSize={18}
+                            iconColor={'#ad8db3'}
+                            label={"Remove filter"}
+                            color={'#e7e7e7'}
 
-                                </LnkBtnCard>
-                                <LnkBtnCard pressLnkHandler={pressLnkHandler} 
-                                    label={'Cam(' + fltrEvnt.length+')' } 
-                                    iconSize={15}
-                                    iconName={'photo-camera'}
-                                    iconColor={'#a9a9a9'}
-                                    color={'#4d4d4d'}
-                                    labelColor={'#ededed'}
-                                >
-                                        <Pressable onPress={() => Alert.alert('u pressed the button')}>
-                                        <Entypo name="cross" size={15} color="white" />
-                                    </Pressable>
-                                </LnkBtnCard>
-                                <LnkBtnCard pressLnkHandler={pressLnkHandler} 
-                                    label={'Date'} 
-                                    iconSize={15}
-                                    iconName={'date-range'}
-                                    iconColor={'#a9a9a9'}
-                                    color={'#4d4d4d'}
-                                    labelColor={'#ededed'}
-                                >
-                                    <Pressable onPress={() => Alert.alert('u pressed the button')}>
-                                        <Entypo name="cross" size={15} color="white" />
-                                    </Pressable>
-                                </LnkBtnCard>
-                            </View>
-                        </View>
-                    )
-                }
+                        />
 
-                {/* <LnkBtnCard label='Date'
-                    pressLnkHandler={pressLnkHandler}
-                iconName={'date-range'} iconSize={20} iconColor={'#505050'} />                
-                <LnkBtnCard pressLnkHandler={pressLnkHandler} label='Type' iconName={'event-available'} iconSize={20} iconColor={'#505050'} />
-                <LnkBtnCard pressLnkHandler={pressLnkHandler} label='Camera' iconName={'photo-camera'} iconSize={22} iconColor={'#505050'} /> */}
-                
-                <LnkBtnCard pressLnkHandler={pressOpenSortLnkHandler} label='Sort by' 
-                iconSize={18}
-                iconName={'sort-by-alpha'}
-                iconColor={'#505050'}
-                color={'#e7e7e7'}
-                />
+                    }
+
+                </View>
+                <View style={{flex:1}}></View>
                 
                 <LnkBtnCard pressLnkHandler={pressLnkHandler} label='Filter' 
                 iconSize={18}
@@ -95,6 +51,15 @@ const EvtSearchBarComponent = ({navigation, pressLnkHandler, fltrEvnt,fltrCam, p
                 color={'#e7e7e7'}
                 iconColor={'#505050'}
                 />
+
+                <LnkBtnCard pressLnkHandler={pressOpenSortLnkHandler} label='Sort by' 
+                iconSize={18}
+                iconName={'sort-by-alpha'}
+                iconColor={'#505050'}
+                color={'#e7e7e7'}
+                />
+                
+
 
                 {/* <Pressable onPress={() =>{ navigation.navigate("EventHome",{filter:Math.random()*100})}}>
                     <Text>calling event screen</Text>
@@ -111,12 +76,17 @@ const EvtSearchBarComponent = ({navigation, pressLnkHandler, fltrEvnt,fltrCam, p
                     <Pressable style={{flex:1, backgroundColor:'#fff', opacity:0.8}} onPress={pressDialogClose}>
                     </Pressable>
                     <View style={[styles.modal_dialog,{backgroundColor:'#fff', paddingBottom:50}]}>
-                        <Text style={{
-                            marginVertical:10,
-                            marginHorizontal:10,
-                            color:'purple', fontWeight:'bold',
-                            fontSize:12
-                        }}>Sort by</Text>
+                        <View style={{
+                                borderBottomWidth:1, borderBottomColor:"#e7e7e7"
+                                , alignItems:'center', marginBottom:20,
+                                backgroundColor:'#f7f7f7'}}>
+                            <Text style={{
+                                marginVertical:10,
+                                marginHorizontal:10,
+                                color:'#303030', fontWeight:'bold',
+                                
+                            }}>Sort by</Text>
+                        </View>
                         <Pressable onPress={() => pressSortHandler('','','Default')} style={[styles.sort_element]}>
                             <Text style={[globalStyles.text_sort,{flex:1}]}>Default</Text>
                             <RadioButton color="#04cf37"
@@ -185,7 +155,7 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         paddingHorizontal:0,
         paddingVertical:5,
-        backgroundColor:'#f7f7f7',
+        backgroundColor:'#fff',
         borderWidth:1,
         borderColor:'#d7d7d7',
         borderRadius:8,
@@ -194,30 +164,29 @@ const styles = StyleSheet.create({
         
     },
     modal_dialog:{
-        borderTopStartRadius:25,
-        borderTopEndRadius:25,
+
         backgroundColor:'#fff',
           flex:1,
    //   borderTopRightRadius:10,
-
-      borderWidth:1,
+       borderWidth:1,
       borderColor:"#d7d7d7",
-      paddingHorizontal:10,
-      paddingVertical:10,
+      paddingHorizontal:0,
+      paddingVertical:0,
       
   },
   sort_element:{
     flexDirection:'row',
     marginHorizontal:0,
 
-    borderBottomWidth:1,
+    borderBottomWidth:0,
 
     borderColor:'#e7e7e7',
     backgroundColor:'#fff',
     padding:0,
     paddingHorizontal:20,
     borderRadius:0,
-    alignItems:'center'
+    alignItems:'center',
+    marginHorizontal:20
   }
 
 })

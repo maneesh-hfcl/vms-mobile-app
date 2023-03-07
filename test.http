@@ -12,5 +12,6 @@ POST http://172.17.26.50:5006/vm/vmd/pvss?spc=M;L;Hik_42;1920:-1:-1.0 HTTP/1.1
 
 GET http://119.252.208.55:8010/users HTTP/1.1
 
-
+###
+POST http://192.168.2.197:5006/evtlog/camera/desc HTTP/1.1
 
