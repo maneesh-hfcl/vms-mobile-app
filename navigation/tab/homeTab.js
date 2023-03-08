@@ -10,6 +10,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import EventHomeScreen from "../../screen/eventHomeScreen";
 import MoreHomeScreen from "../../screen/moreHomeScreen";
 import EventStack from "../stack/eventStack";
+import EmergencyStack from "../stack/emergencyStack";
 
 const Tab = createBottomTabNavigator();
 
@@ -64,6 +65,11 @@ const TabHome = ({navigation})=>{
             <Tab.Screen name="Events" component={EventStack}
                 options={{
                     tabBarIcon:()=>(<MaterialIcons name="event-available" size={20} color="black" />)
+                }}
+            />
+            <Tab.Screen name="Emergency" component={EmergencyStack}
+                options={{
+                    tabBarIcon:()=>(<MaterialIcons name="railway-alert" size={20} color="red" />)
                 }}
             />
             <Tab.Screen name="More" component={MoreHomeScreen}
