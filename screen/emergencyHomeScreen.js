@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import {View, Text, StyleSheet, TouchableOpacity, Alert, Image, FlatList} from 'react-native'
+import {View, Text, StyleSheet, TouchableOpacity, Alert, Image, FlatList, Pressable} from 'react-native'
 import { Camera, CameraType } from 'expo-camera'
 import { MaterialIcons, Ionicons, FontAwesome } from '@expo/vector-icons';
+import { globalStyles } from '../style/globalstyle';
+import { LnkBtnCard } from '../component/card/lnkBtnCard';
 //import { globalStyles } from '../style/global';
 
 const EmergencyHome = ()=>{
@@ -57,20 +59,22 @@ const EmergencyHome = ()=>{
 
     const renderItem = ({item, index})=>{
             return(
-                <View style={{marginVertical:5, marginHorizontal:1}}>
+                <View style={{marginVertical:1, marginHorizontal:1}}>
                     <TouchableOpacity onPress={() => imgPress(item, index)}>
                         {
                             (curImageIndx == index)?(
-                            <Image source={{uri:item}} style={{width:70, 
-                                height:70, borderRadius:3, borderWidth:2,
-                                borderColor:'orange'
+                            <Image source={{uri:item}} style={{width:50, 
+                                height:50, borderRadius:25, borderWidth:3,
+                                borderColor:'orange',
+                                marginHorizontal:2
                             
                             }} />
                             ):
                             (
-                                <Image source={{uri:item}} style={{width:70, 
-                                    height:70, borderRadius:3,
-                                
+                                <Image source={{uri:item}} style={{width:50, 
+                                    height:50, borderRadius:25,
+                                    borderWidth:3, borderColor:'#fff',
+                                    marginHorizontal:2
                                 }} />
                             )
                         }
@@ -84,10 +88,19 @@ const EmergencyHome = ()=>{
        setCurImageIndx(-1)
     }
 
+    const emptyTemplate = ()=>{
+        return(
+            <View style={{justifyContent:'center', alignItems:'center', 
+                    marginLeft:50 }}> 
+                <Text style={[globalStyles.text_form,{fontSize:12}]}>No image/video captured</Text>
+            </View>
+        )
+    }
+
     return(
 
-        <View style={{flex:1}}>
-            <View style={{flex:0.1}}></View>
+        <View style={globalStyles.container_main}>
+            <View style={{}}></View>
             { curImageIndx == -1 &&
                 <Camera type={type} style={{flex:1}} ref={ref=> setCamera(ref)}></Camera>
             }
@@ -124,43 +137,64 @@ const EmergencyHome = ()=>{
 
                 </View>    
             }
+            <View style={{backgroundColor:'#000',
+                        flexDirection:'row',
+                        paddingVertical:6,
+                        justifyContent:'space-between',
+                        alignItems:'center'
 
-            <View style={{flex:0.28}}>
-                <View style={{flexDirection:"row"}}>
-                    <View style={[styles.vw_btn,{flexDirection:'row', flex:0.7, alignItems:'center'}]}>
-                        <Ionicons name="chevron-back-sharp" size={26} color="black" />
-                        <Text style={styles.vw_text}>Back</Text>
-                    </View>
-                    <View style={[styles.vw_btn,{flex:1}]}>
-                        <TouchableOpacity onPress={takePic}>
-                            {/* <MaterialIcons name="camera" size={34} color="red" /> */}
-                            <View style={{flexDirection:'row', justifyContent:'space-evenly'}}>
-                                <View style={styles.vw_capture_icon}></View>
-                           
-                            </View>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={[styles.vw_btn,{flexDirection:'row', flex:0.25, alignItems:'center'}]}>
-                        <TouchableOpacity onPress={()=> type == CameraType.back? setType(CameraType.front):setType(CameraType.back)}>
-                            <MaterialIcons name="flip-camera-android" size={25}
-                                            style={{alignSelf:"center"}}
-                                        color="black" />
-                        </TouchableOpacity>
-                    </View>
-                    <View style={[styles.vw_btn, {flexDirection:'row', flex:0.7, alignItems:'center', backgroundColor:'#ffe7ad'}]}>
-                        <MaterialIcons name="save-alt" size={26} color="black" style={{alignContent:'center'}} />
-                        <Text style={styles.vw_text}>Save</Text>
-                    </View>
+                }}>
+                <View style={{flex:0.5, alignItems:'stretch', justifyContent:'center'}}>
+                    <LnkBtnCard 
+                    iconName={'report'}
+                    iconSize={25}
+                    iconColor={'yellow'}
+                    label="View Reported"
+                    labelColor={'#ededed'}
                     
+                    />
+
                 </View>
+                <View style={{flex:1}}>
+                    <TouchableOpacity onPress={takePic}>
+                        {/* <MaterialIcons name="camera" size={34} color="red" /> */}
+                        
+                            <View style={styles.vw_capture_icon}></View>
+                        
+                        
+                    </TouchableOpacity>
+                </View>
+                <View style={{flex:0.5, alignItems:'stretch'}}>
+                    <Pressable onPress={()=> type == CameraType.back? setType(CameraType.front):setType(CameraType.back)}>
+                        <MaterialIcons name="flip-camera-android" size={30}
+                                        style={{alignSelf:"center"}}
+                                    color="gray" />
+                    </Pressable>
+                </View>
+            </View>
+
+
+
+            <View style={{flexDirection:'row', backgroundColor:'#f9f9f9'}}>
                 <FlatList 
                     horizontal
                     showsHorizontalScrollIndicator={false}
                     data={image}
                     keyExtractor={(item, index) => index}
                     renderItem={renderItem}
+                    ListEmptyComponent={emptyTemplate}
                 />
+                <View style={{marginHorizontal:0, justifyContent:'center',
+                     alignItems:'center',
+                     borderLeftWidth:1,
+                     borderColor:'#ededed',
+                     paddingHorizontal:10
+                     }}>
+                    <MaterialIcons name="save-alt" size={26} color="black" style={{alignContent:'center'}} />
+                    <Text style={styles.vw_text}>Save</Text>
+                </View>
             </View>
+
             {/* {image && 
                 image.map((item) =>{
                     return(
@@ -180,13 +214,14 @@ const styles = StyleSheet.create({
 
     },
     vw_capture_icon:{
-        backgroundColor:'#3289ed',
+        backgroundColor:'#a6d5ed',
         borderWidth:5,
-        borderColor:"#79b4f7",
-        height:40,
-        width:40,
-        borderRadius:20,
-        alignSelf:'center'
+        borderColor:"#a3bbc7",
+        height:60,
+        width:60,
+        borderRadius:30,
+        alignSelf:'center',
+        
     },
     vw_btn:{
         borderRightWidth:1,

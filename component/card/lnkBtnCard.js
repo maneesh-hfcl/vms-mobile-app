@@ -6,7 +6,7 @@ export const LnkBtnCard = ({children,label, iconSize, iconName, iconColor, press
     return(
         <View style={[styles.lnk_outer,color?{backgroundColor:color}:{}]}>
             <Pressable onPress={() => {pressLnkHandler(label)}} style={{flexDirection:'row', alignItems:'center'}} >
-                <View style={{borderRadius:20, borderWidth:1, marginHorizontal:3,
+                <View style={{borderRadius:20, borderWidth:0, marginHorizontal:3,
                     borderColor:'#c7c7c7'
                 }}>
                 <MaterialIcons name={iconName} size={iconSize} color={iconColor} 
