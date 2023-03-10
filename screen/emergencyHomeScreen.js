@@ -113,13 +113,13 @@ const EmergencyHome = ({navigation})=>{
                     videos : image
                 },
                 {
-                    text: "Rust in tracks",
+                    text: "Rust in tracks1",
                     location:"Outer station",
                     images : image,
                     videos : image
                 },
                 {
-                    text: "Accident occured in platform 3",
+                    text: "A railway track or railroad track (American English), also known as a train track, permanent way or simply track, is the structure on a railway or railroad",
                     location:"Unknow",
                     images : image,
                     videos : image
@@ -139,7 +139,8 @@ const EmergencyHome = ({navigation})=>{
     }
 
     const pressShowModal = ()=>{
-        navigation.navigate("AddEmergency")
+   //     Alert.alert('showing modal')
+        navigation.navigate("AddEmergency",{imgCount:image.length, vidCount:image.length})
     }
 
     return(

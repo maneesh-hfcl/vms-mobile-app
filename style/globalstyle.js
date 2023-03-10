@@ -127,4 +127,17 @@ export const globalStyles = StyleSheet.create({
         marginVertical:5,
       //  textDecorationLine:"underline"
     },
+    modal_dialog:{
+        borderTopLeftRadius:15,
+        borderTopRightRadius:15,
+        backgroundColor:'#fff',
+          flex:1,
+   //   borderTopRightRadius:10,
+
+      borderWidth:1,
+      borderColor:"#e7e7e7",
+      paddingHorizontal:10,
+      paddingVertical:0,
+      
+  }
 })

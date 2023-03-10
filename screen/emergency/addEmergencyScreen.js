@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
-import {View, Text, StyleSheet, Pressable, Dimensions, TextInput, TouchableOpacity} from 'react-native'
+import {View, Text, StyleSheet, Pressable, Dimensions, TextInput, TouchableOpacity, KeyboardAvoidingView, Keyboard, ActivityIndicator} from 'react-native'
 import { globalStyles } from "../../style/globalstyle";
 import MapView, {Marker} from "react-native-maps"
 import * as Location from 'expo-location'
+import { Entypo, FontAwesome } from '@expo/vector-icons';
 
-const AddEmergencyScreen = ({navigation})=>{
+const AddEmergencyScreen = ({navigation, route})=>{
     const[location, setLocation] = useState(null);
+    const{imgCount, vidCount} =  route.params;
     const[mapLoc, setMapLoc] = useState(null)
 
     useEffect(()=>{
@@ -26,6 +28,7 @@ const AddEmergencyScreen = ({navigation})=>{
                 Alert.alert('Permission not granted for location access')
             }
         })()
+        console.log("Imagecount" + imgCount)
     },[])
     
     const pressCloseDialog = ()=>{
@@ -35,25 +38,66 @@ const AddEmergencyScreen = ({navigation})=>{
 
     return(
         <View style={[{ flex:1}]}>
-            <Pressable onPress={pressCloseDialog} style={{position:"absolute",backgroundColor:'black', height:'100%'
+            
+            <Pressable onPress={Keyboard.dismiss} style={{position:"absolute",backgroundColor:'black', height:'100%'
                 , width:'100%', opacity:0.4}}>
+                
             </Pressable>
-            <View style={{flex:0.25}}/>
-            <View style={[styles.modal_dialog,{ flex:0.75}]}>
+            <View style={{marginTop:110, alignItems:'center', marginHorizontal:10, marginVertical:10}}>
+                <FontAwesome onPress={pressCloseDialog} name="close" size={30} color="#fff" />
+            </View>
+            <View style={[styles.modal_dialog,{ flex:1, marginTop:0}]}>
+               
+                    <View>
+
+                <View style={{marginHorizontal:0, marginTop:20}}>
+                    <View style={{}}>  
+
+                    <Text style={{marginVertical:3}}>Description*</Text>
+                    <TextInput style={[globalStyles.text_input,
+                                    {width:Dimensions.get('screen').width-20, 
+                                    height:100, borderWidth:1, textAlignVertical:'top'}]} 
+                                multiline 
+                                placeholder="Enter description of incident"
+                                />
+                    <Text style={[ {marginTop:10, marginVertical:3}]}>Location</Text>
+                    <TextInput placeholder="Enter location name" 
+                        style={[globalStyles.text_input,{borderWidth:1}]} />
+                    <View style={{flexDirection:'row', marginTop:15, alignItems:'center'}}>
+                        <Text style={{}}>Attachment</Text>
+                        <View style={{ flexDirection:'row', justifyContent:'space-around', flex:1}}>
+                            <View style={{flexDirection:'row', alignItems:'flex-end', marginLeft:20}}>
+                                <Entypo name="image" size={24} color="green" />
+                                <Text style={{marginHorizontal:5, color:'gray'}}>Total: {imgCount}</Text>
+                            </View>
+                            <View style={{flexDirection:'row', alignItems:'flex-end'}}>
+                                    <Entypo name="video" size={24} color="red" />
+                                    <Text style={{marginHorizontal:5, color:'gray'}}>Total: {vidCount}</Text>
+                            </View>
+                        </View>
+                    </View>
+                    
+                   
+                </View>
+                { !mapLoc &&
+                    <View style={{marginVertical:20, justifyContent:'center', alignItems:'center'}}> 
+                        <ActivityIndicator />
+                        <Text style={{color:'gray', marginVertical:10}}>Loading map...please wait</Text>
+                    </View>
+                }
                 {
                     mapLoc && 
-                    <View>
-                        <View style={{borderWidth:0, borderColor:'#e7e7e7', 
+                <View style={{borderWidth:0, borderColor:'#e7e7e7', 
                             alignSelf:'stretch', 
                             justifyContent:'center',
                             alignItems:'center',
-                            marginVertical:5,
+                            marginVertical:0,
                             width: Dimensions.get('screen').width-20,
-                             height:180,
-
+                             height:200,
+                            marginLeft:0
                             }}
                         >
-                        <MapView
+                        <MapView 
                         initialRegion={mapLoc} 
                         style={{alignSelf:'stretch', 
                         flex:1, borderWidth:1, borderColor:'#e5e5e5', marginVertical:20}}
@@ -64,27 +108,22 @@ const AddEmergencyScreen = ({navigation})=>{
                             />
                         
                         </MapView>
-
+                        
+                        <Text style={globalStyles.text_form}>Coordinates (lat - long)</Text>
+                        <Text>{mapLoc.latitude.toFixed(4)} - {mapLoc.longitude.toFixed(4)} </Text>
+                
                 </View>
-                    <Text>Location</Text>
-                    <TextInput placeholder="Enter location name" 
-                        style={[globalStyles.text_input,{borderWidth:1}]} />
-                    <Text style={{marginTop:10
-                    }}>Description*</Text>
-                    <TextInput style={[globalStyles.text_input,
-                                    {width:Dimensions.get('screen').width-20, 
-                                    height:100, borderWidth:1, textAlignVertical:'top'}]} 
-                                multiline 
-                                placeholder="Enter description of incident"
-                                />
+            }
+                </View>
                     <View style={{marginVertical:20}}>
                         <TouchableOpacity style={globalStyles.form_btn}>
-                            <Text style={[globalStyles.form_btn_text,{padding:5}]}>Save All</Text>
+                            <Text style={[globalStyles.text_btn,{padding:5}]}>Save All</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
-                }
+                
             </View>
+
         </View>
     )
 }
@@ -93,7 +132,8 @@ export default AddEmergencyScreen;
 
 const styles=StyleSheet.create({
     modal_dialog:{
-        borderRadius:25,
+        borderTopLeftRadius:15,
+        borderTopRightRadius:15,
         backgroundColor:'#fff',
           flex:1,
    //   borderTopRightRadius:10,
@@ -101,7 +141,7 @@ const styles=StyleSheet.create({
       borderWidth:1,
       borderColor:"#e7e7e7",
       paddingHorizontal:10,
-      paddingVertical:10,
+      paddingVertical:0,
       
   }
 })
