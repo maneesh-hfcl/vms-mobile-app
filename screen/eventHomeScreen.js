@@ -264,7 +264,6 @@ const EventHomeScreen = ({navigation, route})=>{
                         style={[globalStyles.form_btn, {
                          marginHorizontal:10
                         }]}>
-                            
                             <Text style={[globalStyles.text_btn,{padding:3}]}>Apply filter</Text>
                         </TouchableOpacity>
                         </View>

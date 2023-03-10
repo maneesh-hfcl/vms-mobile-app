@@ -4,9 +4,10 @@ import { Camera, CameraType } from 'expo-camera'
 import { MaterialIcons, Ionicons, FontAwesome } from '@expo/vector-icons';
 import { globalStyles } from '../style/globalstyle';
 import { LnkBtnCard } from '../component/card/lnkBtnCard';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 //import { globalStyles } from '../style/global';
 
-const EmergencyHome = ()=>{
+const EmergencyHome = ({navigation})=>{
     const[hasPermission, setHasPermission] = useState(null)
     const[type, setType] = useState(CameraType.back)
     const[camera, setCamera] = useState(null)
@@ -63,16 +64,16 @@ const EmergencyHome = ()=>{
                     <TouchableOpacity onPress={() => imgPress(item, index)}>
                         {
                             (curImageIndx == index)?(
-                            <Image source={{uri:item}} style={{width:50, 
-                                height:50, borderRadius:25, borderWidth:3,
+                            <Image source={{uri:item}} style={{width:60, 
+                                height:60, borderRadius:30, borderWidth:3,
                                 borderColor:'orange',
                                 marginHorizontal:2
                             
                             }} />
                             ):
                             (
-                                <Image source={{uri:item}} style={{width:50, 
-                                    height:50, borderRadius:25,
+                                <Image source={{uri:item}} style={{width:60, 
+                                    height:60, borderRadius:30,
                                     borderWidth:3, borderColor:'#fff',
                                     marginHorizontal:2
                                 }} />
@@ -95,6 +96,50 @@ const EmergencyHome = ()=>{
                 <Text style={[globalStyles.text_form,{fontSize:12}]}>No image/video captured</Text>
             </View>
         )
+    }
+
+    const pressLnkViewReport = async ()=>{
+        await savePicturesAsync()
+        navigation.navigate("EmergencyReport")
+    }
+
+    const savePicturesAsync = async ()=>{
+        try{
+            const jsonVal = JSON.stringify( [
+                {
+                    text: "Accident occured in platform 3",
+                    location:"Unknow",
+                    images : image,
+                    videos : image
+                },
+                {
+                    text: "Rust in tracks",
+                    location:"Outer station",
+                    images : image,
+                    videos : image
+                },
+                {
+                    text: "Accident occured in platform 3",
+                    location:"Unknow",
+                    images : image,
+                    videos : image
+                },
+                {
+                    text: "Rust in tracks",
+                    location:"Outer station",
+                    images : image,
+                    videos : image
+                }
+            ])
+            await AsyncStorage.setItem('@stored_img', jsonVal)
+        }
+        catch(e){
+
+        }
+    }
+
+    const pressShowModal = ()=>{
+        navigation.navigate("AddEmergency")
     }
 
     return(
@@ -146,12 +191,12 @@ const EmergencyHome = ()=>{
                 }}>
                 <View style={{flex:0.5, alignItems:'stretch', justifyContent:'center'}}>
                     <LnkBtnCard 
-                    iconName={'report'}
-                    iconSize={25}
-                    iconColor={'yellow'}
-                    label="View Reported"
-                    labelColor={'#ededed'}
-                    
+                        iconName={'report'}
+                        iconSize={25}
+                        iconColor={'yellow'}
+                        label="View Reported"
+                        labelColor={'#ededed'}
+                        pressLnkHandler={pressLnkViewReport}
                     />
 
                 </View>
@@ -190,8 +235,10 @@ const EmergencyHome = ()=>{
                      borderColor:'#ededed',
                      paddingHorizontal:10
                      }}>
-                    <MaterialIcons name="save-alt" size={26} color="black" style={{alignContent:'center'}} />
-                    <Text style={styles.vw_text}>Save</Text>
+                    <Pressable onPress={pressShowModal}>                     
+                        <MaterialIcons name="save-alt" size={26} color="black" style={{alignContent:'center'}} />
+                        <Text style={styles.vw_text}>Save</Text>
+                    </Pressable>
                 </View>
             </View>
 
