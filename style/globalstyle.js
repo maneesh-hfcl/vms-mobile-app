@@ -11,7 +11,7 @@ export const globalStyles = StyleSheet.create({
 
     },
     container_login_view:{
-        padding:30, 
+        padding:0, 
        flex:1,
 
     },
@@ -139,5 +139,28 @@ export const globalStyles = StyleSheet.create({
       paddingHorizontal:10,
       paddingVertical:0,
       
+  },
+  container_user_detail:{
+    flex:1
+  },
+  container_user_detail_section:
+  {
+    borderBottomWidth:1,
+    borderBottomColor:"#ededed",
+    marginHorizontal:5,
+    paddingVertical:0,
+    alignItems:'flex-end'
+  },
+  vw_logout:{
+    backgroundColor:'#f9f9f9',
+    borderTopWidth:1,
+    borderColor:'#e7e7e7',
+    alignItems:'center',
+    paddingVertical:15
+  },
+  lnk_btn:{
+    color:'#3c698c',
+    fontWeight:'bold',
+    fontSize:15,
   }
 })

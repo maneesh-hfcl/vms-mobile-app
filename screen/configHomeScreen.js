@@ -6,6 +6,8 @@ import { MaterialIcons, Foundation, FontAwesome,Ionicons, FontAwesome5 } from '@
 import * as Device from 'expo-device'
 import  Constants  from "expo-constants";
 import * as Cellular from 'expo-cellular'
+import DesignCirComponent from "../component/designCirComponent";
+import DesignTriComponent from "../component/designTriComponent";
 
 const ConfigHomeScreen = ({navigation})=>{
 
@@ -25,7 +27,7 @@ const ConfigHomeScreen = ({navigation})=>{
 
     return(
         <View style={[globalStyles.container_login_view, {backgroundColor:'#fff'}]}>
-            <View>
+            <View style={{marginHorizontal:20, marginTop:20, flex:1}}>
                 <MenuCardComponent menuText='Server' onMenuPress={() => pressMenuHandler('server')}>
                     <Ionicons name="server" size={24} color="black" />
                 </MenuCardComponent>
@@ -43,6 +45,7 @@ const ConfigHomeScreen = ({navigation})=>{
                 </MenuCardComponent>
 
             </View>
+            <DesignTriComponent />
         </View>
     )
 }

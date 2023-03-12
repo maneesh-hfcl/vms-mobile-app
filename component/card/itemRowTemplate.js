@@ -20,12 +20,12 @@ const styles = StyleSheet.create({
         flexDirection:'row', 
         backgroundColor:'#f1f1f1',
         justifyContent:'center',
-        marginVertical:1,
+        marginVertical:0.5,
 
 
     },
     text_left_vw:{
-        borderRightWidth:2,
+        borderRightWidth:1,
         borderRightColor:'#fff',
         flex:0.4,
         alignItems:'flex-end'
@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
         marginHorizontal:10,
         marginVertical:5,
         fontSize:15,
+        color:'#202020'
     },
     text_right:{
         flex:0.6,

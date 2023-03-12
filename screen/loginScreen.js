@@ -9,8 +9,9 @@ import { FontAwesome, MaterialCommunityIcons, Entypo } from '@expo/vector-icons'
 const logoIcon = require('../assets/icons/logo.png')
 import  Constants  from "expo-constants";
 import * as SplashScreen from 'expo-splash-screen';
-import Svg, { Circle, Rect, Path } from 'react-native-svg';
+
 import TextInputTemplate from "../component/card/form/textInputTemplate";
+import DesignCirComponent from "../component/designCirComponent";
 
 
 //SplashScreen.preventAutoHideAsync();
@@ -106,11 +107,14 @@ const LoginScreen = ({navigation})=>{
             
 
                 <View style={[globalStyles.container_login_view
-                    ,{backgroundColor:'#ededed',
-                        borderRadius:10
+                    ,{backgroundColor:'#fff',
+                        borderRadius:10,
+                        
                     }]}> 
+                    <View style={{marginHorizontal:20, marginTop:10}}>
                     <View style={{marginVertical:30}}>
-                        <Text style={{fontSize:25, fontWeight:'bold', color:'#e37734', marginHorizontal:10}}>Login</Text>
+                        <Text style={{fontSize:25, fontWeight:'bold', color:'#e37734', 
+                        marginHorizontal:10}}>Sign in</Text>
                         <Text style={{fontSize:13, color:'#856d39',marginVertical:10, marginHorizontal:10}}>
                             Enter your credential to use the application
                         </Text>
@@ -158,17 +162,18 @@ const LoginScreen = ({navigation})=>{
                     <Text>Password</Text>
                     <TextInput style={[globalStyles.text_input]} /> */}
                     <TouchableOpacity style={[globalStyles.touchable_btn,
-                            {marginVertical:30}
+                            {marginVertical:40}
                         ]} 
                         onPress={pressHandler}>
                         <Text style={globalStyles.text_btn}>Go</Text>
                     </TouchableOpacity>
-
+                    </View>
                 {/* </View> */}
-
-            
-
-                </View>
+                    
+                
+                <DesignCirComponent />     
+                </View>   
+                
                 <FooterScreen />
         </View>
         

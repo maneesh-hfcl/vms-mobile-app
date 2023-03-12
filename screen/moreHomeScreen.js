@@ -4,9 +4,10 @@ import {View, Text, StyleSheet, TouchableOpacity, Alert} from 'react-native'
 import {WebView} from "react-native-webview";
 import { globalStyles } from "../style/globalstyle";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import UserDetailComponent from "../component/more/usrDetailComponent";
+import Svg, { Circle, Rect } from 'react-native-svg';
 
-
-const MoreHomeScreen = ({navigation})=>{
+const MoreHomeScreen = ({navigation, props})=>{
     const[dataBlob, setDataBlob] = useState([])
     const[htmlCode, setHtmlCode] = useState('')
     const htmlPage = require("../html/video.html")
@@ -116,10 +117,14 @@ const MoreHomeScreen = ({navigation})=>{
 
     return(
         <View style={globalStyles.container_main}>
-            <Text style={[globalStyles.text,{alignSelf:'center'}]}>Click to logout from the application</Text>
-            <TouchableOpacity style={[globalStyles.touchable_btn, globalStyles.touchable_btn_logout]} onPress={pressHandler}>
-                <Text style={globalStyles.text_btn}>Logout</Text>
+            <UserDetailComponent />
+            <View style={{flex:1}}></View>
+            <View style={globalStyles.vw_logout}>
+            <TouchableOpacity onPress={pressHandler}>
+                <Text style={globalStyles.lnk_btn}>Sign out</Text>
+                
             </TouchableOpacity>
+            </View>
         
         </View>
     )
