@@ -22,8 +22,11 @@ export const LoadApiData = async(urlpath, type)=>{
 
 export const LoadApiPostData = async(urlpath, type, data)=>{
     try {
+            console.log("Inside LoadApiPostData");
             let uri = Config.ApiUrl + `${urlpath}`
+            console.log("goo")
             console.log(uri);
+            
             console.log(JSON.stringify(data));
             const response = await fetch(
                 uri,
@@ -35,7 +38,9 @@ export const LoadApiPostData = async(urlpath, type, data)=>{
                     body: JSON.stringify(data)
                 }
             );
-            return await response.json();
+            
+
+            return await response.json()
         //            return json.movies;
         } catch (error) {
             console.error(error);

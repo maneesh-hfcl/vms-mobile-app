@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import {View, Text, StyleSheet, Image, TextInput, TouchableOpacity, Alert, Dimensions, TextInputComponent, TouchableWithoutFeedback, KeyboardAvoidingView} from 'react-native';
+import {View, Text, StyleSheet, Image, TextInput, TouchableOpacity, Alert, Dimensions, ActivityIndicator , KeyboardAvoidingView} from 'react-native';
 import HeaderCardComponent from "../component/card/headerCard";
 import FooterScreen from "../component/footer";
 import { globalStyles } from "../style/globalstyle";
@@ -12,6 +12,10 @@ import * as SplashScreen from 'expo-splash-screen';
 
 import TextInputTemplate from "../component/card/form/textInputTemplate";
 import DesignCirComponent from "../component/designCirComponent";
+import { Formik } from "formik";
+import { LoadApiPostData } from "../shared/fetchUrl";
+import MsgCardComponent from "../component/card/msgCard";
+import DesignTriComponent from "../component/designTriComponent";
 
 
 //SplashScreen.preventAutoHideAsync();
@@ -20,29 +24,84 @@ const WIDTH = Dimensions.get('screen').width;
 const LoginScreen = ({navigation})=>{
     const[isAppReady, setIsAppReady] = useState(false)
     const[focusName, setFocusName] = useState('')
+    const[isValid, setIsValid] = useState(true);
+
     useEffect(()=>{
         console.log(Constants.sessionId)
-        prepare()
+        getLoginFrmStorage()
     },[])
 
-    async function prepare(){
+    async function getLoginFrmStorage(){
         try
         {
-//            const value = AsyncStorage.getItem('@reg_devc')
-//            if(value)
-            await new Promise(resolve => setTimeout(()=>{setIsAppReady(true)}, 1000));
+            let user = await AsyncStorage.getItem("@user")
+            if(user!= null)
+            {
+                pressChkDvHandler();
+            }
+            else{
+                setIsAppReady(true)
+            }
         }
         catch(e){
             console.log(e)
         }
         finally{
-            setIsAppReady(true)
+
         }
     }
 
-    const pressHandler = ()=>{
-        console.log(focusName)
-        navigation.navigate("RegDevice");
+    const pressChkDvHandler = async ()=>{
+     //   console.log(focusName)
+        try{
+            let chkDevReg = await AsyncStorage.getItem("@reg_dev")
+            console.log("checking device registration");
+            console.log(chkDevReg);
+            setIsAppReady(true)
+            if(chkDevReg == null)
+            {
+                console.log("inside if chkdevreg")
+                navigation.navigate("RegDevice")
+            }
+            else{
+                console.log("after checkdev reg")
+               // Alert.alert("you are here")
+                navigation.navigate("Home")
+            }
+
+        }
+        catch(e){
+
+        }
+
+    }
+
+    const onPressSubmit = async (values, action)=>{
+        Alert.alert("hello")
+        setIsValid(true);
+        let urlpath = "/login";
+        values.username = 'Administrator',
+        values.password = 'I0wWt9ngHKfO6BJdS8fqaA=='
+        
+        let jsonData = await LoadApiPostData(urlpath,"POST", values);
+        action.setSubmitting(false);
+        if(jsonData != "error")
+        {
+           // setIsValid(true);
+           try{
+            await AsyncStorage.setItem("@user", JSON.stringify(jsonData))
+            pressChkDvHandler()
+           }
+           catch(e){
+
+           }
+
+        }
+        else{
+            console.log("you have got an error");
+            setIsValid(false);
+        }
+
     }
 
 
@@ -68,8 +127,10 @@ const LoginScreen = ({navigation})=>{
     }
 
     return(
-        <View style={{flex:1, backgroundColor:"#2a2e36"}} onLayout={LayoutRootView}>  
-                <View style={globalStyles.container_screen}>
+        <View style={{flex:1, backgroundColor:"#fff"}} onLayout={LayoutRootView}>  
+                <View style={[globalStyles.container_screen, {
+
+                }]}>
                     <HeaderCardComponent>
                         <Image source={logoIcon} />
                         
@@ -77,103 +138,110 @@ const LoginScreen = ({navigation})=>{
                     
                 </View>
 
-                {/* <Svg height="50%" width="100%" viewBox="0 0 100 400">
-                    <Circle cx="0" cy="0" r="90"  stroke="blue" strokeWidth="2.5" fill="green" />
-                    <Rect x="15" y="15" width="70" height="70" stroke="red" strokeWidth="2" fill="yellow" />
-                </Svg> */}
-                {/* <Svg height={100} width={WIDTH}>
-          {/* <Path
-            d="M-17.5 378.5C31.5 32.5 302.5 463 375 89C447.5 -285 375 644 
-                375 644H0C0 644 -66.5 724.5 -17.5 378.5Z" // put your path here
-            fill="#f5e9d0"
-            stroke="blue"
-          />   
-
-        </Svg> */}
-            {/* <View style={{
-                width:WIDTH,
-                height:'100%',
-                backgroundColor:'#fff',
-                borderRadius:30,
-                
-                position:'absolute',
-                zIndex:-1,
-                top:100,
-                left:0
-            }}>
-
-            </View> */}
-
-            
-
                 <View style={[globalStyles.container_login_view
                     ,{backgroundColor:'#fff',
-                        borderRadius:10,
-                        
+                    borderTopWidth:5,
+                    borderColor:'#fc8f47',flex:1
                     }]}> 
                     <View style={{marginHorizontal:20, marginTop:10}}>
-                    <View style={{marginVertical:30}}>
+                    <View style={{marginVertical:15}}>
                         <Text style={{fontSize:25, fontWeight:'bold', color:'#e37734', 
                         marginHorizontal:10}}>Sign in</Text>
                         <Text style={{fontSize:13, color:'#856d39',marginVertical:10, marginHorizontal:10}}>
-                            Enter your credential to use the application
+                            Enter your credentials to use the application
                         </Text>
                     </View>
-                {/* <View style={{backgroundColor:'#fff',flex:1}}> */}
-                     
-                    <View style={{flexDirection:'row', alignItems:'flex-end', 
-                            justifyContent:'flex-end', marginVertical:10,}}> 
-                        <FontAwesome name="user-circle" size={23} color="green" 
+
+                    <Formik
+                        initialValues={{
+                            username:'',
+                            password: ''
+                        }}
+                        onSubmit = {(values, action)=>{
+                            console.log('submitting values')
+                            onPressSubmit(values, action);
+                           // console.log(JSON.stringify(values))
+                        }}
+                    >
+                        {(formikProps) =>(
+                        <View>
+                        <View style={{flexDirection:'row', alignItems:'flex-end', 
+                            justifyContent:'flex-end', marginVertical:0,}}> 
+                            <FontAwesome name="user-circle" size={22} color="green" 
                            style={{marginVertical:0, flex:0.1,
+                           
                             marginHorizontal:10}}
                            />
-                               {/* <TextInput 
-                                   style={[globalStyles.text_input,{flex:1, marginHorizontal:10}
-                                   ,focusName=="username"?{borderColor:'#0981e3'}:{}]} 
-                                   onFocus={()=> setFocusName('username') }
-                                   defaultValue=''                         
-                               /> */}
                            <View style={{flex:1}}>
-                               <TextInputTemplate isSelect={focusName=="username"} setFocusName={() => {
+                               <TextInputTemplate isSelect={focusName=="username"} 
+                               setChangeText = {formikProps.handleChange("username")}
+                               setFocusName={() => {
                                    setFocusName("username")}}  />
                            </View> 
                        </View>
 
                        <View style={{flexDirection:'row', alignItems:'flex-end', 
                                     justifyContent:'flex-end',
-                                    marginVertical:10}}>
-                        <FontAwesome name="lock" size={24} color="#9c172d" 
-                        style={{marginVertical:0, flex:0.1,
-                            marginHorizontal:10}}
-                        />
-                        <View style={{flex:1}}>
-                            <TextInputTemplate isSelect={focusName == "password"} 
-                                setFocusName={() => setFocusName("password")} password={true} />
+                                    marginVertical:15}}>
+                            <FontAwesome name="lock" size={23} color="#9c172d" 
+                            style={{marginVertical:0, flex:0.1,
+                                marginHorizontal:10}}
+                            />
+                            <View style={{flex:1}}>
+                                <TextInputTemplate isSelect={focusName == "password"} 
+                                    setChangeText={formikProps.handleChange("password")}
+                                    setFocusName={() => setFocusName("password")} password={true} />
+                            </View>
+                        </View> 
+                        <View style={{marginBottom:0, marginTop:10}}>
+                        
+                           
+                                <TouchableOpacity style={[globalStyles.touchable_btn]} 
+                                onPress={formikProps.handleSubmit}>
+                                    <Text style={globalStyles.text_btn}>Go</Text>
+                                </TouchableOpacity>
+
+                            
+                        
+
+                    {
+                        formikProps.isSubmitting && 
+                        <View>
+                            <MsgCardComponent msg="Validating user....">
+                                <ActivityIndicator  />
+                            </MsgCardComponent>
                         </View>
-                    </View> 
+                    }
+                    {
+                        !isValid &&
+                        <View>
+                            <MsgCardComponent msg="Invalid user">
+                                
+                            </MsgCardComponent>
+                        </View> 
+                        
+                    }
 
 
-                    {/* <Text style={{fontSize:25, fontWeight:'bold', color:'#e37734'}}>Login</Text>
-                    <Text style={{fontSize:13, color:'#856d39',marginVertical:10}}>
-                        Enter your credential to use the application
-                    </Text> 
-                    <Text>Username</Text>
-                    <TextInput style={[globalStyles.text_input]} />
-                    <Text>Password</Text>
-                    <TextInput style={[globalStyles.text_input]} /> */}
-                    <TouchableOpacity style={[globalStyles.touchable_btn,
-                            {marginVertical:40}
-                        ]} 
-                        onPress={pressHandler}>
-                        <Text style={globalStyles.text_btn}>Go</Text>
-                    </TouchableOpacity>
+                        </View>
+
                     </View>
+
+                        )}
+                    </Formik>
+                   
+
+                    
+
                 {/* </View> */}
                     
-                
-                <DesignCirComponent />     
-                </View>   
-                
+                </View>
+
+
+                </View> 
+
+                <DesignTriComponent /> 
+
                 <FooterScreen />
         </View>
         

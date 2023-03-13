@@ -11,6 +11,8 @@ import LoadingDialogComponent from "../component/loadingDialogComponent";
 import * as Device from 'expo-device'
 import * as Notifications from 'expo-notifications'
 import {useForm, Controller} from 'react-hook-form'
+import DesignTriComponent from "../component/designTriComponent";
+import SmsComponent from "../component/smsComponent";
 
 
 Notifications.setNotificationHandler({
@@ -88,6 +90,7 @@ const RegDeviceScreen = ({navigation})=>{
     const[notification, setNotification] = useState(false)
     const notificationListener = useRef()
     const responseListener = useRef()
+    const[showComment, setShowComment] = useState(false)
     
    // const {register, handleSubmit, setValue, errors} = useForm();
    const { control, handleSubmit, formState: { errors } } = useForm({
@@ -149,7 +152,7 @@ const RegDeviceScreen = ({navigation})=>{
 
     const pressLnkHandler = async ()=>{
         try{
-            await AsyncStorage.setItem("@reg_dev", Constants.sessionId.toString())
+            await AsyncStorage.setItem("@reg_dev", expoPushToken);
             navigation.navigate('Login')
         }
         catch(e){
@@ -166,30 +169,34 @@ const RegDeviceScreen = ({navigation})=>{
     return(
         
         <View style={globalStyles.container_main}>
-            
                 
                 <View style={[globalStyles.container_screen]}>
                     <HeaderCardComponent>
                         <Image source={logoIcon} />
                     </HeaderCardComponent>
                 </View> 
+                {/* <SmsComponent /> */}
                 <View style={{justifyContent:'center', alignItems:'center', marginVertical:30, marginHorizontal:30}}>
                     {
                         isLoading?(
                     <View>    
-                    <Text style={{textAlign:'justify', marginVertical:20, marginHorizontal:20}}>
+                    <Text style={[globalStyles.text, {textAlign:'justify', marginVertical:20, marginHorizontal:20}]}>
                         This is the first time, you are login from this device.
-                        Kindly register this device to proceed further.
+                        Kindly register the device to proceed further.
                     </Text>
                 
-                    <View style={{alignItems:'center', marginVertical:30}}>
-                        <MaterialIcons name="device-unknown" size={34} color="gray" style={{marginVertical:25}} />
-                        <LnkBtnCard label={'Register Device'} iconColor='#0646b8'
-                        iconName={'app-registration'}
-                        iconSize={24}
-                        labelColor={'black'}
-                        
-                        color={'white'} pressLnkHandler={pressLnkHandler} />
+                    <View style={{alignItems:'center', marginVertical:20,
+                
+                }}>
+                        <MaterialIcons name="device-unknown" size={40} color="gray" style={{marginVertical:25}} />
+                        <View style={{borderWidth:1, borderRadius:15, borderColor:'#c7c7c7'}}>
+                            <LnkBtnCard label={'Register Device'} iconColor='#0646b8'
+                            iconName={'app-registration'}
+                            iconSize={24}
+                            labelColor={'black'}
+                            
+                            color={'white'} pressLnkHandler={pressLnkHandler} />
+                        </View>
                     </View>
                     </View>
                         ):(
@@ -201,6 +208,8 @@ const RegDeviceScreen = ({navigation})=>{
                     }
                 </View>
 
+{ showComment &&
+            <View>
                 <View>
                     <Text>Your Expo push token: {expoPushToken}</Text>
                     <View style={{alignItems:'center', justifyContent:'center'}}>
@@ -217,8 +226,13 @@ const RegDeviceScreen = ({navigation})=>{
                 >
 
                 </Button>
-
-         </View>       
+            </View>
+}
+            <View style={{flex:1}}>
+                <DesignTriComponent />
+            </View>
+         </View>     
+                  
     )
 }
 

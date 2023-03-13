@@ -47,8 +47,15 @@ const MoreHomeScreen = ({navigation, props})=>{
 
     },[])
 
-    const pressHandler = ()=>{
-          navigation.navigate('Login');
+    const pressHandler = async()=>{
+        try{
+            await AsyncStorage.removeItem('@user')            
+            navigation.navigate('Login');
+        }
+        catch(e){
+
+        }
+
     }
 
     const pressHandlerAPI = ()=>{
@@ -114,11 +121,27 @@ const MoreHomeScreen = ({navigation, props})=>{
         }
     }
 
+    const pressClearHandler = async()=>{
+        try{
+            await AsyncStorage.removeItem("@reg_dev")
+        }
+        catch(e){
+
+        }
+    }
+
 
     return(
         <View style={globalStyles.container_main}>
             <UserDetailComponent />
-            <View style={{flex:1}}></View>
+            <View style={{flex:1}}>
+
+            <TouchableOpacity onPress={pressClearHandler}>
+                <Text style={[globalStyles.lnk_btn,{marginTop:20, marginLeft:50}]}>Clear storage key</Text>
+                
+            </TouchableOpacity>
+
+            </View>
             <View style={globalStyles.vw_logout}>
             <TouchableOpacity onPress={pressHandler}>
                 <Text style={globalStyles.lnk_btn}>Sign out</Text>

@@ -9,13 +9,13 @@ const DesignTriComponent = ()=>{
              backgroundColor:'transparent',opacity:0.5,
                 }} viewBox="0 0 90 90">
                 <Polygon
-                points="100,85 120,140 -20,60"
+                points="100,85 120,140 -35,60"
                 fill="#d2f5a4"
                 stroke="red"
                 strokeWidth="0"
                 />
                 <Polygon
-                points="100,90 0,140 100,50"
+                points="190,100 0,140 140,20"
                 fill="#fad15f"
                 stroke="purple"
                 strokeWidth="0"

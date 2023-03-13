@@ -6,7 +6,7 @@ const DesignCirComponent = ()=>{
     return(
         <View style={{flex:1}}>
             <Svg style={{ width:'100%',height:'100%',
-            opacity:0.5, backgroundColor:'transparent'
+            opacity:0.3, backgroundColor:'transparent'
         }} viewBox="0 0 100 100">
             <Circle cx="-15" cy="60" r="18" stroke="#fff" strokeWidth="1" fill="red" />
             <Circle cx="125" cy="30" r="20" stroke="#fff" strokeWidth="1" fill="#3a099c" />

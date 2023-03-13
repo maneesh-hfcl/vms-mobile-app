@@ -162,5 +162,22 @@ export const globalStyles = StyleSheet.create({
     color:'#3c698c',
     fontWeight:'bold',
     fontSize:15,
-  }
+  },
+  vw_msg:{
+    justifyContent:'center', 
+    alignItems:'center',
+    position:"absolute",
+    left:"10%",
+    top:"50%",
+    backgroundColor:'#fff',
+    borderWidth:5,
+    borderColor:'#c7c7c7',
+    paddingHorizontal:10,
+    paddingVertical:10,
+    width:"80%",
+    zIndex:1
+    },
+    vw_mst_text:{
+        color:'red'
+    }
 })

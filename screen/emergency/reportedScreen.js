@@ -163,13 +163,15 @@ const renderItemOuter = ({item, index}) =>{
                     <View style={{justifyContent:'center', alignItems:'center'}}>  
                     {
                         item.showImgVid && 
-                        <View style={{alignContent:'flex-start', flex:1, width:'100%',
-                            backgroundColor:'#ededed'
+                        <View style={{alignContent:'flex-start', flex:1,
+                            backgroundColor:'#f2f2f2', marginRight:8
                         }}>
-                        <View style={{flexDirection:'row', alignItems:'center', marginHorizontal:10}}>
+                        <View style={{flexDirection:'row', alignItems:'center'
+                        , width:'100%',
+                        paddingHorizontal:10}}>
                             <View style={{alignItems:'center',
                                          alignContent:'center'}}>
-                                <View style={{flex:1, justifyContent:'center', marginHorizontal:7}}>
+                                <View style={{flex:1, justifyContent:'center', marginRight:8}}>
                                 <Entypo name="image" size={24} color="gray"  />
                                 
                                 </View>
@@ -187,7 +189,7 @@ const renderItemOuter = ({item, index}) =>{
                                 , borderTopWidth:1, borderColor:'#d7d7d7', marginTop:5, paddingTop:5 }}>
                             <View style={{alignItems:'center',
                                          alignContent:'center'}}>
-                                <View style={{flex:1, justifyContent:'center', marginHorizontal:7}}>
+                                <View style={{flex:1, justifyContent:'center', marginRight:8}}>
                                 <Entypo name="video" size={24} color="gray"  />
                                 </View>
                             </View>

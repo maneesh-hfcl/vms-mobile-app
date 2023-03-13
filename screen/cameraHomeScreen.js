@@ -21,9 +21,9 @@ const CameraHomeScreen = ({navigation})=>{
                 <MenuCardComponent menuText='Live view' onMenuPress={() => menuPressHandler('live')}>
                     <MaterialIcons name="featured-video" size={30} color="green" />
                 </MenuCardComponent>
-                <MenuCardComponent menuText='Recording'>
+                {/* <MenuCardComponent menuText='Recording'>
                     <Foundation name="record" size={30} color="red" />
-                </MenuCardComponent>
+                </MenuCardComponent> */}
 
                 <MenuCardComponent menuText='Recording Bookmark'>
                     <FontAwesome name="bookmark" size={30} color="gray" />
