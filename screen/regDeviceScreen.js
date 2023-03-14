@@ -13,6 +13,7 @@ import * as Notifications from 'expo-notifications'
 import {useForm, Controller} from 'react-hook-form'
 import DesignTriComponent from "../component/designTriComponent";
 import SmsComponent from "../component/smsComponent";
+import { LoadApiPostData } from "../shared/fetchUrl";
 
 
 Notifications.setNotificationHandler({
@@ -84,14 +85,14 @@ async function registerForPushNotificationAsync(){
     return token
 }
 
-const RegDeviceScreen = ({navigation})=>{
+const RegDeviceScreen = ({navigation, route})=>{
     const[isLoading, setIsLoading] = useState(true)    
     const[expoPushToken, setExpoPushToken] = useState('')
     const[notification, setNotification] = useState(false)
     const notificationListener = useRef()
     const responseListener = useRef()
     const[showComment, setShowComment] = useState(false)
-    
+    const{usrId} = route.params;
    // const {register, handleSubmit, setValue, errors} = useForm();
    const { control, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
@@ -153,7 +154,18 @@ const RegDeviceScreen = ({navigation})=>{
     const pressLnkHandler = async ()=>{
         try{
             await AsyncStorage.setItem("@reg_dev", expoPushToken);
-            navigation.navigate('Login')
+            let urlPath = "/regDvc"
+            let dataToPost = {
+                "userId":usrId,
+                "devToken": expoPushToken
+            }
+            let jsonResp = await LoadApiPostData(urlPath,"POST", dataToPost)
+            console.log(jsonResp);
+            if(jsonResp == 1)
+                navigation.navigate('Login');
+            else{
+                
+            }
         }
         catch(e){
 
@@ -168,7 +180,7 @@ const RegDeviceScreen = ({navigation})=>{
 
     return(
         
-        <View style={globalStyles.container_main}>
+        <View style={[globalStyles.container_main,{flex:1}]}>
                 
                 <View style={[globalStyles.container_screen]}>
                     <HeaderCardComponent>
@@ -176,7 +188,7 @@ const RegDeviceScreen = ({navigation})=>{
                     </HeaderCardComponent>
                 </View> 
                 {/* <SmsComponent /> */}
-                <View style={{justifyContent:'center', alignItems:'center', marginVertical:30, marginHorizontal:30}}>
+                <View style={{justifyContent:'center', alignItems:'center', marginVertical:30, marginHorizontal:30, flex:1}}>
                     {
                         isLoading?(
                     <View>    
@@ -188,8 +200,8 @@ const RegDeviceScreen = ({navigation})=>{
                     <View style={{alignItems:'center', marginVertical:20,
                 
                 }}>
-                        <MaterialIcons name="device-unknown" size={40} color="gray" style={{marginVertical:25}} />
-                        <View style={{borderWidth:1, borderRadius:15, borderColor:'#c7c7c7'}}>
+                        <MaterialIcons name="device-unknown" size={40} color="gray" style={{marginVertical:20}} />
+                        <View style={{borderWidth:1, borderRadius:15, borderColor:'#d7d7d7'}}>
                             <LnkBtnCard label={'Register Device'} iconColor='#0646b8'
                             iconName={'app-registration'}
                             iconSize={24}
@@ -228,9 +240,9 @@ const RegDeviceScreen = ({navigation})=>{
                 </Button>
             </View>
 }
-            <View style={{flex:1}}>
+
                 <DesignTriComponent />
-            </View>
+
          </View>     
                   
     )

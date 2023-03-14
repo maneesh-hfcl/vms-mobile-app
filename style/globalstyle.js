@@ -170,7 +170,7 @@ export const globalStyles = StyleSheet.create({
     left:"10%",
     top:"50%",
     backgroundColor:'#fff',
-    borderWidth:5,
+    borderWidth:0,
     borderColor:'#c7c7c7',
     paddingHorizontal:10,
     paddingVertical:10,

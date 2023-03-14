@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
-import {View, Text, StyleSheet, Image, TextInput, TouchableOpacity, Alert, Dimensions, ActivityIndicator , KeyboardAvoidingView} from 'react-native';
+import {View, Text, StyleSheet, Image, TextInput, TouchableOpacity, Alert, Dimensions, ActivityIndicator ,
+         KeyboardAvoidingView, Keyboard} from 'react-native';
 import HeaderCardComponent from "../component/card/headerCard";
 import FooterScreen from "../component/footer";
 import { globalStyles } from "../style/globalstyle";
@@ -13,6 +14,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import TextInputTemplate from "../component/card/form/textInputTemplate";
 import DesignCirComponent from "../component/designCirComponent";
 import { Formik } from "formik";
+import * as yup from 'yup';
 import { LoadApiPostData } from "../shared/fetchUrl";
 import MsgCardComponent from "../component/card/msgCard";
 import DesignTriComponent from "../component/designTriComponent";
@@ -21,15 +23,68 @@ import DesignTriComponent from "../component/designTriComponent";
 //SplashScreen.preventAutoHideAsync();
 const WIDTH = Dimensions.get('screen').width;
 
-const LoginScreen = ({navigation})=>{
+const validationSchema = yup.object().shape({
+    username: yup.string().required(),
+    password:yup.string().required()   
+})
+
+const LoginScreen = ({navigation, route})=>{
     const[isAppReady, setIsAppReady] = useState(false)
     const[focusName, setFocusName] = useState('')
     const[isValid, setIsValid] = useState(true);
+    const[isKeyboardVisible, setIsKeyboardVisible] = useState(false)
+    const[emptyVal, setEmptyVal] = useState('')
+
+    var initialValues = {
+        username:'',
+        password: ''
+    }
 
     useEffect(()=>{
         console.log(Constants.sessionId)
         getLoginFrmStorage()
+
+        const showSubscription = Keyboard.addListener('keyboardWillShow', ()=>{
+            //setTimeout(()=>{
+                setIsKeyboardVisible(true)                
+            //},50)
+        })
+
+        const didShowSubscription = Keyboard.addListener('keyboardDidShow', ()=>{
+           // setTimeout(()=>{
+                setIsKeyboardVisible(true)                
+           // },500)
+        })
+
+        const hideSubscription = Keyboard.addListener('keyboardWillHide', ()=>{
+            
+            setIsKeyboardVisible(false)
+        })
+
+        const didHideSubscription = Keyboard.addListener('keyboardDidHide', ()=>{
+            setTimeout(()=>{
+                setIsKeyboardVisible(false)                
+            },50)
+
+        })
+
+        return()=>{
+            showSubscription.remove();
+            hideSubscription.remove();
+            didShowSubscription.remove();
+            didHideSubscription.remove();
+        }
     },[])
+
+    useEffect(()=>{
+        if(route.params != null)
+        {
+        const{resetVal} = route.params;
+
+        console.log("requesting login form: " + resetVal);
+        setEmptyVal('')
+        }
+    },[route.params])
 
     async function getLoginFrmStorage(){
         try
@@ -51,7 +106,7 @@ const LoginScreen = ({navigation})=>{
         }
     }
 
-    const pressChkDvHandler = async ()=>{
+    const pressChkDvHandler = async (usrId)=>{
      //   console.log(focusName)
         try{
             let chkDevReg = await AsyncStorage.getItem("@reg_dev")
@@ -61,7 +116,7 @@ const LoginScreen = ({navigation})=>{
             if(chkDevReg == null)
             {
                 console.log("inside if chkdevreg")
-                navigation.navigate("RegDevice")
+                navigation.navigate("RegDevice", {usrId:usrId})
             }
             else{
                 console.log("after checkdev reg")
@@ -77,20 +132,31 @@ const LoginScreen = ({navigation})=>{
     }
 
     const onPressSubmit = async (values, action)=>{
-        Alert.alert("hello")
+       // Alert.alert("hello")
         setIsValid(true);
         let urlpath = "/login";
+        //console.log(values);
         values.username = 'Administrator',
         values.password = 'I0wWt9ngHKfO6BJdS8fqaA=='
-        
+        // action.resetForm();
         let jsonData = await LoadApiPostData(urlpath,"POST", values);
+        
         action.setSubmitting(false);
+        
+
         if(jsonData != "error")
         {
+            let usrId = jsonData.id;
            // setIsValid(true);
            try{
+            action.resetForm({
+                values:initialValues
+            });
             await AsyncStorage.setItem("@user", JSON.stringify(jsonData))
-            pressChkDvHandler()
+           
+            pressChkDvHandler(usrId)
+         
+
            }
            catch(e){
 
@@ -127,7 +193,7 @@ const LoginScreen = ({navigation})=>{
     }
 
     return(
-        <View style={{flex:1, backgroundColor:"#fff"}} onLayout={LayoutRootView}>  
+        <View  style={{flex:1, backgroundColor:"#fff"}} onLayout={LayoutRootView}>  
                 <View style={[globalStyles.container_screen, {
 
                 }]}>
@@ -140,10 +206,10 @@ const LoginScreen = ({navigation})=>{
 
                 <View style={[globalStyles.container_login_view
                     ,{backgroundColor:'#fff',
-                    borderTopWidth:5,
-                    borderColor:'#fc8f47',flex:1
+                    borderTopWidth:6,
+                    borderColor:'orange',flex:1
                     }]}> 
-                    <View style={{marginHorizontal:20, marginTop:10}}>
+                    <View style={{marginHorizontal:20, marginTop:40}}>
                     <View style={{marginVertical:15}}>
                         <Text style={{fontSize:25, fontWeight:'bold', color:'#e37734', 
                         marginHorizontal:10}}>Sign in</Text>
@@ -153,15 +219,17 @@ const LoginScreen = ({navigation})=>{
                     </View>
 
                     <Formik
-                        initialValues={{
-                            username:'',
-                            password: ''
-                        }}
+                        initialValues={initialValues}
                         onSubmit = {(values, action)=>{
                             console.log('submitting values')
-                            onPressSubmit(values, action);
+                            let tvalues = values;
+                            action.resetForm({values:initialValues})
+                            onPressSubmit(tvalues, action);
+
                            // console.log(JSON.stringify(values))
                         }}
+                        validationSchema={validationSchema}
+                        
                     >
                         {(formikProps) =>(
                         <View>
@@ -174,23 +242,33 @@ const LoginScreen = ({navigation})=>{
                            />
                            <View style={{flex:1}}>
                                <TextInputTemplate isSelect={focusName=="username"} 
+                                setValue = {formikProps.values.username}
                                setChangeText = {formikProps.handleChange("username")}
                                setFocusName={() => {
-                                   setFocusName("username")}}  />
+                                    setIsKeyboardVisible(true);
+                                   setFocusName("username")}}  
+                                setValErr={formikProps.touched && formikProps.errors.username}   
+                                />
                            </View> 
                        </View>
 
                        <View style={{flexDirection:'row', alignItems:'flex-end', 
                                     justifyContent:'flex-end',
-                                    marginVertical:15}}>
+                                    marginVertical:20}}>
                             <FontAwesome name="lock" size={23} color="#9c172d" 
                             style={{marginVertical:0, flex:0.1,
                                 marginHorizontal:10}}
                             />
                             <View style={{flex:1}}>
                                 <TextInputTemplate isSelect={focusName == "password"} 
+                                    setValue={formikProps.values.password}
                                     setChangeText={formikProps.handleChange("password")}
-                                    setFocusName={() => setFocusName("password")} password={true} />
+                                    setFocusName={() =>{
+                                        setIsKeyboardVisible(true);
+                                     setFocusName("password")}} password={true} 
+                                     setValErr = {formikProps.touched && formikProps.errors.password}
+                                     />
+
                             </View>
                         </View> 
                         <View style={{marginBottom:0, marginTop:10}}>
@@ -240,7 +318,12 @@ const LoginScreen = ({navigation})=>{
 
                 </View> 
 
-                <DesignTriComponent /> 
+                {
+                    !isKeyboardVisible &&
+                    <React.Fragment>
+                        <DesignTriComponent /> 
+                    </React.Fragment>
+                }
 
                 <FooterScreen />
         </View>

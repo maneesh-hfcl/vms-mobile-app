@@ -4,6 +4,8 @@ import { globalStyles } from "../../style/globalstyle";
 import MapView, {Marker} from "react-native-maps"
 import * as Location from 'expo-location'
 import { Entypo, FontAwesome } from '@expo/vector-icons';
+import { Formik } from "formik";
+import * as yup from 'yup';
 
 const AddEmergencyScreen = ({navigation, route})=>{
     const[location, setLocation] = useState(null);
@@ -47,10 +49,20 @@ const AddEmergencyScreen = ({navigation, route})=>{
                 <FontAwesome onPress={pressCloseDialog} name="close" size={30} color="#fff" />
             </View>
             <View style={[styles.modal_dialog,{ flex:1, marginTop:0}]}>
-               
-                    <View>
+            <Formik
+                initialValues={initialValues}
+                onSubmit={(values, action)=>{
 
+                }}
+            >
+                {(formikProps)=>(
+
+                
+                    <View>
+                 
+                
                 <View style={{marginHorizontal:0, marginTop:20}}>
+
                     <View style={{}}>  
 
                     <Text style={{marginVertical:3}}>Description*</Text>
@@ -121,9 +133,10 @@ const AddEmergencyScreen = ({navigation, route})=>{
                         </TouchableOpacity>
                     </View>
                 </View>
-                
+                )}
+                </Formik>    
             </View>
-
+            
         </View>
     )
 }

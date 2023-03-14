@@ -2,7 +2,7 @@ import React from "react";
 import {View, TextInput, StyleSheet} from 'react-native'
 import { globalStyles } from "../../../style/globalstyle";
 
-const TextInputTemplate = ({isSelect, setFocusName, setChangeText, setValErr,password})=>{
+const TextInputTemplate = ({isSelect, setFocusName, setChangeText, setValErr,password, setValue})=>{
     const pass = password == null?false: true;
     return(
         <TextInput 
@@ -12,7 +12,7 @@ const TextInputTemplate = ({isSelect, setFocusName, setChangeText, setValErr,pas
         ]} 
             onFocus={setFocusName}
             onChangeText={setChangeText}
-            defaultValue=''   
+            value = {setValue}
             secureTextEntry = {pass}                      
         />
 

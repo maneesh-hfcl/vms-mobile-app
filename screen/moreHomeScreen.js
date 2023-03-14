@@ -50,7 +50,7 @@ const MoreHomeScreen = ({navigation, props})=>{
     const pressHandler = async()=>{
         try{
             await AsyncStorage.removeItem('@user')            
-            navigation.navigate('Login');
+            navigation.navigate('Login',{resetVal:'true'});
         }
         catch(e){
 
