@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import {View, Text, StyleSheet, TouchableOpacity, Alert, Image, FlatList, Pressable} from 'react-native'
 import { Camera, CameraType } from 'expo-camera'
 import { MaterialIcons, Ionicons, FontAwesome } from '@expo/vector-icons';
@@ -7,7 +7,7 @@ import { LnkBtnCard } from '../component/card/lnkBtnCard';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 //import { globalStyles } from '../style/global';
 
-const EmergencyHome = ({navigation})=>{
+const EmergencyHome = ({navigation, route})=>{
     const[hasPermission, setHasPermission] = useState(null)
     const[type, setType] = useState(CameraType.back)
     const[camera, setCamera] = useState(null)
@@ -20,6 +20,15 @@ const EmergencyHome = ({navigation})=>{
             setHasPermission(status === 'granted')
         })()
     },[])
+
+    useEffect(()=>{
+        if(route.params?.retVal == "added")
+        {
+            console.log("Record added to the system");
+            setImage([])
+            setCurImageIndx(-1)
+        }
+    },[route.params?.retVal])
 
     if(hasPermission === null){
         return <View>
@@ -36,7 +45,8 @@ const EmergencyHome = ({navigation})=>{
     const takePic = async ()=>{
 //        Alert.alert("Taking picture")
         if(camera){
-            const data = await camera.takePictureAsync(null)
+            const options = {quality: 0}
+            const data = await camera.takePictureAsync(options)
             //console.log(data);
             setImage([data.uri, ...image])
             //console.log(image)
@@ -139,8 +149,14 @@ const EmergencyHome = ({navigation})=>{
     }
 
     const pressShowModal = ()=>{
-   //     Alert.alert('showing modal')
-        navigation.navigate("AddEmergency",{imgCount:image.length, vidCount:image.length})
+        //Alert.alert('showing modal')
+   
+       // console.log(user)
+        navigation.navigate("AddEmergency",{img:image, vid:image})
+    }
+
+    const delData = ()=>{
+        console.log("Deleting data");
     }
 
     return(
@@ -234,10 +250,11 @@ const EmergencyHome = ({navigation})=>{
                      alignItems:'center',
                      borderLeftWidth:1,
                      borderColor:'#ededed',
-                     paddingHorizontal:10
+                     paddingHorizontal:20,
+                     backgroundColor:'transparent'
                      }}>
-                    <Pressable onPress={pressShowModal}>                     
-                        <MaterialIcons name="save-alt" size={26} color="black" style={{alignContent:'center'}} />
+                    <Pressable onPress={pressShowModal} style={{alignItems:'center', justifyContent:'center'}}>                     
+                        <MaterialIcons name="save-alt" size={20} color="black" style={{alignItems:'center'}} />
                         <Text style={styles.vw_text}>Save</Text>
                     </Pressable>
                 </View>

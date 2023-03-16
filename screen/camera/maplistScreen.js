@@ -63,10 +63,11 @@ const MapListScreen = ({navigation, route})=>{
 
     return(
         <View style={[{ flex:1}]}>
-            <Pressable onPress={pressCloseDialog} style={{flex:0.25}}>
+            <Pressable onPress={pressCloseDialog} style={{position:"absolute",backgroundColor:'black', height:'100%'
+                , width:'100%', opacity:0.4}}>
                 
             </Pressable>
-            <View style={[styles.modal_dialog,{ flex:0.75
+            <View style={[styles.modal_dialog,{ marginTop:100
         
             }]}>
             <View style={{flexDirection:"row",justifyContent:'flex-end', backgroundColor:'#fff'}}>
@@ -114,14 +115,15 @@ const styles = StyleSheet.create({
         marginTop:'40%'
     },
     modal_dialog:{
-        borderRadius:25,
+        borderTopLeftRadius:20,
+        borderTopRightRadius:20,
         backgroundColor:'#fff',
           flex:1,
    //   borderTopRightRadius:10,
 
       borderWidth:1,
       borderColor:"#e7e7e7",
-      paddingHorizontal:10,
+      paddingHorizontal:5,
       paddingVertical:10,
       
   }

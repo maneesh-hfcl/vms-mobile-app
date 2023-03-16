@@ -1,15 +1,18 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {View, Text, StyleSheet} from 'react-native'
 import { FontAwesome } from '@expo/vector-icons';
 import { globalStyles } from "../../style/globalstyle";
 import ItemRowTemplateComponent from "../card/itemRowTemplate";
+import UserContext from "../../shared/usrContext";
 
 const UserDetailComponent = ({user})=>{
+    const {userVal, setUserVal} = useContext(UserContext);
+
     return(
-        <View style={{marginVertical:10, marginHorizontal:10
+        <View style={{marginVertical:30, marginHorizontal:5
         }}>
             <Text style={[globalStyles.text_form,{textAlign:'center'}]}>You are currently logged in as</Text>
-            <View style={{alignItems:'center', marginVertical:30}}>
+            <View style={{alignItems:'center', marginVertical:25}}>
                 <View style={{
                         borderWidth:1,
                         borderColor:'#d7d7d7',
@@ -26,12 +29,12 @@ const UserDetailComponent = ({user})=>{
                 </View>
             </View>
             
-
-                <ItemRowTemplateComponent  title={"Username"} content={"Administrator"} />
-                <ItemRowTemplateComponent  title={"Email"} content={"info@hfcl.com"} />
-                <ItemRowTemplateComponent  title={"Tel"} content={"0124-24234234"} />
-                <ItemRowTemplateComponent  title={"Mobile"} content={"80101010"} />
-
+                <ItemRowTemplateComponent  title={""} content={""} />
+                <ItemRowTemplateComponent  title={"Username"} content={userVal.username} />
+                <ItemRowTemplateComponent  title={"Email"} content={userVal.email} />
+                <ItemRowTemplateComponent  title={"Tel"} content={userVal.tel} />
+                <ItemRowTemplateComponent  title={"Mobile"} content={userVal.mob} />
+                <ItemRowTemplateComponent  title={""} content={""} />
 
         </View>
     )

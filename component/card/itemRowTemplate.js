@@ -4,10 +4,23 @@ import {View, Text, StyleSheet} from 'react-native'
 const ItemRowTemplateComponent = ({title, content})=>{
     return(
             <View style={styles.modal_item_vw}>
-                <View style={styles.text_left_vw}>
-                    <Text style={styles.text_left}>{title}</Text>
-                </View>
-                <Text style={styles.text_right}>{content}</Text>
+                {
+                    title != ""?
+                    (
+                        <>
+                        <View style={styles.text_left_vw}>
+                            <Text style={styles.text_left}>{title}</Text>
+                        </View>
+                        <Text style={styles.text_right}>{content}</Text>
+                        </>
+                    ):
+                    (
+                        <View style={{marginVertical:0, flex:1}}>
+                            <Text></Text>
+                        </View>
+                    )
+                }
+
             </View>
     )
 }
@@ -34,7 +47,7 @@ const styles = StyleSheet.create({
         marginHorizontal:10,
         marginVertical:5,
         fontSize:15,
-        color:'#202020'
+        color:'#808080'
     },
     text_right:{
         flex:0.6,

@@ -4,14 +4,18 @@ import BaseContainer from './BaseContainer';
 import LoginScreen from './screen/loginScreen';
 import { NavigationContainer } from "@react-navigation/native";
 import StackLogin from './navigation/stack/loginStack';
-
+import UserContext from './shared/usrContext';
+import { useState } from 'react';
 export default function App() {
+  const[userVal, setUserVal] = useState('')
   return (
-     <BaseContainer>
+    <BaseContainer>
+      <UserContext.Provider  value={{userVal, setUserVal}}>
         <NavigationContainer>
           <StackLogin />
         </NavigationContainer>
-      </BaseContainer>
+      </UserContext.Provider>
+    </BaseContainer>
   );
 }
 

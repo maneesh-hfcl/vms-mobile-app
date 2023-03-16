@@ -152,11 +152,19 @@ export const globalStyles = StyleSheet.create({
     alignItems:'flex-end'
   },
   vw_logout:{
-    backgroundColor:'#f9f9f9',
-    borderTopWidth:1,
+    backgroundColor:'#fff',
+    borderWidth:1,
     borderColor:'#e7e7e7',
     alignItems:'center',
-    paddingVertical:15
+    paddingVertical:15,
+    paddingHorizontal:10,
+    flex:1,
+    marginHorizontal:20,
+    borderRadius:10,
+    marginVertical:20,
+    height:80,
+    alignItems:'center',
+    justifyContent:'center'
   },
   lnk_btn:{
     color:'#3c698c',
@@ -169,15 +177,21 @@ export const globalStyles = StyleSheet.create({
     position:"absolute",
     left:"10%",
     top:"50%",
-    backgroundColor:'#fff',
+    backgroundColor:'#f1edf7',
     borderWidth:0,
-    borderColor:'#c7c7c7',
+    borderColor:'#ebd7b7',
     paddingHorizontal:10,
-    paddingVertical:10,
+    paddingVertical:7,
+    borderRadius:5,
     width:"80%",
-    zIndex:1
+    zIndex:1,
+    opacity:1,
+    paddingBottom:10
     },
     vw_mst_text:{
-        color:'red'
+        color:'gray',
+        marginVertical:10,
+
+
     }
 })

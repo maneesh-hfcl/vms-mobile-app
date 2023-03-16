@@ -8,8 +8,13 @@ const MapCard = ({children, menuText, menuId, pressMapHandler, iconType})=>{
             <TouchableOpacity onPress={() => pressMapHandler(menuId)}>
                 <View style={{flexDirection:'row', alignContent:'center', justifyContent:'center'}}>
                     {children}
-                    <FontAwesome name="map-marker" size={18} color="#014d17" style={{alignSelf:'center'}} />
-                    <Text style={styles.card_menu_text}>{menuText}</Text>
+                    
+                    <FontAwesome name="map-marker" size={18} color="#014d17" 
+                        style={{alignSelf:'center', paddingHorizontal:10}} />
+                    
+                    <View style={styles.card_menu_text}>
+                    <Text style={{fontWeight:'bold', fontSize:13}}>{menuText}</Text>
+                    </View>
                     {/* <FontAwesome5 name={iconType?'caret-up':'caret-right'} size={20} color="gray" style={styles.card_menu_down_icon} />  */}
                 </View>
             </TouchableOpacity>
@@ -20,24 +25,29 @@ export default MapCard;
 
 const styles = StyleSheet.create({
     card_menu_text:{
-
-        flex:1,
         color:'black',
-        marginHorizontal:8,
+        marginHorizontal:0,
         fontWeight:'bold',
-        marginVertical:3,
-        fontSize:13
+        marginVertical:0,
+        fontSize:13,
+        backgroundColor:'#fff',
+        paddingVertical:10,
+        paddingHorizontal:10,
+        borderTopRightRadius:10,
+        borderBottomRightRadius:10,
+
+justifyContent:'center'
+
     },
     card_menu_view:{
-        backgroundColor:'#fff',
-        backgroundColor:'#d5dae3',
+
+        backgroundColor:'#d7d7d7',
         borderRadius:10,
-        borderColor:"#ccd4e6",
-        borderWidth:2,
-        paddingVertical:5,
-        paddingHorizontal:10,
-        marginHorizontal:2,
-        marginVertical:10
+        borderColor:"#d7d7d7",
+        borderWidth:1,
+        marginHorizontal:10,
+        paddingHorizontal:0,
+     marginVertical:10
     },
     card_menu_down_icon:{
         marginVertical:0,

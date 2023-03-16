@@ -6,6 +6,7 @@ import { globalStyles } from "../style/globalstyle";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import UserDetailComponent from "../component/more/usrDetailComponent";
 import Svg, { Circle, Rect } from 'react-native-svg';
+import { MaterialIcons } from '@expo/vector-icons';
 
 const MoreHomeScreen = ({navigation, props})=>{
     const[dataBlob, setDataBlob] = useState([])
@@ -136,19 +137,27 @@ const MoreHomeScreen = ({navigation, props})=>{
             <UserDetailComponent />
             <View style={{flex:1}}>
 
-            <TouchableOpacity onPress={pressClearHandler}>
+            {/* <TouchableOpacity onPress={pressClearHandler}>
                 <Text style={[globalStyles.lnk_btn,{marginTop:20, marginLeft:50}]}>Clear storage key</Text>
                 
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
             </View>
-            <View style={globalStyles.vw_logout}>
-            <TouchableOpacity onPress={pressHandler}>
-                <Text style={globalStyles.lnk_btn}>Sign out</Text>
-                
-            </TouchableOpacity>
+            <View style={{flexDirection:'row', justifyContent:'space-evenly'}}>
+                <View style={globalStyles.vw_logout}>
+                    <TouchableOpacity style={{alignItems:'flex-end', flex:1, justifyContent:'flex-end'}}>
+                        <Text style={[globalStyles.lnk_btn,{textAlign:'center', fontSize:14}]}>
+                            Change password
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={globalStyles.vw_logout}>
+                    <TouchableOpacity onPress={pressHandler} style={{alignItems:'center'}}>
+                        <MaterialIcons name="logout" size={20} color="gray" style={{marginVertical:5}} />
+                        <Text style={[globalStyles.lnk_btn,{textAlign:'center', fontSize:14}]}>Sign out</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
-        
         </View>
     )
 }

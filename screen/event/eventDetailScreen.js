@@ -40,7 +40,7 @@ const EventDetailScreen = ({navigation, route})=>{
                 flex:1,
                 bottom:0,
                 width:'100%',
-                height:'70%'
+                height:'80%'
             }]}>
                 <View style={{alignItems:'center',marginVertical:20,
                 shadowOffset:{width:3, height:3},

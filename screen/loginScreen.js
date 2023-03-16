@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import {View, Text, StyleSheet, Image, TextInput, TouchableOpacity, Alert, Dimensions, ActivityIndicator ,
          KeyboardAvoidingView, Keyboard} from 'react-native';
 import HeaderCardComponent from "../component/card/headerCard";
@@ -18,7 +18,7 @@ import * as yup from 'yup';
 import { LoadApiPostData } from "../shared/fetchUrl";
 import MsgCardComponent from "../component/card/msgCard";
 import DesignTriComponent from "../component/designTriComponent";
-
+import UserContext, { UserContextProvider } from "../shared/usrContext";
 
 //SplashScreen.preventAutoHideAsync();
 const WIDTH = Dimensions.get('screen').width;
@@ -34,6 +34,7 @@ const LoginScreen = ({navigation, route})=>{
     const[isValid, setIsValid] = useState(true);
     const[isKeyboardVisible, setIsKeyboardVisible] = useState(false)
     const[emptyVal, setEmptyVal] = useState('')
+    const{userVal, setUserVal} = useContext(UserContext);
 
     var initialValues = {
         username:'',
@@ -90,11 +91,17 @@ const LoginScreen = ({navigation, route})=>{
         try
         {
             let user = await AsyncStorage.getItem("@user")
+            console.log(user);
             if(user!= null)
             {
+//                console.log(context);
+                //setState(user);
+                console.log("setting user values");
+                setUserVal(JSON.parse(user));
                 pressChkDvHandler();
             }
             else{
+                console.log("user not present")
                 setIsAppReady(true)
             }
         }
@@ -133,6 +140,7 @@ const LoginScreen = ({navigation, route})=>{
 
     const onPressSubmit = async (values, action)=>{
        // Alert.alert("hello")
+        action.setSubmitting(false);
         setIsValid(true);
         let urlpath = "/login";
         //console.log(values);
@@ -141,7 +149,7 @@ const LoginScreen = ({navigation, route})=>{
         // action.resetForm();
         let jsonData = await LoadApiPostData(urlpath,"POST", values);
         
-        action.setSubmitting(false);
+
         
 
         if(jsonData != "error")
@@ -153,9 +161,10 @@ const LoginScreen = ({navigation, route})=>{
                 values:initialValues
             });
             await AsyncStorage.setItem("@user", JSON.stringify(jsonData))
-           
+            console.log(jsonData);
+            setUserVal(jsonData);
+            //setState(jsonData);
             pressChkDvHandler(usrId)
-         
 
            }
            catch(e){
@@ -167,6 +176,8 @@ const LoginScreen = ({navigation, route})=>{
             console.log("you have got an error");
             setIsValid(false);
         }
+
+        //action.setSubmitting(false);
 
     }
 
@@ -248,6 +259,7 @@ const LoginScreen = ({navigation, route})=>{
                                     setIsKeyboardVisible(true);
                                    setFocusName("username")}}  
                                 setValErr={formikProps.touched && formikProps.errors.username}   
+                                setPlaceHolder="Enter username"
                                 />
                            </View> 
                        </View>
@@ -267,6 +279,7 @@ const LoginScreen = ({navigation, route})=>{
                                         setIsKeyboardVisible(true);
                                      setFocusName("password")}} password={true} 
                                      setValErr = {formikProps.touched && formikProps.errors.password}
+                                     setPlaceHolder="Enter password"
                                      />
 
                             </View>
@@ -291,7 +304,7 @@ const LoginScreen = ({navigation, route})=>{
                         </View>
                     }
                     {
-                        !isValid &&
+                        !formikProps.isSubmitting && !isValid &&
                         <View>
                             <MsgCardComponent msg="Invalid user">
                                 
@@ -326,6 +339,7 @@ const LoginScreen = ({navigation, route})=>{
                 }
 
                 <FooterScreen />
+
         </View>
         
     )

@@ -3,7 +3,7 @@ import Config from '../configuration/config'
 export const LoadApiData = async(urlpath, type)=>{
     try {
             let uri = Config.ApiUrl + `${urlpath}`
-            console.log("LoadApiData" + uri);
+            console.log("LoadApiData - " + uri);
             const response = await fetch(
                 uri,
                 {
@@ -38,6 +38,7 @@ export const LoadApiPostData = async(urlpath, type, data)=>{
                     body: JSON.stringify(data)
                 }
             );
+            
             
 
             return await response.json()
