@@ -9,7 +9,7 @@ import * as yup from 'yup';
 import UserContext  from "../../shared/usrContext";
 import Config from "../../configuration/config"
 import MsgCardComponent from "../../component/card/msgCard";
-
+import {CurrentDateTime} from "../../shared/fetchUrl";
 
 const AddEmergencyScreen = ({navigation, route})=>{
     const[location, setLocation] = useState(null);
@@ -65,12 +65,20 @@ const AddEmergencyScreen = ({navigation, route})=>{
         //console.log(configAPIUrl);
         action.setSubmitting(true);
         let urlPath = Config.ApiUrl +  "/emergency/add"
+        console.log("time: " + (new Date()).getTime());
+        console.log("time2: " + (new Date()).getMilliseconds());
+        let cdate = CurrentDateTime();
+        var ticks = (((new Date()).getTime() * 10000) + 621355968000000000)
         const formData = new FormData()
         formData.append("description", values.description)
         formData.append("location", values.location)
         formData.append("lat", mapLoc.latitude.toFixed(4))
         formData.append("long", mapLoc.longitude.toFixed(4))
         formData.append("userid", userVal.id)
+        formData.append("cdate", cdate)
+        console.log(formData);
+        console.log("posting values");
+        
         let i = 1;
         for(let image of img)
         {
@@ -83,8 +91,7 @@ const AddEmergencyScreen = ({navigation, route})=>{
         }
 
 
-        console.log(formData);
-        console.log("posting values")
+
         
         fetch(urlPath,{
             method:'POST',
@@ -95,9 +102,7 @@ const AddEmergencyScreen = ({navigation, route})=>{
         })
         .then((response) => response.json())
         .then((result) => {
-
             console.log(result)
-            
             action.setSubmitting(false);
             if( result == "Success")
             {

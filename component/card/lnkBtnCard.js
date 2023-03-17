@@ -10,7 +10,7 @@ export const LnkBtnCard = ({children,label, iconSize, iconName, iconColor, press
                     borderColor:'#c7c7c7'
                 }}>
                 <MaterialIcons name={iconName} size={iconSize} color={iconColor} 
-                style={{}} />
+                style={{marginVertical:3}} />
                 </View>
                 { label != '' && 
                     <Text style={[styles.lnk_text,{color:labelColor},
@@ -36,10 +36,10 @@ const styles = StyleSheet.create({
         alignItems:'center'
     },
     lnk_text:{
-        marginLeft:1,
+        marginLeft:0,
         marginRight:6,
         marginVertical:2,
         color:'black',
-        fontSize:13   
+
     }
 })

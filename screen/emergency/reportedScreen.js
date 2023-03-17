@@ -9,6 +9,8 @@ import { LoadApiData } from "../../shared/fetchUrl";
 import UserContext from "../../shared/usrContext";
 import Config from "../../configuration/config";
 import { useFocusEffect } from "@react-navigation/native";
+import LoadingDialogComponent from "../../component/loadingDialogComponent";
+import { ActivityIndicator } from "react-native-paper";
 
 const ReportedScreen = ({ navigation }) => {
     const [reportLst, setReportLst] = useState(null)
@@ -16,8 +18,11 @@ const ReportedScreen = ({ navigation }) => {
     const { userVal, setUserVal } = useContext(UserContext);
     const imageBaseUrl = Config.ApiUrl+"/upload/image"
     const videoBaseUrl = Config.ApiUrl+"/upload/video"
+    const[isVisible, setIsVisible] = useState(true)
+    const loadingImg = require("../../assets/favicon.png")
 
     useEffect(() => {
+        console.log("useEffect called here");
         getStorageData()
     }, [])
 
@@ -31,11 +36,14 @@ const ReportedScreen = ({ navigation }) => {
     const getStorageData = async () => {
         try {
             //            const jsonVal = await AsyncStorage.getItem("@stored_img")
+        console.log("show loading dialog");
+          //  setIsVisible(!isVisible);
             let urlPath = `/emergency/${userVal.id}`
             console.log(urlPath)
             const jsonVal = await LoadApiData(urlPath);
             console.log("getting json value")
-            console.log(jsonVal)
+
+            //console.log(jsonVal)
             if (jsonVal == null) {
                 console.log("No value present")
             }
@@ -45,6 +53,7 @@ const ReportedScreen = ({ navigation }) => {
                 //    console.log(JSON.parse(jsonVal))
                 let initLst = []
                 try {
+                         
                     initLst = jsonVal.map((elem, index) => ({
                         id: index + 1,
                         images: elem.images.split(','),
@@ -53,6 +62,8 @@ const ReportedScreen = ({ navigation }) => {
                         location: elem.loc,
                         lat: elem.lat,
                         long: elem.long,
+                        cdate: elem.cdate?.split("T")[0],
+                        ctime: elem.cdate?.split("T")[1],
                         showImgVid: false
                     })
                     )
@@ -61,10 +72,13 @@ const ReportedScreen = ({ navigation }) => {
                     console.log(e)
                 }
                 console.log('Emergency list coming here')
-                console.log(initLst)
-
+                //console.log(initLst)
+               setIsVisible(false);
+                console.log("hide the dialog")
                 //                setImgLst(initLst)
                 setReportLst(initLst)
+                
+
             }
         }
         catch (e) {
@@ -97,8 +111,10 @@ const ReportedScreen = ({ navigation }) => {
                                     width: 60,
                                     height: 60, borderRadius: 30,
                                     borderWidth: 3, borderColor: '#fff',
-                                    marginHorizontal: 2
-                                }} />
+                                    marginHorizontal: 2,
+                                    
+                                }}
+                                />
                             )
                     }
                 </TouchableOpacity>
@@ -173,10 +189,23 @@ const ReportedScreen = ({ navigation }) => {
                         <Pressable style={{ flexDirection: 'row' }} onPress={() => handleVidImgPress(item)} >
                             <View style={{ flex: 1 }}>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 4 }}>
-                                    <Feather name="alert-triangle" size={16} color="red" />
-                                    <Text style={{ marginHorizontal: 10, fontSize: 16 }}>{item.text}</Text>
+                                    <Feather name="alert-triangle" size={20} color="red" />
+                                    <Text style={{ marginHorizontal: 5, fontSize: 16 }}>{item.text}</Text>
                                 </View>
-
+                                <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 5 }}>
+                                    <MaterialIcons name="date-range" size={20} color="#72acf7" />
+                                    <View style={{flex:1}}>
+                                        <Text style={{ marginHorizontal: 5 }}>{(item.cdate!=null)?item.cdate:"No date"}</Text>
+                                     
+                                    </View>
+                                    <MaterialIcons name="access-time" size={20} color="#72acf7" />
+                                    <View style={{flex:1}}>
+                                        <Text style={{ marginHorizontal: 5 }}>
+                                            {item.ctime?item.ctime:"No time"}
+                                        </Text>
+                                     
+                                    </View>
+                                </View>
                                 <View style={{ flexDirection: 'row', alignItems: 'flex-start', marginVertical: 5 }}>
                                     <MaterialIcons name="location-pin" size={20} color="green" />
                                     <View style={{flex:1}}>
@@ -251,18 +280,18 @@ const ReportedScreen = ({ navigation }) => {
                                 
                                 <LnkBtnCard
                                     iconName={'delete'}
-                                    iconSize={22}
-                                    iconColor={'black'}
+                                    iconSize={20}
+                                    iconColor={'#b58274'}
                                     label={'Remove'}
                                     labelColor={'#3a51d6'}
-                                    color={'#e3e7ff'}
+                                    color={'#f7f5c6'}
                                 />
                                 <LnkBtnCard
                                     iconName={'send-to-mobile'}
-                                    iconSize={22}
-                                    iconColor={'black'}
+                                    iconSize={20}
+                                    iconColor={'#606060'}
                                     label={'Send to station'}
-                                    labelColor={'blue'}
+                                    labelColor={'#3a51d6'}
                                     color={"#b5e398"}
                                 />
                                 
@@ -311,15 +340,26 @@ const ReportedScreen = ({ navigation }) => {
 
     return (
         <View style={[globalStyles.container_main, { backgroundColor: '#e7e7e7' }]}>
-            <Pressable>
-            <FlatList
-                showsHorizontalScrollIndicator={false}
-                data={reportLst}
-                keyExtractor={(item, index) => index}
-                renderItem={renderItemOuter}
-                ListEmptyComponent={EmptyList}
-            />
-            </Pressable>
+            { isVisible ?(
+                <View style={{justifyContent:'flex-start', alignItems:'center', flex:1, marginVertical:40}}>
+                    <Text style={[globalStyles.text,{marginVertical:20}]}>Loading items</Text>
+                    <ActivityIndicator color={"lime"} size={40} />
+                </View>    
+            ):(
+                <Pressable>
+                    <FlatList
+                        showsHorizontalScrollIndicator={false}
+                        data={reportLst}
+                        keyExtractor={(item, index) => index}
+                        renderItem={renderItemOuter}
+                        ListEmptyComponent={EmptyList}
+                        
+                        
+                    />
+                </Pressable>
+            )
+            }
+            
         </View>
     )
 }

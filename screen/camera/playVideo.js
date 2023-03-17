@@ -25,20 +25,20 @@ const PlayVideo = ({camToPlay})=>{
     const[count,setCount] = useState(0)
     const bufferStream = useRef('')
     const[indx,setIndx] = useState(0)
-    const[isLoadingVideo, setIsLoadingVideo] = useState(false)
+    const[isLoadingVideo, setIsLoadingVideo] = useState(true)
     
     let boolFirst = false;
 
     useEffect(()=>{
-        setIsLoadingVideo(true)
-//        pressHandlerSocketConn()
-setBase64Encode('hello')
+        //setIsLoadingVideo(true)
+        pressHandlerSocketConn()
+//setBase64Encode('hello')
     },[camToPlay])
 
     const getWebToken = ()=>{
         const camId = camToPlay //"ITEM_hap"
         const type = 'L'
-        const encParams = "480:-1:-1.0"
+        const encParams = "1920:-1:-1.0"
 //        const encParams = ""
         const mseSupport = false
         const time = ''
@@ -368,8 +368,8 @@ setBase64Encode('hello')
 
             {base64Encode.length > 0 &&
                 <Video ref={video}
-                     source={{ uri: 'http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8' }}
-  //                  source={{uri: base64Encode}}
+    //                 source={{ uri: 'http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8' }}
+                  source={{uri: base64Encode}}
                     rate={1.0}
                 volume={1.0}
                 isMuted={true}

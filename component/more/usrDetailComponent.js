@@ -12,7 +12,7 @@ const UserDetailComponent = ({user})=>{
         <View style={{marginVertical:30, marginHorizontal:5
         }}>
             <Text style={[globalStyles.text_form,{textAlign:'center'}]}>You are currently logged in as</Text>
-            <View style={{alignItems:'center', marginVertical:25}}>
+            <View style={{alignItems:'center', marginVertical:15}}>
                 <View style={{
                         borderWidth:1,
                         borderColor:'#d7d7d7',
@@ -26,15 +26,15 @@ const UserDetailComponent = ({user})=>{
                         
                     }}>
                     <FontAwesome name="user" size={30} color="gray" />
+                    
                 </View>
+                <Text style={{fontSize:20, marginTop:15}}> {userVal.username} </Text>   
             </View>
-            
-                <ItemRowTemplateComponent  title={""} content={""} />
-                <ItemRowTemplateComponent  title={"Username"} content={userVal.username} />
                 <ItemRowTemplateComponent  title={"Email"} content={userVal.email} />
                 <ItemRowTemplateComponent  title={"Tel"} content={userVal.tel} />
                 <ItemRowTemplateComponent  title={"Mobile"} content={userVal.mob} />
-                <ItemRowTemplateComponent  title={""} content={""} />
+                <ItemRowTemplateComponent  title={"Description"} content={userVal.desc} />
+
 
         </View>
     )

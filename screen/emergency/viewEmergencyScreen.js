@@ -17,15 +17,15 @@ const ViewEmergencyImage = ({navigation, route})=>{
                 , width:'100%', opacity:0.4}}>
                 
             </Pressable>
-            <View style={{marginTop:50, alignItems:'center', marginHorizontal:2, marginVertical:10}}>
+            <View style={{marginTop:80, alignItems:'center', marginHorizontal:2, marginVertical:10}}>
                 <FontAwesome onPress={pressCloseDialog} name="close" size={30} color="#fff" />
             </View>
-            <View style={[globalStyles.modal_dialog,{ flex:1}]}>
+            <View style={[globalStyles.modal_dialog,{ flex:1, backgroundColor:'#000', borderWidth:0}]}>
                
                 <View style={{position:'absolute', paddingVertical:50, paddingHorizontal:50,
-                        zIndex:-1, top:'30%', left:'30%', backgroundColor:'#fff'}}>
+                        zIndex:-1, top:'30%', left:'30%'}}>
 
-                    <ActivityIndicator color="lime"size={40} />
+                    <ActivityIndicator color="lime"size={20} />
                 </View>
                 <Image source={{uri:imageUrl}} style={{flex:1}} 
                 
