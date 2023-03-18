@@ -26,6 +26,7 @@ const LiveScreen = ({navigation, route})=>{
     const[tileCam, setTileCam] = useState([])
     const[isModalVisible, setIsModalVisible] = useState(false)
     const[numColumns,setNumColumns] = useState(2)
+//    const{selRecCamera,selRecdate,selRectime} = route.params;
     
     useEffect(()=>{
       //  Alert.alert('Loading camera tiles')
@@ -51,6 +52,14 @@ const LiveScreen = ({navigation, route})=>{
         }
 //        pressHandlerCam(route.params?.camId)
     },[route.params?.camId])
+
+    // useEffect(()=>{
+    //     if(route.params != null)
+    //     {
+    //     const{selRecCamera,selRecdate,selRectime} = route.params;
+    //     camNameRecPressHandler(selRecCamera, selRecdate, selRectime)
+    //     }
+    // },[route.params?.selRecCamera])
 
     const loadData =()=>{
         setTileCam(initTileCam)
@@ -88,6 +97,10 @@ const LiveScreen = ({navigation, route})=>{
         console.log(elemCam)
         }
         dialogClose();
+    }
+
+    const camNameRecPressHandler = (reccam,recdate, rectime)=>{
+        console.log(`Cam: ${reccam}, Recdate: ${recdate}, Rectime: ${rectime}`)
     }
 
     const renderItems = (item)=>{

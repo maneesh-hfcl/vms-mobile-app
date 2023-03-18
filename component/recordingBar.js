@@ -9,6 +9,9 @@ import ActivityIndicatorComponent from "./activityIndicatorComponent";
 import { Picker } from "@react-native-picker/picker";
 import Slider from "@react-native-community/slider";
 import { RectButton } from "react-native-gesture-handler";
+import Config from "../configuration/config"
+
+
 
 export default function RecordingBar({camId, recDate, pressPlyRec, selRecTime, recTime}){
     const initialState = 24;
@@ -65,7 +68,7 @@ export default function RecordingBar({camId, recDate, pressPlyRec, selRecTime, r
         //calcXYPos();
         console.log("Loading recordings")
         loadRecordings();
-    },[])
+    },[recDate])
 
     useEffect(()=>{
         //alert('You have called this function on screen load');
@@ -103,30 +106,93 @@ export default function RecordingBar({camId, recDate, pressPlyRec, selRecTime, r
         console.log(`date: ${recDate}}`)
 
         try {
-           // console.log(mapid);
-            camId = 'item_hap'
-            recDate = '2023-02-08'
-            jsondata = await LoadApiData(`/GetCamRecordings/${camId}/${recDate}`)
-           //console.log(jsondata.timings);
+
+    //         camId = 'item_hap'
+    //         recDate = '2023-02-08'
+    //         jsondata = await LoadApiData(`/GetCamRecordings/${camId}/${recDate}`)
+    //        console.log(jsondata.timings);
            
-            let initLst = jsondata.timings.map((elem) =>({
-                    starTime:elem.tmb,
-                    endTime:elem.tme,
-                    duration: 4.5,
-                    startX:0,
-                    endX:0
-                })
-            );//.filter( elem => elem.parentId == mapid)
-     //       console.log(initLst);
+    //         let initLst = jsondata.timings.map((elem) =>({
+    //                 starTime:elem.tmb,
+    //                 endTime:elem.tme,
+    //                 duration: 4.5,
+    //                 startX:0,
+    //                 endX:0
+    //             })
+    //         );//.filter( elem => elem.parentId == mapid)
+    //  //       console.log(initLst);
            // setRecrdArr(initLst)
 //            return json.movies;
           //  setIsLoading(false)
-            calcXYPos(initLst)
+//            calcXYPos(initLst)
 
          //   console.log(sliderScrollview.current)
           } catch (error) {
             console.error(error);
           }
+
+          fetchRecFromSrvr();
+    }
+
+    const fetchRecFromSrvr = async()=>{
+        console.log("fetching from server recording")
+        dtb = new Date(recDate) 
+        if(dtb > new Date())
+        {
+            setIsLoading(false)
+            setRecrdArr([])
+            return;
+        }
+
+
+        console.log(dtb)
+        console.log(`cameraId: ${camId}`);
+        console.log(`date: ${recDate}`)
+        console.log("error occuring here")
+     //   camId = 'ITEM_hap'
+
+        console.log(`dtb  ${dtb.toISOString()}`);
+        let webUrlRecPath = Config.WebUrl + `/vm/vmd/gvrs?cm=${camId}&vt=${dtb.toISOString()}`
+        //jsondata = await LoadApiData(webUrlRecPath)
+
+        fetch(webUrlRecPath,{
+            method:'POST',
+            headers:{
+                "Content-Type": "application/json"
+            },
+        })
+        .then((response) => response.json())
+        .then((result) => {
+            console.log(result)
+            if(result.sw != null)
+            {
+                let initLst = result.sw.map((elem) =>({
+                    starTime:elem.Tmb.split("T")[1].split(".")[0],
+                    endTime:elem.Tme.split("T")[1].split(".")[0],
+                    duration: 4.5,
+                    startX:0,
+                    endX:0
+                    })
+                );//.filter( elem => elem.parentId == mapid)
+
+                setRecrdArr(initLst)
+                //            return json.movies;
+              
+                calcXYPos(initLst)            
+            //console.log(initLst2)   
+            }  
+            else
+            {
+                setRecrdArr([])
+            }   
+            setIsLoading(false)
+        })
+        .catch((error) => {
+            console.error("Error: ", error)
+        })
+
+
+
     }
 
     const calcXYPos = (recrdArr) =>{
@@ -252,6 +318,7 @@ export default function RecordingBar({camId, recDate, pressPlyRec, selRecTime, r
             </View>
             :(
                 <View>
+                    {recrdArr.length > 0 &&   
                 <ScrollView onLayout={getScrollVwLayout} 
                     onScrollBeginDrag={onScrollView} 
                     onScrollEndDrag={onScrollViewEnd}
@@ -259,7 +326,9 @@ export default function RecordingBar({camId, recDate, pressPlyRec, selRecTime, r
                 horizontal={true}  ref={sliderScrollview} 
                  style={{ backgroundColor:'', paddingBottom:5,}}>
                     <Pressable>
+                          
                 <View style={{backgroundColor:'black', marginHorizontal:0}}>
+                    
                     <View style={{flexDirection:'row', marginTop:2}}>
 
                         {
@@ -331,8 +400,8 @@ export default function RecordingBar({camId, recDate, pressPlyRec, selRecTime, r
                     
                     </View>
     
-                    {recrdArr.length > 0 && 
-                    <View style={{flex:1, position:'absolute', top:22, zIndex:1, backgroundColor:'black'}}>
+                   
+                    <View style={{flex:1, position:'absolute', top:22, zIndex:1}}>
                     {
     
                         // <View style={[styles.vwRecordingBar,{width:200, left:200}]}>
@@ -348,14 +417,19 @@ export default function RecordingBar({camId, recDate, pressPlyRec, selRecTime, r
                         
                         }
                     </View>
-                    }
+                    
 
                     
 
                 </View>
+                
+
+
+
                 </Pressable>
             </ScrollView>
-                    
+}
+            {recrdArr.length > 0 &&
                     <View style={{
                         position:'absolute',
                         left:'50%',
@@ -366,11 +440,23 @@ export default function RecordingBar({camId, recDate, pressPlyRec, selRecTime, r
                     }}>
                         
                     </View>
+}
+
             </View>
             )
         }    
 
-         {!isLoading  &&   
+                {
+                    recrdArr.length < 1 && 
+                    <View style={{justifyContent:'center', alignItems:'center'
+                        , backgroundColor:'#202020', paddingBottom:5
+                    }}>
+                        <Text style={globalStyles.text}>No recording present</Text>
+                    </View>
+                
+                }
+                
+                {!isLoading  && recrdArr.length > 0 &&   
             <View style={styles.modal_footer}>
             
                 <Text style={{color:'gray', fontSize:12}}>Show records in interval (hours){24/totBar}</Text>
@@ -401,6 +487,7 @@ export default function RecordingBar({camId, recDate, pressPlyRec, selRecTime, r
             </View>
 
             }
+            
     </View>
     )
 }

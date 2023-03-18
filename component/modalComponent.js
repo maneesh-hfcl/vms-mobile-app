@@ -10,6 +10,7 @@ import { Picker } from "@react-native-picker/picker";
 const ModalComponent = ({navigation, route})=>{
     const{selCam} = route.params;
     const [date, setDate] = useState((new Date()).toDateString());
+    const[recdate, setRecdate] = useState(new Date());
     const[showDate, setShowDate] = useState(false);
     const platform = (Platform.OS == "ios")
     const[time, setTime] = useState(new Date());
@@ -44,7 +45,10 @@ const ModalComponent = ({navigation, route})=>{
     }
 
     const handleConfirmDate = (value)=>{
-        
+        console.log(value);
+        var dt = new Date(value)
+        setRecdate(value)
+//        console.log(dt.toISOString());
             setDate(value.toDateString())
         
         setShowDate(false)
@@ -84,6 +88,11 @@ const ModalComponent = ({navigation, route})=>{
       //  Alert.alert('play recording time')
     }
 
+    const handlePlayPress = ()=>{
+        console.log("play video for time: " + time + "-" + recdate)
+        navigation.navigate('MapHome',{selRecCamera:selCam, selRecdate:recdate, selRectime:time});
+    }
+
     return(
         <View style={styles.modal_view}>
             <View style={{opacity:0.6,backgroundColor:'black', flex:1}}>
@@ -116,7 +125,7 @@ const ModalComponent = ({navigation, route})=>{
                                         <Text style={{color:'#fff', marginHorizontal:5}} >{time.toTimeString().substring(0,5)}</Text>
                                     </TouchableOpacity>
                                 </View>        
-                                <Pressable style={styles.circle_btn} onPress={() => Alert.alert('You have pressed the button')}>
+                                <Pressable style={styles.circle_btn} onPress={handlePlayPress}>
                                     <View style={{flexDirection:'row',  alignItems:'center'}}>
                                         <Text style={[styles.play_btn]}>Play</Text>
                                         <MaterialIcons name="play-arrow" size={24} style={styles.icon_color} />
@@ -132,7 +141,7 @@ const ModalComponent = ({navigation, route})=>{
                     <Ionicons name="close" size={25} color="#fff" style={{marginHorizontal:0, marginVertical:5}} />
                 </TouchableOpacity>
              </View>
-             { date && <RecordingBar camId={selCam} recDate={date} recTime={recBarTime} pressPlyRec={pressPlyRec} selRecTime={selRecTime} /> } 
+             { date && <RecordingBar camId={selCam} recDate={recdate} recTime={recBarTime} pressPlyRec={pressPlyRec} selRecTime={selRecTime} /> } 
             
              
             <DatetTimePickerModal 

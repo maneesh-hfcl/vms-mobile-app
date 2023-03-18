@@ -370,7 +370,7 @@ const PlayVideo = ({camToPlay})=>{
                 <Video ref={video}
     //                 source={{ uri: 'http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8' }}
                   source={{uri: base64Encode}}
-                    rate={1.0}
+                rate={1.0}
                 volume={1.0}
                 isMuted={true}
                 style={{flex:1, width:'100%', height:'100%'}}

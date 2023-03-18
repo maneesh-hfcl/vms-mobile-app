@@ -11,6 +11,7 @@ const MapListScreen = ({navigation, route})=>{
     const[countTimes, setCountTimes] = useState(0)
     const[camMapId, setCamMapId] = useState(0)
     const[isModalVisible, setIsModalVisible] = useState(false)
+    const{selRecCamera,recdate,rectime} = route.params;
 
     useEffect(()=>{
       //  alert(route.params?.mapid)
@@ -20,6 +21,11 @@ const MapListScreen = ({navigation, route})=>{
         setCountTimes(count)
 
     },[route])
+
+    useEffect(()=>{
+//        console.log("select camera: " + selRecCamera)
+        navigation.navigate('live',{selRecCamera:selRecCamera, selRecdate: recdate, selRectime: rectime});
+    },[selRecCamera])
 
     const pressMapHandler = (itmId)=>{
    //     Alert.alert("map pressed" + itmId);

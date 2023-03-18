@@ -58,9 +58,10 @@ var year = date.getFullYear();  // yields year
 var hour = date.getHours();     // yields hours 
 var minute = date.getMinutes(); // yields minutes
 var second = date.getSeconds(); // yields seconds
-
+console.log("CurrentDateTime")
 // After this construct a string with the above results as below
-var datetime = month + "/" + day + "/" + year + " " + hour + ':' + minute + ':' + second; 
-console.log(datetime);
+var datetime = month + "/" + day + "/" + year + " " + ('00'+hour).slice(-2) + ':' + ('00'+minute).slice(-2) + ':' 
+    + ('00' + second).slice(-2); 
+console.log("date : "+ datetime);
 return datetime;
 }

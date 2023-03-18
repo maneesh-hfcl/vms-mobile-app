@@ -65,10 +65,10 @@ const AddEmergencyScreen = ({navigation, route})=>{
         //console.log(configAPIUrl);
         action.setSubmitting(true);
         let urlPath = Config.ApiUrl +  "/emergency/add"
-        console.log("time: " + (new Date()).getTime());
+        console.log(urlPath);
         console.log("time2: " + (new Date()).getMilliseconds());
         let cdate = CurrentDateTime();
-        var ticks = (((new Date()).getTime() * 10000) + 621355968000000000)
+        //var ticks = (((new Date()).getTime() * 10000) + 621355968000000000)
         const formData = new FormData()
         formData.append("description", values.description)
         formData.append("location", values.location)
