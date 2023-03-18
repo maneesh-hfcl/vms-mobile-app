@@ -11,7 +11,7 @@ const MapListScreen = ({navigation, route})=>{
     const[countTimes, setCountTimes] = useState(0)
     const[camMapId, setCamMapId] = useState(0)
     const[isModalVisible, setIsModalVisible] = useState(false)
-    const{selRecCamera,recdate,rectime} = route.params;
+   // const{selRecCamera,sdate,selRectime} = route.params;
 
     useEffect(()=>{
       //  alert(route.params?.mapid)
@@ -23,9 +23,15 @@ const MapListScreen = ({navigation, route})=>{
     },[route])
 
     useEffect(()=>{
-//        console.log("select camera: " + selRecCamera)
-        navigation.navigate('live',{selRecCamera:selRecCamera, selRecdate: recdate, selRectime: rectime});
-    },[selRecCamera])
+      // console.log("select camera: " + cam)
+        if(typeof route.params?.cam != "undefined")
+        {
+            console.log('playing video live screen');
+            console.log(route.params)
+            const{cam, recdt,rectime} = route.params;
+            navigation.navigate('live',{selRecCamera:cam, recdt:recdt.toString(), rectime:rectime.toString()});
+        }
+    },[route.params?.cam])
 
     const pressMapHandler = (itmId)=>{
    //     Alert.alert("map pressed" + itmId);
@@ -49,11 +55,11 @@ const MapListScreen = ({navigation, route})=>{
     }
 
     const pressHandlerCamLive = (devsym)=>{
-//        Alert.alert('cam press')
+    //    Alert.alert('cam press')
         // navigation.dispatch(
         //     StackActions.replace('live',{selCamera:'abcd'})
         // )
-        navigation.navigate('live',{selCamera:devsym});
+        navigation.navigate('live',{camId:devsym});
     }
 
     const pressHandlerCamRec = (devsym)=>{

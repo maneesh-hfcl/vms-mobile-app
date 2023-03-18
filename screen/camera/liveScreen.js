@@ -34,14 +34,7 @@ const LiveScreen = ({navigation, route})=>{
         loadData();
 
     },[])
-
-    useEffect(()=>{
-        //  Alert.alert('Loading camera tiles')
-        console.log("You selected: " + route.params?.selCamera);
-        if(route.params?.selCamera)
-            camNamePressHandler(route.params?.selCamera)
-      },[route.params?.selCamera])
-
+ 
     useEffect(()=>{
         console.log("calling route id")
         console.log(route.params?.camId)
@@ -53,13 +46,15 @@ const LiveScreen = ({navigation, route})=>{
 //        pressHandlerCam(route.params?.camId)
     },[route.params?.camId])
 
-    // useEffect(()=>{
-    //     if(route.params != null)
-    //     {
-    //     const{selRecCamera,selRecdate,selRectime} = route.params;
-    //     camNameRecPressHandler(selRecCamera, selRecdate, selRectime)
-    //     }
-    // },[route.params?.selRecCamera])
+    useEffect(()=>{
+        if(typeof route.params?.selRecCamera != "undefined")
+        {
+            const {selRecCamera, recdt, rectime} = route.params
+       //     console.log(reccam)
+//        const{selRecCamera,selRecdate,selRectime} = route.params;
+        camNameRecPressHandler(selRecCamera, recdt, rectime)
+        }
+    },[route.params?.selRecCamera])
 
     const loadData =()=>{
         setTileCam(initTileCam)
@@ -99,8 +94,20 @@ const LiveScreen = ({navigation, route})=>{
         dialogClose();
     }
 
-    const camNameRecPressHandler = (reccam,recdate, rectime)=>{
-        console.log(`Cam: ${reccam}, Recdate: ${recdate}, Rectime: ${rectime}`)
+    const camNameRecPressHandler = (elemCam,recdate, rectime)=>{
+        console.log(`Cam: ${elemCam}, Recdate: ${recdate}, Rectime: ${rectime}`)
+        let tempTileCam = [...tileCam];
+
+        let findCam = tempTileCam.find(x=>x.isCurSel == true)
+
+        if(findCam != null)
+        {
+        findCam.cam = elemCam?elemCam:'Select'
+        setTileCam(tempTileCam)
+//        Alert.alert("u have pressed the camera");
+        console.log(elemCam)
+        }
+        dialogClose();
     }
 
     const renderItems = (item)=>{

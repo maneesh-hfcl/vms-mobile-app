@@ -90,7 +90,7 @@ const ModalComponent = ({navigation, route})=>{
 
     const handlePlayPress = ()=>{
         console.log("play video for time: " + time + "-" + recdate)
-        navigation.navigate('MapHome',{selRecCamera:selCam, selRecdate:recdate, selRectime:time});
+        navigation.navigate('MapHome',{cam:selCam, recdt:recdate, rectime:time});
     }
 
     return(
