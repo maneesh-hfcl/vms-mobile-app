@@ -24,7 +24,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "m3s.mobile"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -33,14 +34,16 @@
       [
         "expo-notifications",
         {
-          "icon": "./local/assets/icons/logo.png",
-          "color": "#ffffff",
-          "sounds": [
-            "./local/assets/notification-sound.wav",
-            "./local/assets/notification-sound-other.wav"
-          ]
+          "icon": "./assets/icons/logo.png",
+          "color": "#ffffff"
+         
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "0839f7e8-d6fc-4eba-b941-c1f0cc805bee"
+      }
+    }
   }
 }

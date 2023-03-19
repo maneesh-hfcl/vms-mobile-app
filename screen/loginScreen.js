@@ -98,7 +98,7 @@ const LoginScreen = ({navigation, route})=>{
                 //setState(user);
                 console.log("setting user values");
                 setUserVal(JSON.parse(user));
-                pressChkDvHandler();
+                await pressChkDvHandler();
             }
             else{
                 console.log("user not present")

@@ -137,10 +137,10 @@ const MoreHomeScreen = ({navigation, props})=>{
             <UserDetailComponent />
             <View style={{flex:1}}>
 
-            {/* <TouchableOpacity onPress={pressClearHandler}>
+            <TouchableOpacity onPress={pressClearHandler}>
                 <Text style={[globalStyles.lnk_btn,{marginTop:20, marginLeft:50}]}>Clear storage key</Text>
                 
-            </TouchableOpacity> */}
+            </TouchableOpacity>
 
             </View>
             <View style={{flexDirection:'row', justifyContent:'space-evenly'}}>

@@ -6,13 +6,15 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import WebView from "react-native-webview";
 //import RNFS from 'react-native-fs';
 import Config from '../../configuration/config'
+import { MaterialIcons } from '@expo/vector-icons';
+import { globalStyles } from "../../style/globalstyle";
 // ...
 
 //const text = await FileSystem.readFile(Dirs.CacheDir + '/test.txt');
 
 
 
-const PlayVideo = ({camToPlay})=>{
+const PlayVideo = ({camToPlay, isRec, closeCam})=>{
     const[dataBlob, setDataBlob] = useState([])
     const web_url = Config.WebUrl
     const ws_url = Config.WebsocketUrl //"ws://192.168.2.197:7008/"
@@ -20,7 +22,7 @@ const PlayVideo = ({camToPlay})=>{
     const m3usUri = Config.VideoUrl  //"http://192.168.2.197:5005/hls/"
     const video = useRef(null)
 
-    const[wsArr, setWsArr] = useState([])
+    const[wsArr, setWsArr] = useState(null)
     const[base64Encode, setBase64Encode] = useState('');
     const[count,setCount] = useState(0)
     const bufferStream = useRef('')
@@ -33,7 +35,7 @@ const PlayVideo = ({camToPlay})=>{
         //setIsLoadingVideo(true)
         pressHandlerSocketConn()
 //setBase64Encode('hello')
-    },[camToPlay])
+    },[camToPlay, isRec])
 
     const getWebToken = ()=>{
         const camId = camToPlay //"ITEM_hap"
@@ -119,22 +121,25 @@ const PlayVideo = ({camToPlay})=>{
     }
 
     const pressHandlerDisconnect = ()=>{
-        //alert('Disconnecting alarm')
+     //   alert('Disconnecting alarm')
 //        console.log(base64Encode);
        // writeToFile()
        // delStoreData()
-       if(wsArr.length < 1) return;
-       console.log(wsArr[0])
-       let ws = wsArr[0]
+//       if(wsArr.length < 1) return;
+       //console.log(wsArr);
+      // return;
+      // let ws = wsArr[0]
 
-        if(ws)
+        if(wsArr)
         {
             console.log("closing websocket");   
-            ws.close()
+            wsArr.close()
+            setBase64Encode('')
+            closeCam(camToPlay)
         }
         else{
 //            ws.close()
-            console.log("ws undefined")
+            console.log("web socket undefined")
         }
     }
 
@@ -255,16 +260,18 @@ const PlayVideo = ({camToPlay})=>{
         ws.onerror = e => {
         // an error occurred
             console.log("Error occured");
-            console.log(e.message);
+            console.log(e);
+            setIsLoadingVideo(false)
+            setBase64Encode('error')
         };
 
         ws.onclose = e => {
         // connection closed
-            
+            console.log("finlally closing socket connection");
             console.log(e.code, e.reason);
         };
 
-        setWsArr(prev => [...prev, ws])
+        setWsArr(ws)
     }
 
     const storeData =  (value)=>{
@@ -366,7 +373,7 @@ const PlayVideo = ({camToPlay})=>{
                 onPlaybackStatusUpdate={status => console.log(status.isPlaying)}
           /> */}
 
-            {base64Encode.length > 0 &&
+            {base64Encode.length > 0 && base64Encode !="error" &&
                 <Video ref={video}
     //                 source={{ uri: 'http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8' }}
                   source={{uri: base64Encode}}
@@ -397,6 +404,14 @@ const PlayVideo = ({camToPlay})=>{
             </View>
             }
 
+            { base64Encode == "error" && 
+                <>
+                    <Text style={globalStyles.small_text}>Error occured in playing video</Text> 
+                    {/* <Text style={globalStyles.small_text}>Camera my not be assigned to server.</Text> */}
+                </>
+            
+            }
+
             {/* <TouchableOpacity onPress={pressHandlerSocketConn} style={{marginVertical:10, alignItems:'center'}}>
                 <Text>Connect socket</Text>
                 <Text>{count}</Text>
@@ -414,7 +429,34 @@ const PlayVideo = ({camToPlay})=>{
                 style={{flex:1}}
                 source={{uri: "http://192.168.2.197:5005/video.html"}}
             /> */}
+            {base64Encode.length > 0 && !isLoadingVideo &&
+                <View style={{
+                    position:'absolute',
+                    left:0,
+                    top:0,
+                    flexDirection:'row',
+                    justifyContent:"space-between",
+                    width:'100%',
+                    paddingHorizontal:10,
+                    marginVertical:5
+                }}>
+                    {
+                        isRec?(
+                            <MaterialIcons name="fiber-manual-record" size={24} 
+                            color="red" />
+                        ):(
+                        <Text></Text>
+                        )
 
+                    }
+
+                    <MaterialIcons name="close" size={24} color="yellow"
+                        onPress={pressHandlerDisconnect}
+                        style={{}}
+                    />
+                </View>
+                
+            }
 
         </View>
     )

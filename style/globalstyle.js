@@ -193,5 +193,11 @@ export const globalStyles = StyleSheet.create({
         marginVertical:10,
 
 
-    }
+    },
+    small_text:{
+        fontSize:12,
+        color:"gray",
+        paddingHorizontal:10,
+        textAlign:"center"
+    }   
 })

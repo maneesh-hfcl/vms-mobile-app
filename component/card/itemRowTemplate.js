@@ -53,7 +53,8 @@ const styles = StyleSheet.create({
         flex:0.6,
         paddingLeft:10,
         backgroundColor:'#e7e7e7',
-        paddingTop:5,
+        paddingTop:7,
+        paddingBottom:7,
         fontSize:15
     }
 })

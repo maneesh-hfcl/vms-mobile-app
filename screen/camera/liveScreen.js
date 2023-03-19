@@ -10,12 +10,12 @@ import PlayVideo from "./playVideo";
 
 const LiveScreen = ({navigation, route})=>{
     const initTileCam = [
-        {indx:0, cam:'Select', isCurSel:false},
-         {indx:1, cam:'Select', isCurSel:false},
-         {indx:2, cam:'Select', isCurSel:false},
-         {indx:3, cam:'Select', isCurSel:false},
-         {indx:4, cam:'Select', isCurSel:false},
-         {indx:5, cam:'Select', isCurSel:false},
+        {indx:0, cam:'Select', isCurSel:false,  isRec:false },
+         {indx:1, cam:'Select', isCurSel:false, isRec:false},
+         {indx:2, cam:'Select', isCurSel:false, isRec:false},
+         {indx:3, cam:'Select', isCurSel:false, isRec:false} ,
+         {indx:4, cam:'Select', isCurSel:false, isRec:false},
+         {indx:5, cam:'Select', isCurSel:false, isRec:false},
         // {indx:6, cam:'Select', isCurSel:false},
         // {indx:7, cam:'Select', isCurSel:false},
         // {indx:8, cam:'Select', isCurSel:false},
@@ -102,12 +102,33 @@ const LiveScreen = ({navigation, route})=>{
 
         if(findCam != null)
         {
-        findCam.cam = elemCam?elemCam:'Select'
-        setTileCam(tempTileCam)
+            findCam.cam = elemCam?elemCam:'Select'
+            findCam.isRec = true
+            setTileCam(tempTileCam)
 //        Alert.alert("u have pressed the camera");
-        console.log(elemCam)
+            console.log(elemCam)
         }
         dialogClose();
+    }
+
+    const closeCam = (camToClose)=>{
+        console.log(`closing cam: ${camToClose}`);
+
+        let tempTileCam = [...tileCam];
+
+        let findCam = tempTileCam.find(x=>x.cam == camToClose)
+        console.log(findCam)
+        if(findCam != null)
+        {
+            findCam.cam = 'Select'
+            findCam.isRec = false
+            console.log(findCam)
+            setTileCam(tempTileCam)
+//        Alert.alert("u have pressed the camera");
+//            console.log(elemCam)
+        }
+
+
     }
 
     const renderItems = (item)=>{
@@ -141,7 +162,7 @@ const LiveScreen = ({navigation, route})=>{
                     /> */}
                     {
                         item.cam != 'Select' &&
-                        <PlayVideo camToPlay ={item.cam}/>
+                        <PlayVideo camToPlay ={item.cam} isRec={item.isRec} closeCam={closeCam} />
                     }
 
                 </View>
@@ -260,7 +281,7 @@ const styles = StyleSheet.create({
     vw_tile_text_container:{
         backgroundColor:'#394a66',
         alignItems:'center',
-        paddingVertical:3,
+        paddingVertical:1,
 
         borderBottomWidth:0.5,
         marginVertical:0,
