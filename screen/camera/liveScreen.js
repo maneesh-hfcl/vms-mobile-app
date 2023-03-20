@@ -10,12 +10,12 @@ import PlayVideo from "./playVideo";
 
 const LiveScreen = ({navigation, route})=>{
     const initTileCam = [
-        {indx:0, cam:'Select', isCurSel:false,  isRec:false },
-         {indx:1, cam:'Select', isCurSel:false, isRec:false},
-         {indx:2, cam:'Select', isCurSel:false, isRec:false},
-         {indx:3, cam:'Select', isCurSel:false, isRec:false} ,
-         {indx:4, cam:'Select', isCurSel:false, isRec:false},
-         {indx:5, cam:'Select', isCurSel:false, isRec:false},
+        {indx:0, cam:'Select', isCurSel:false,  isRec:false, dateRec: '' },
+         {indx:1, cam:'Select', isCurSel:false, isRec:false, dateRec: '' },
+         {indx:2, cam:'Select', isCurSel:false, isRec:false, dateRec: ''},
+         {indx:3, cam:'Select', isCurSel:false, isRec:false, dateRec: ''} ,
+         {indx:4, cam:'Select', isCurSel:false, isRec:false, dateRec: ''},
+         {indx:5, cam:'Select', isCurSel:false, isRec:false, dateRec: ''},
         // {indx:6, cam:'Select', isCurSel:false},
         // {indx:7, cam:'Select', isCurSel:false},
         // {indx:8, cam:'Select', isCurSel:false},
@@ -54,7 +54,7 @@ const LiveScreen = ({navigation, route})=>{
 //        const{selRecCamera,selRecdate,selRectime} = route.params;
         camNameRecPressHandler(selRecCamera, recdt, rectime)
         }
-    },[route.params?.selRecCamera])
+    },[route.params?.selRecCamera, route.params?.recdt, route.params?.rectime])
 
     const loadData =()=>{
         setTileCam(initTileCam)
@@ -96,18 +96,31 @@ const LiveScreen = ({navigation, route})=>{
 
     const camNameRecPressHandler = (elemCam,recdate, rectime)=>{
         console.log(`Cam: ${elemCam}, Recdate: ${recdate}, Rectime: ${rectime}`)
+        var recdt = new Date(recdate);
+        var rectt = new Date(rectime)
+        let trecdt = (recdt.getFullYear()+"/"+(recdt.getMonth()+1) +"/" + recdt.getDate());
+        let trect = (rectt.getHours()+":"+rectt.getMinutes()+":" + rectt.getSeconds())
+
+        let dtofrec = new Date(trecdt+" " + trect)
+        
+
         let tempTileCam = [...tileCam];
 
         let findCam = tempTileCam.find(x=>x.isCurSel == true)
-
+        //return;
+        console.log('finding camera: ')
+        console.log(findCam?.cam + "/" + dtofrec)
         if(findCam != null)
         {
             findCam.cam = elemCam?elemCam:'Select'
             findCam.isRec = true
+            findCam.dateRec = dtofrec.toISOString()
             setTileCam(tempTileCam)
 //        Alert.alert("u have pressed the camera");
-            console.log(elemCam)
+            console.log('finding cam')
+            console.log(findCam)
         }
+
         dialogClose();
     }
 
@@ -122,6 +135,7 @@ const LiveScreen = ({navigation, route})=>{
         {
             findCam.cam = 'Select'
             findCam.isRec = false
+            findCam.dateRec = ''
             console.log(findCam)
             setTileCam(tempTileCam)
 //        Alert.alert("u have pressed the camera");
@@ -162,13 +176,14 @@ const LiveScreen = ({navigation, route})=>{
                     /> */}
                     {
                         item.cam != 'Select' &&
-                        <PlayVideo camToPlay ={item.cam} isRec={item.isRec} closeCam={closeCam} />
+                        <PlayVideo camToPlay ={item.cam} isRec={item.isRec} 
+                            closeCam={closeCam} dateRec={item.dateRec} />
                     }
 
                 </View>
                 <TouchableOpacity onPress={() => pressHandlerCam(item)}>
                     <View style={styles.vw_tile_text_container}>
-                        <Text style={styles.vw_tile_text}>{item.cam}</Text>
+                        <Text style={styles.vw_tile_text}>{item.cam}</Text> 
                     </View>
                 </TouchableOpacity>
                 </View>
@@ -226,7 +241,6 @@ const LiveScreen = ({navigation, route})=>{
                             renderItems(item)
                         ))
                     }
-    
                 </View>
             </ScrollView>
 
@@ -251,8 +265,6 @@ const LiveScreen = ({navigation, route})=>{
             </Modal> */}
 
         </View>
-
-
 
     )
 }
@@ -281,7 +293,7 @@ const styles = StyleSheet.create({
     vw_tile_text_container:{
         backgroundColor:'#394a66',
         alignItems:'center',
-        paddingVertical:1,
+        paddingVertical:3,
 
         borderBottomWidth:0.5,
         marginVertical:0,
@@ -291,7 +303,6 @@ const styles = StyleSheet.create({
     },
     vw_tile_text:{
         color:'#a7a7a7',
-        fontSize:13,
         fontWeight:'bold'
     },
     scrollView: {

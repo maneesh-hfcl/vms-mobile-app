@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "m3s-web-app",
+    "name": "M3S-Mobile",
     "slug": "m3s-web-app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/m3sIcon.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",

@@ -220,8 +220,8 @@ const LoginScreen = ({navigation, route})=>{
                     borderTopWidth:6,
                     borderColor:'orange',flex:1
                     }]}> 
-                    <View style={{marginHorizontal:20, marginTop:40}}>
-                    <View style={{marginVertical:15}}>
+                    <View style={{marginHorizontal:40, marginTop:30}}>
+                    <View style={{marginVertical:25}}>
                         <Text style={{fontSize:25, fontWeight:'bold', color:'#e37734', 
                         marginHorizontal:10}}>Sign in</Text>
                         <Text style={{fontSize:13, color:'#856d39',marginVertical:10, marginHorizontal:10}}>

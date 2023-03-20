@@ -8,13 +8,14 @@ import WebView from "react-native-webview";
 import Config from '../../configuration/config'
 import { MaterialIcons } from '@expo/vector-icons';
 import { globalStyles } from "../../style/globalstyle";
+import { CurrentDateTime } from "../../shared/fetchUrl";
 // ...
 
 //const text = await FileSystem.readFile(Dirs.CacheDir + '/test.txt');
 
 
 
-const PlayVideo = ({camToPlay, isRec, closeCam})=>{
+const PlayVideo = ({camToPlay, isRec, dateRec, closeCam})=>{
     const[dataBlob, setDataBlob] = useState([])
     const web_url = Config.WebUrl
     const ws_url = Config.WebsocketUrl //"ws://192.168.2.197:7008/"
@@ -28,22 +29,25 @@ const PlayVideo = ({camToPlay, isRec, closeCam})=>{
     const bufferStream = useRef('')
     const[indx,setIndx] = useState(0)
     const[isLoadingVideo, setIsLoadingVideo] = useState(true)
+    const[showDate, setShowDate] = useState(false)
     
     let boolFirst = false;
 
     useEffect(()=>{
         //setIsLoadingVideo(true)
+        console.log("calling useffect")
         pressHandlerSocketConn()
 //setBase64Encode('hello')
-    },[camToPlay, isRec])
+    },[camToPlay, isRec, dateRec])
 
     const getWebToken = ()=>{
+        console.log(`date of recording: ${dateRec}`);
         const camId = camToPlay //"ITEM_hap"
-        const type = 'L'
-        const encParams = "1920:-1:-1.0"
+        const type = dateRec==""?'L':'V'
+        const encParams = "640:-1:-1.0"
 //        const encParams = ""
         const mseSupport = false
-        const time = ''
+        const time = dateRec
                 
         const webtokenUrl = getWebServiceRequest(mseSupport, type, camId, encParams,time)
         console.log(webtokenUrl)
@@ -100,13 +104,14 @@ const PlayVideo = ({camToPlay, isRec, closeCam})=>{
 
     const getWebServiceRequest = (mseSupport, type, camId, encParams, time)=>{
         let sURL = web_url + "/vm/vmd/pvss?spc=" + (mseSupport ? "M" : "H") + ";" + type + ";" + camId;
+        console.log(sURL)
         if (type === "V") {
             sURL += ";" + time;
         }
         if (encParams !== "") {
             sURL += ";" + encParams;
         }
-
+        
         return sURL;
     }
     
@@ -438,12 +443,27 @@ const PlayVideo = ({camToPlay, isRec, closeCam})=>{
                     justifyContent:"space-between",
                     width:'100%',
                     paddingHorizontal:10,
-                    marginVertical:5
+                    marginVertical:3
                 }}>
                     {
                         isRec?(
-                            <MaterialIcons name="fiber-manual-record" size={24} 
-                            color="red" />
+                            <View style={{flexDirection:'row', justifyContent:'flex-start', alignItems:'center'}}>
+                                <MaterialIcons name="fiber-manual-record" size={24} 
+                                color="red" />
+                                {/* <MaterialIcons name="info-outline" size={20} color="#ffd7d4"
+                                    onPress={() => setShowDate(!showDate)}
+                                />
+                                {
+                                    showDate && */}
+                                    <Text style={[globalStyles.small_text,{
+                                        flexWrap:"wrap", position:'absolute', top:23, 
+                                        left:-10, fontSize:11,
+                                        backgroundColor:'#000',
+                                        color:'#fff',
+                                        opacity:0.5
+                                    }]}>{CurrentDateTime(dateRec)}</Text>
+                                {/* } */}
+                            </View>
                         ):(
                         <Text></Text>
                         )

@@ -18,7 +18,7 @@ const CameraHomeScreen = ({navigation})=>{
     return(
         <View style={[globalStyles.container_login_view,{backgroundColor:'#fff'}]}>
             <View style={{marginHorizontal:20, marginTop:20,flex:1}}>
-                <MenuCardComponent menuText='Live view' onMenuPress={() => menuPressHandler('live')}>
+                <MenuCardComponent menuText='Live . Recording' onMenuPress={() => menuPressHandler('live')}>
                     <MaterialIcons name="featured-video" size={30} color="green" />
                 </MenuCardComponent>
                 {/* <MenuCardComponent menuText='Recording'>

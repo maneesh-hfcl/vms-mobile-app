@@ -68,6 +68,7 @@ const AddEmergencyScreen = ({navigation, route})=>{
         console.log(urlPath);
         console.log("time2: " + (new Date()).getMilliseconds());
         let cdate = CurrentDateTime();
+        console.log(`cdate to save in DB1 : ${cdate}`)
         //var ticks = (((new Date()).getTime() * 10000) + 621355968000000000)
         const formData = new FormData()
         formData.append("description", values.description)

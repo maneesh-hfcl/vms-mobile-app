@@ -33,6 +33,6 @@ const styles = StyleSheet.create({
         paddingHorizontal:10,
         borderRadius:10,
         borderWidth:1,
-        borderColor:'#e7e7e7'
+        borderColor:'#e9e9e9'
     }
 })
