@@ -5,6 +5,8 @@ import { MaterialIcons, Ionicons, FontAwesome } from '@expo/vector-icons';
 import { globalStyles } from '../style/globalstyle';
 import { LnkBtnCard } from '../component/card/lnkBtnCard';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { manipulateAsync, FlipType, SaveFormat } from 'expo-image-manipulator';
+
 //import { globalStyles } from '../style/global';
 
 const EmergencyHome = ({navigation, route})=>{
@@ -45,10 +47,17 @@ const EmergencyHome = ({navigation, route})=>{
     const takePic = async ()=>{
 //        Alert.alert("Taking picture")
         if(camera){
-            const options = {quality: 0}
+         //   const options = {quality: 0}
+            const options = { quality: 0, skipProcessing: true };
             const data = await camera.takePictureAsync(options)
-            //console.log(data);
-            setImage([data.uri, ...image])
+            console.log("saving image to low resolution")
+            const manipResult = await manipulateAsync(
+                data.uri,
+                [{ resize: { width: 640, height: 480 } }],
+                { format: 'jpeg' }
+            );
+            console.log(manipResult);
+            setImage([manipResult.uri, ...image])
             //console.log(image)
         }
     }
