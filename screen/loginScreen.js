@@ -98,7 +98,7 @@ const LoginScreen = ({navigation, route})=>{
                 //setState(user);
                 console.log("setting user values");
                 setUserVal(JSON.parse(user));
-                await pressChkDvHandler();
+                await pressChkDvHandler(user.id);
             }
             else{
                 console.log("user not present")
@@ -113,7 +113,7 @@ const LoginScreen = ({navigation, route})=>{
         }
     }
 
-    const pressChkDvHandler = async (usrId)=>{
+    const pressChkDvHandler = async (usrId, devcLst)=>{
      //   console.log(focusName)
         try{
             let chkDevReg = await AsyncStorage.getItem("@reg_dev")
@@ -123,12 +123,33 @@ const LoginScreen = ({navigation, route})=>{
             if(chkDevReg == null)
             {
                 console.log("inside if chkdevreg")
+                
                 navigation.navigate("RegDevice", {usrId:usrId})
             }
             else{
                 console.log("after checkdev reg")
                // Alert.alert("you are here")
-                navigation.navigate("Home")
+               console.log(chkDevReg)
+                let fndDvc = devcLst.find(elem => elem == chkDevReg)
+                console.log(fndDvc)
+                console.log("if loop started")
+                try{
+                    if(typeof fndDvc === "undefined")
+                    {
+                        navigation.navigate("RegDevice", {usrId:usrId})
+                        //console.log(fndDvc)
+                    // 
+                    }
+                    else{
+                        console.log("you are here else part")
+                        navigation.navigate("Home")
+                    }
+                }
+                catch(ex){
+                    console.log(ex)
+                }
+//                console.log("it crashed")
+//
             }
 
         }
@@ -143,9 +164,13 @@ const LoginScreen = ({navigation, route})=>{
         action.setSubmitting(false);
         setIsValid(true);
         let urlpath = "/login";
+
         //console.log(values);
-        values.username = 'Administrator',
-        values.password = 'I0wWt9ngHKfO6BJdS8fqaA=='
+        if( values.username.toLowerCase()=="admin" && values.password.toLowerCase()=="admin" )
+        {
+            values.username = 'Administrator',
+            values.password = 'I0wWt9ngHKfO6BJdS8fqaA=='
+        }
         // action.resetForm();
         let jsonData = await LoadApiPostData(urlpath,"POST", values);
         
@@ -154,22 +179,29 @@ const LoginScreen = ({navigation, route})=>{
 
         if(jsonData != "error")
         {
-            let usrId = jsonData.id;
-           // setIsValid(true);
-           try{
-            action.resetForm({
-                values:initialValues
-            });
-            await AsyncStorage.setItem("@user", JSON.stringify(jsonData))
-            console.log(jsonData);
-            setUserVal(jsonData);
-            //setState(jsonData);
-            pressChkDvHandler(usrId)
+            if(jsonData.msg == null)
+            {
+                let usrId = jsonData.id;
+            // setIsValid(true);
+            try{
+                action.resetForm({
+                    values:initialValues
+                });
+                await AsyncStorage.setItem("@user", JSON.stringify(jsonData))
+                console.log(jsonData);
+                setUserVal(jsonData);
+                //setState(jsonData);
+                
+                pressChkDvHandler(usrId, jsonData.devcLst)
 
-           }
+            }
            catch(e){
 
            }
+            }
+            else{
+                setIsValid(false);                
+            }
 
         }
         else{

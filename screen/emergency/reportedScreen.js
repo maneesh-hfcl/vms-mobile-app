@@ -20,6 +20,7 @@ const ReportedScreen = ({ navigation }) => {
     const videoBaseUrl = Config.ApiUrl+"/upload/video"
     const[isVisible, setIsVisible] = useState(true)
     const loadingImg = require("../../assets/favicon.png")
+    const[devcToken, setDevcToken] = useState([])
 
     useEffect(() => {
         console.log("useEffect called here");
@@ -78,7 +79,7 @@ const ReportedScreen = ({ navigation }) => {
                 //                setImgLst(initLst)
                 setReportLst(initLst)
                 
-
+                getUserTokenList();
             }
         }
         catch (e) {
@@ -86,10 +87,48 @@ const ReportedScreen = ({ navigation }) => {
         }
     }
 
+    const getUserTokenList = async ()=>{
+        let urlPath = `/getUsrDevcsTokn`
+        console.log(urlPath)
+        const jsonVal = await LoadApiData(urlPath);
+        console.log("Device list: ")
+        setDevcToken(jsonVal.devcLst)
+        console.log(jsonVal)
+    }
+
     const imgPress = (img) => {
         navigation.navigate("ViewEmergencyImage", { imageUrl: imageBaseUrl+"/"+ img })
         //        console.log(img);
     }
+ 
+    const pressLnkSendNotification = (itm)=>{
+        console.log("Sending push notification");
+        console.log(devcToken)
+        //return;
+        sendPushNotification(devcToken, itm)
+    }
+
+    async function sendPushNotification(expoPushToken, itm){
+        const message = {
+            to: expoPushToken,
+            sound: 'default',
+            title: 'Incident occured',
+            body: itm.text,
+            data: { someData: 'goes here' },
+          };
+          console.log(message)
+          await fetch('https://exp.host/--/api/v2/push/send', {
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              'Accept-encoding': 'gzip, deflate',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(message),
+          });
+    }
+
+
 
     const renderItem = ({ item, index }) => {
         return (
@@ -190,7 +229,7 @@ const ReportedScreen = ({ navigation }) => {
                             <View style={{ flex: 1 }}>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 4 }}>
                                     <Feather name="alert-triangle" size={20} color="red" />
-                                    <Text style={{ marginHorizontal: 5, fontSize: 16 }}>{item.text}</Text>
+                                    <Text style={{ marginHorizontal: 5 }}>{item.text}</Text>
                                 </View>
                                 <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 5 }}>
                                     <MaterialIcons name="date-range" size={20} color="#72acf7" />
@@ -286,7 +325,7 @@ const ReportedScreen = ({ navigation }) => {
                                     labelColor={'#3a51d6'}
                                     color={'#f7f5c6'}
                                 />
-                                <LnkBtnCard
+                                <LnkBtnCard pressLnkHandler={() => pressLnkSendNotification(item)}
                                     iconName={'send-to-mobile'}
                                     iconSize={20}
                                     iconColor={'#606060'}

@@ -40,6 +40,6 @@ const styles = StyleSheet.create({
         marginRight:6,
         marginVertical:2,
         color:'black',
-
+        fontSize:13
     }
 })

@@ -15,7 +15,6 @@ import DesignTriComponent from "../component/designTriComponent";
 import SmsComponent from "../component/smsComponent";
 import { LoadApiPostData } from "../shared/fetchUrl";
 
-
 Notifications.setNotificationHandler({
     handleNotification: async() =>({
         shouldShowAlert:true,
@@ -114,7 +113,7 @@ const RegDeviceScreen = ({navigation, route})=>{
             reponse => console.log(reponse)
         )
 
-        getRegDeviceId()
+//        getRegDeviceId()
 
 //        registerForm()
 
@@ -153,11 +152,12 @@ const RegDeviceScreen = ({navigation, route})=>{
 
     const pressLnkHandler = async ()=>{
         try{
-            await AsyncStorage.setItem("@reg_dev", expoPushToken);
+            let unqDevId = (Constants.sessionId) 
+            await AsyncStorage.setItem("@reg_dev", unqDevId);
             let urlPath = "/regDvc"
             let dataToPost = {
                 "userId":usrId,
-                "devToken": expoPushToken
+                "devToken": unqDevId
             }
             let jsonResp = await LoadApiPostData(urlPath,"POST", dataToPost)
             console.log(jsonResp);
@@ -188,11 +188,11 @@ const RegDeviceScreen = ({navigation, route})=>{
                     </HeaderCardComponent>
                 </View> 
                 {/* <SmsComponent /> */}
-                <View style={{justifyContent:'center', alignItems:'center', marginVertical:30, marginHorizontal:30, flex:1}}>
+                <View style={{justifyContent:'flex-start', alignItems:'center', marginVertical:30, marginHorizontal:30, flex:1}}>
                     {
                         isLoading?(
                     <View>    
-                    <Text style={[globalStyles.text, {textAlign:'justify', marginVertical:20, marginHorizontal:20}]}>
+                    <Text style={[globalStyles.text, {textAlign:'justify', marginBottom:40, marginHorizontal:20}]}>
                         This is the first time, you are login from this device.
                         Kindly register the device to proceed further.
                     </Text>

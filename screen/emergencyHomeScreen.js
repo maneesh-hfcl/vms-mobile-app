@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
-import {View, Text, StyleSheet, TouchableOpacity, Alert, Image, FlatList, Pressable} from 'react-native'
+import {View, Text, StyleSheet, TouchableOpacity, Alert, Image, FlatList, Pressable, Dimensions} from 'react-native'
 import { Camera, CameraType } from 'expo-camera'
 import { MaterialIcons, Ionicons, FontAwesome } from '@expo/vector-icons';
 import { globalStyles } from '../style/globalstyle';
 import { LnkBtnCard } from '../component/card/lnkBtnCard';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { manipulateAsync, FlipType, SaveFormat } from 'expo-image-manipulator';
+import { useIsFocused } from '@react-navigation/core';
 
 //import { globalStyles } from '../style/global';
 
@@ -15,15 +16,29 @@ const EmergencyHome = ({navigation, route})=>{
     const[camera, setCamera] = useState(null)
     const[image, setImage] = useState([])
     const[curImageIndx, setCurImageIndx] = useState(-1)
+    const[camLayout, setCamLayout] = useState(null)
+    const[isFocussed, setIsFocussed] = useState(false)
 
     useEffect(()=>{
+        const unsubscribe = navigation.addListener('focus', () => {
+            // The screen is focused
+            // Call any action
+            console.log("calling focus screen")
+            setIsFocussed(true)      
+        });
+
         (async()=>{
+
             const {status} = await Camera.requestCameraPermissionsAsync()
             setHasPermission(status === 'granted')
-        })()
+
+            })()
+        return unsubscribe;
     },[])
 
     useEffect(()=>{
+//        console.log("you are calling the useffect screen");
+
         if(route.params?.retVal == "added")
         {
             console.log("Record added to the system");
@@ -33,8 +48,8 @@ const EmergencyHome = ({navigation, route})=>{
     },[route.params?.retVal])
 
     if(hasPermission === null){
-        return <View>
-            <Text>No Permission</Text>
+        return <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
+            <Text>Requesting to open camera</Text>
         </View>
     }
 
@@ -48,13 +63,20 @@ const EmergencyHome = ({navigation, route})=>{
 //        Alert.alert("Taking picture")
         if(camera){
          //   const options = {quality: 0}
+            const{lytHeight, lytWidth} = camLayout
             const options = { quality: 0, skipProcessing: true };
+            
             const data = await camera.takePictureAsync(options)
+            console.log(`data to show: `)
+            console.log(data)
+            const {height, uri, width} =data;
+//            let new_height = 640
+//            let new_width = width/height * new_height
             console.log("saving image to low resolution")
             const manipResult = await manipulateAsync(
-                data.uri,
-                [{ resize: { width: 640, height: 480 } }],
-                { format: 'jpeg' }
+                uri,
+                [{ resize: { width: lytWidth, height: lytHeight } }],
+                { format: 'jpeg', compress:0.5 }
             );
             console.log(manipResult);
             setImage([manipResult.uri, ...image])
@@ -118,7 +140,8 @@ const EmergencyHome = ({navigation, route})=>{
     }
 
     const pressLnkViewReport = async ()=>{
-        await savePicturesAsync()
+      //  await savePicturesAsync()
+        setIsFocussed(false)
         navigation.navigate("EmergencyReport")
     }
 
@@ -168,13 +191,29 @@ const EmergencyHome = ({navigation, route})=>{
         console.log("Deleting data");
     }
 
+    const getCameraLayout = (event)=>{
+     //   console.log(event.nativeEvent.layout);
+        const {height, width, x, y} = event.nativeEvent.layout;
+        setCamLayout({"lytHeight": height,"lytWidth": width})
+        console.log("camera layout")
+    }
+
     return(
 
         <View style={globalStyles.container_main}>
-            <View style={{}}></View>
-            { curImageIndx == -1 &&
-                <Camera type={type} style={{flex:1}} ref={ref=> setCamera(ref)}></Camera>
+            <View style={{flex:1}}>
+            { curImageIndx == -1 && isFocussed ?(
+                
+                    <Camera onLayout={getCameraLayout} type={type} style={{flex:1}} 
+                        ref={ref=> setCamera(ref)}></Camera>
+                
+            ):(
+                <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
+                    <Text>Opening camera .... </Text>
+                </View>    
+            )
             }
+            </View>
             { curImageIndx > -1 && 
                 <View style={{flex:1}} >
                     

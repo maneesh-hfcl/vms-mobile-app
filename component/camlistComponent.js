@@ -45,18 +45,7 @@ const CamListComponent = ({mapId, camNamePress, pressHandlerCamLive, pressHandle
                 devname : elem.devnm.trimEnd()
             })
             );//.filter( elem => elem.parentId == mapid)
-            initLst = [...initLst, {
-                id:21,
-                devsym:'TEMP',
-                devname:'TEMP'
-
-            }]
-            initLst = [...initLst, {
-                id:22,
-                devsym:'TEMP2',
-                devname:'TEMP2'
-
-            }]
+            
             setCamArr(initLst)
 //            return json.movies;
             setIsLoading(false)
