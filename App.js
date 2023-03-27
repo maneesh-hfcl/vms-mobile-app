@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, SafeAreaView, SafeAreaViewBase } from 'react-na
 import * as SplashScreen from 'expo-splash-screen';
 import { useCallback, useEffect, useState } from 'react';
 import Entypo from '@expo/vector-icons/Entypo';
+import AppMain from './screen/AppMain';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -32,20 +33,15 @@ export default function App() {
   },[appIsReady])
 
   if(!appIsReady){
-    return(
-    <View>
-      <Text>Readying app</Text>
-    </View>
-    )
+    return null
   }
 
   return (
-    <View
-      style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
-      onLayout={onLayoutRootView}>
-      <Text>SplashScreen Demo! 👋</Text>
-      <Entypo name="rocket" size={30} />
-    </View>
+    <>
+        <View onLayout={onLayoutRootView}>
+        </View>
+        <AppMain />
+     </> 
   );
 }
 

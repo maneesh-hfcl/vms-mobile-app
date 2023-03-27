@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {View, Text, StyleSheet, Alert, ScrollView, FlatList, TouchableOpacity, Modal} from 'react-native'
+import {View, Text, StyleSheet, Alert, ScrollView, FlatList, TouchableOpacity, Modal, Pressable} from 'react-native'
 import { globalStyles } from "../../style/globalstyle";
 import { Entypo, Ionicons, MaterialIcons, Feather, FontAwesome, MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 import MapComponent from "../../component/mapComponent";
@@ -145,6 +145,13 @@ const LiveScreen = ({navigation, route})=>{
 
     }
 
+    const pressHandlerFullScreen = (itm)=>{
+//        Alert.alert(itm.cam)
+        navigation.push("PTZ", {cam:itm.cam})
+       // navigation.push("MapHome",{mapid:0, count:1 })
+     
+ }
+
     const renderItems = (item)=>{
         return(
             // <View style={[styles.vw_tile_inner, numColumns==1?{height:200}:{}]}>
@@ -181,11 +188,19 @@ const LiveScreen = ({navigation, route})=>{
                     }
 
                 </View>
-                <TouchableOpacity onPress={() => pressHandlerCam(item)}>
-                    <View style={styles.vw_tile_text_container}>
+                <View style={{flexDirection:'row'}}>
+                    <Pressable
+                        android_ripple={{color: 'black', borderless: true}}
+                    onPress={() => pressHandlerCam(item)} 
+                        style={styles.vw_tile_text_container}>
                         <Text style={styles.vw_tile_text}>{item.cam}</Text> 
-                    </View>
-                </TouchableOpacity>
+                    </Pressable>
+                    <Pressable style={{backgroundColor:'#394a66'}}
+                        onPress={ () => pressHandlerFullScreen(item)}
+                    >
+                        <MaterialIcons name="fullscreen" size={24} color="#fff" />
+                    </Pressable>
+                </View>
                 </View>
         )
     }
@@ -298,12 +313,14 @@ const styles = StyleSheet.create({
         borderBottomWidth:0.5,
         marginVertical:0,
         marginHorizontal:0,
-        borderBottomColor:'#909090'
-
+        borderBottomColor:'#909090',
+        flex:1
+    
     },
     vw_tile_text:{
         color:'#a7a7a7',
-        fontWeight:'bold'
+        fontWeight:'bold',
+        flex:1
     },
     scrollView: {
         backgroundColor: 'pink',

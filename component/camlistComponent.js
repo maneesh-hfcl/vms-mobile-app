@@ -35,7 +35,8 @@ const CamListComponent = ({mapId, camNamePress, pressHandlerCamLive, pressHandle
 
     const loadCam = async(mapid)=>{
         try {
-            console.log(mapid);
+            console.log("Loading cameras in map")
+            console.log(`You are in map: ${mapid}`);
             jsondata = await LoadApiData("/devicesMap/"+mapid)
          //   console.log(jsondata);
            

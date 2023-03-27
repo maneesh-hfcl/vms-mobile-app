@@ -43,6 +43,7 @@ const LoginScreen = ({navigation, route})=>{
 
     useEffect(()=>{
         console.log(Constants.sessionId)
+        
         getLoginFrmStorage()
 
         const showSubscription = Keyboard.addListener('keyboardWillShow', ()=>{
