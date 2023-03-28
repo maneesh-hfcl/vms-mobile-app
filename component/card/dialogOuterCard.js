@@ -1,14 +1,14 @@
 import React from "react";
 import { Text,View, StyleSheet, Pressable } from "react-native";
 
-const DialogOuterCard = ({children, pressCloseDialog})=>{
+const DialogOuterCard = ({children, pressCloseDialog, diagBackColor})=>{
     return(
         <View style={[{ flex:1}]}>
             <Pressable onPress={pressCloseDialog} style={{position:"absolute",backgroundColor:'black', height:'100%'
                 , width:'100%', opacity:0.4}}>
                 
             </Pressable>
-            <View style={[styles.modal_dialog,{ marginTop:100}]}>
+            <View style={[styles.modal_dialog,{ marginTop:100}, diagBackColor?{backgroundColor:diagBackColor}:{}]}>
                {children} 
             </View>
         </View>
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
       borderWidth:1,
       borderColor:"#e7e7e7",
       paddingHorizontal:0,
-      paddingVertical:10,
+      paddingTop:10,
       
   }
 })

@@ -195,10 +195,10 @@ const LiveScreen = ({navigation, route})=>{
                         style={styles.vw_tile_text_container}>
                         <Text style={styles.vw_tile_text}>{item.cam}</Text> 
                     </Pressable>
-                    <Pressable style={{backgroundColor:'#394a66'}}
+                    <Pressable style={{backgroundColor:'#394a66', paddingHorizontal:3}}
                         onPress={ () => pressHandlerFullScreen(item)}
                     >
-                        <MaterialIcons name="fullscreen" size={24} color="#fff" />
+                        <MaterialIcons name="fullscreen" size={24} color="#d7d7d7" />
                     </Pressable>
                 </View>
                 </View>

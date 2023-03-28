@@ -1,5 +1,5 @@
 export default{
-  // ApiUrl : "http://192.168.2.197:5006",
+  //  ApiUrl : "http://192.168.2.197:5006",
   //ApiUrl : "http://192.168.80.25:5006",
   
     ApiUrl : "http://119.252.208.55:8060",

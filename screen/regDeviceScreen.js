@@ -15,78 +15,10 @@ import DesignTriComponent from "../component/designTriComponent";
 import SmsComponent from "../component/smsComponent";
 import { LoadApiPostData } from "../shared/fetchUrl";
 
-Notifications.setNotificationHandler({
-    handleNotification: async() =>({
-        shouldShowAlert:true,
-        shouldPlaySound:false,
-        shouldSetBadge:false
-    })
-})
-
-async function sendPushNotification(expoPushToken){
-    const message = {
-        to: expoPushToken,
-        sound: 'default',
-        title: 'Original Title',
-        body: 'And here is the body!',
-        data: { someData: 'goes here' },
-      };
-      console.log(message)
-      await fetch('https://exp.host/--/api/v2/push/send', {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Accept-encoding': 'gzip, deflate',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(message),
-      });
-    }
-    
-
-
-
-
-async function registerForPushNotificationAsync(){
-    let token;
-    if (Device.isDevice){
-        const{status:existingStatus} = await Notifications.getPermissionsAsync();
-        let finalStatus = existingStatus
-        if( existingStatus !=='granted')
-        {
-            const{status} = await Notifications.getPermissionsAsync();
-            finalStatus = status
-        }
-        
-        if(finalStatus !=='granted'){
-           // Alert.alert('failed to get notification');
-           // return;
-        }
-        console.log(finalStatus)
-        token = (await Notifications.getExpoPushTokenAsync()).data
-        console.log(token)
-    }
-    else{
-        console.log('Must use physical device for Notification')
-        Alert.alert('Must use physical device for Notification')
-    }
-
-    if(Platform.OS === 'android'){
-        Notifications.setNotificationChannelAsync('default',{
-            name:'default',
-            importance: Notifications.AndroidImportance.MAX,
-            vibrationPattern: [0,250,250,250],
-            lightColor:'#FF231F7C',
-            enableLights:true
-        })
-    }
-
-    return token
-}
 
 const RegDeviceScreen = ({navigation, route})=>{
     const[isLoading, setIsLoading] = useState(true)    
-    const[expoPushToken, setExpoPushToken] = useState('')
+    const[expoPushToken, setExpoPushToken] = useState(null)
     const[notification, setNotification] = useState(false)
     const notificationListener = useRef()
     const responseListener = useRef()
@@ -101,47 +33,22 @@ const RegDeviceScreen = ({navigation, route})=>{
     });
 
     useEffect(()=>{
-  
-        
-        registerForPushNotificationAsync().then(token => setExpoPushToken(token))
-        
-        notificationListener.current = Notifications.addNotificationReceivedListener(
-            ()=> setNotification(notification)
-        )
-
-        responseListener.current = Notifications.addNotificationResponseReceivedListener(
-            reponse => console.log(reponse)
-        )
-
-//        getRegDeviceId()
-
-//        registerForm()
-
-        return ()=>{
-            Notifications.removeNotificationSubscription(notificationListener.current)
-            Notifications.removeNotificationSubscription(responseListener.current)
-        }
-
-        
+        getRegDeviceId()
 
     },[])
 
-    // useEffect(()=>{
-    //     register({name: 'firstName'}, {required:true})
-    //     register({name:'lastName'})
-    // },[register])
-
-    console.log(errors)
-    const notifySettings = async ()=>{
-        
-    }
-
     const getRegDeviceId = async()=>{
-        const value = await AsyncStorage.getItem("@reg_dev")
-        if(value != null)
-        {
-            setIsLoading(false)
-            navigation.navigate('Home')
+        try{
+            const value = await AsyncStorage.getItem("@reg_dev")
+            if(value != null)
+            {
+    //            setIsLoading(false)
+    //            navigation.navigate('Home')
+                setExpoPushToken(value)
+            }
+        }
+        catch(e){
+            console.log("Error occured in getRegDeviceId");
         }
 
     }
@@ -152,12 +59,17 @@ const RegDeviceScreen = ({navigation, route})=>{
 
     const pressLnkHandler = async ()=>{
         try{
-            let unqDevId = (Constants.sessionId) 
-            await AsyncStorage.setItem("@reg_dev", unqDevId);
+//            let unqDevId = (Constants.sessionId) 
+ //           await AsyncStorage.setItem("@reg_dev", unqDevId);
+//            let unqDevId = await AsyncStorage.getItem("@reg_dev")
+            if(expoPushToken==null)
+            {
+                console.log("Device Id is null")
+            }
             let urlPath = "/regDvc"
             let dataToPost = {
                 "userId":usrId,
-                "devToken": unqDevId
+                "devToken": expoPushToken
             }
             let jsonResp = await LoadApiPostData(urlPath,"POST", dataToPost)
             console.log(jsonResp);
@@ -196,7 +108,9 @@ const RegDeviceScreen = ({navigation, route})=>{
                         This is the first time, you are login from this device.
                         Kindly register the device to proceed further.
                     </Text>
-                
+                    {expoPushToken != null && 
+                        <Text>Your unique device id is: {expoPushToken}</Text>
+                    }        
                     <View style={{alignItems:'center', marginVertical:20,
                 
                 }}>

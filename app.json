@@ -8,8 +8,8 @@
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "resizeMode": "cover",
+      "backgroundColor": "#000"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -25,7 +25,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#000000"
       },
-      "package": "m3s.mobile"
+      "package": "m3s.mobile",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "favicon": "./assets/adaptive-icon.png"
@@ -34,7 +35,7 @@
       [
         "expo-notifications",
         {
-          "icon": "./assets/icons/logo.png",
+          "icon": "./assets/adaptive-icon.png",
           "color": "#ffffff"
         }
       ]

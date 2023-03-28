@@ -1,11 +1,26 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, SafeAreaView, SafeAreaViewBase } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, SafeAreaViewBase, Button } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
 import { useCallback, useEffect, useState } from 'react';
 import Entypo from '@expo/vector-icons/Entypo';
 import AppMain from './screen/AppMain';
+import * as Notifications from 'expo-notifications';
+import { registerForPushNotificationsAsync } from './shared/useNotification';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 SplashScreen.preventAutoHideAsync();
+
+Notifications.setNotificationHandler({
+  handleNotification:async ()=>{
+    return{
+      shouldShowAlert:true,
+      shouldPlaySound:true,
+      shouldSetBadge:true
+    };
+  }
+
+})
 
 export default function App() {
   const[appIsReady, setAppIsReady] = useState(false);
@@ -13,7 +28,8 @@ export default function App() {
   useEffect(()=>{
     async function prepare(){
       try{
-        await new Promise(resolve => setTimeout(resolve, 2000))
+//        await new Promise(resolve => setTimeout(resolve, 2000))
+        getpushToken();
       }
       catch(e){
         console.log(e)
@@ -26,6 +42,41 @@ export default function App() {
     prepare()
   },[])
 
+  useEffect(()=>{
+
+
+  })
+
+  const getpushToken = async ()=>{
+    let pushToken = await registerForPushNotificationsAsync();
+    console.log(pushToken);
+    try{
+      await AsyncStorage.setItem("@reg_dev", pushToken);
+    }
+    catch(e){
+      console.log("error occured")
+    }
+  }
+
+  useEffect(()=>{
+    const subscriptionReceived =  Notifications.addNotificationReceivedListener((notification)=>{
+      console.log('Notification Recvd')
+      console.log(notification)
+      console.log(notification.request.content.data)
+    });
+
+    const subscriptionRespReceived = Notifications.addNotificationResponseReceivedListener((response)=>{
+      console.log("RESPONSE BY USER")
+      console.log(response)
+      console.log(response.notification.request.content.data.userName)
+    });
+
+    return ()=>{
+      subscriptionReceived.remove()
+      subscriptionRespReceived.remove()
+    };
+   },[])
+
   const onLayoutRootView = useCallback(async()=>{
     if(appIsReady){
       await SplashScreen.hideAsync()
@@ -36,11 +87,27 @@ export default function App() {
     return null
   }
 
+  const scheduleNotificationHandler = async ()=>{
+    Notifications.scheduleNotificationAsync({
+      content:{
+        title:'My first local notification',
+        body:'This is the body of notification',
+        data:{userName:'Max'}
+      },
+      trigger: {
+        seconds:5
+      }
+    })
+  }
+
   return (
     <>
-        <View onLayout={onLayoutRootView}>
+         
+         <AppMain />
+         <View onLayout={onLayoutRootView}>
+          {/* <Text>hello sir</Text>
+          <Button title='Schedule Notification' onPress={scheduleNotificationHandler} /> */}
         </View>
-        <AppMain />
      </> 
   );
 }

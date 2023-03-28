@@ -206,7 +206,7 @@ const AddEmergencyScreen = ({navigation, route})=>{
                             marginLeft:0
                             }}
                         >
-                        <MapView 
+                        {/* <MapView 
                         initialRegion={mapLoc} 
                         style={{alignSelf:'stretch', 
                         flex:1, borderWidth:1, borderColor:'#e5e5e5', marginVertical:20}}
@@ -216,7 +216,7 @@ const AddEmergencyScreen = ({navigation, route})=>{
                                 pinColor='red'
                             />
                         
-                        </MapView>
+                        </MapView> */}
                         
                         <Text style={globalStyles.text_form}>Position (lat - long)</Text>
                         <Text>{mapLoc.latitude.toFixed(4)} - {mapLoc.longitude.toFixed(4)} </Text>

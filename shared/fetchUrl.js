@@ -20,6 +20,26 @@ export const LoadApiData = async(urlpath, type)=>{
 
 }
 
+export const LoadApiDataFrmWeb = async(urlpath, type)=>{
+    try {
+            let uri = Config.WebUrl + `${urlpath}`
+            console.log("LoadApiData - " + uri);
+            const response = await fetch(
+                uri,
+                {
+                    method: type == null?"GET":type
+                    
+                }
+            );
+            return await response.json();
+        //            return json.movies;
+        } catch (error) {
+            console.error(error);
+            return "error"
+        }
+
+}
+
 export const LoadApiPostData = async(urlpath, type, data)=>{
     try {
             console.log("Inside LoadApiPostData");
