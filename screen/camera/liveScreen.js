@@ -147,7 +147,9 @@ const LiveScreen = ({navigation, route})=>{
 
     const pressHandlerFullScreen = (itm)=>{
 //        Alert.alert(itm.cam)
-        navigation.push("PTZ", {cam:itm.cam})
+        console.log("You clicked the full screen icon")
+        console.log(itm)
+        navigation.push("PTZ", {cam:itm.cam, isRec:itm.isRec,dateRec:itm.dateRec})
        // navigation.push("MapHome",{mapid:0, count:1 })
      
  }
@@ -188,18 +190,23 @@ const LiveScreen = ({navigation, route})=>{
                     }
 
                 </View>
-                <View style={{flexDirection:'row'}}>
+                <View style={{flexDirection:'row', backgroundColor:'red', }}>
+                    
                     <Pressable
                         android_ripple={{color: 'black', borderless: true}}
                     onPress={() => pressHandlerCam(item)} 
-                        style={styles.vw_tile_text_container}>
+                        style={[styles.vw_tile_text_container, {flex:1}]}>
                         <Text style={styles.vw_tile_text}>{item.cam}</Text> 
                     </Pressable>
-                    <Pressable style={{backgroundColor:'#394a66', paddingHorizontal:3}}
-                        onPress={ () => pressHandlerFullScreen(item)}
-                    >
-                        <MaterialIcons name="fullscreen" size={24} color="#d7d7d7" />
-                    </Pressable>
+                    {
+                      item.cam != 'Select' &&   
+                    
+                        <Pressable style={{backgroundColor:'#394a66', paddingHorizontal:3}}
+                            onPress={ () => pressHandlerFullScreen(item)}
+                        >
+                                <MaterialIcons name="fullscreen" size={24} color="#d7d7d7" />
+                        </Pressable>
+                    }
                 </View>
                 </View>
         )
@@ -314,13 +321,13 @@ const styles = StyleSheet.create({
         marginVertical:0,
         marginHorizontal:0,
         borderBottomColor:'#909090',
-        flex:1
+        
     
     },
     vw_tile_text:{
         color:'#a7a7a7',
         fontWeight:'bold',
-        flex:1
+        
     },
     scrollView: {
         backgroundColor: 'pink',

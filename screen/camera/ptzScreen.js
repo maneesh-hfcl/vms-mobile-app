@@ -1,19 +1,21 @@
 import { Video } from "expo-av";
-import React from "react";  
+import React, { useState } from "react";  
 import {View, Text, StyleSheet, Pressable} from 'react-native'
 import DialogOuterCard from "../../component/card/dialogOuterCard";
 import PlayVideo from "./playVideo";
 import { Feather } from '@expo/vector-icons';
 import { LoadApiData, LoadApiDataFrmWeb } from "../../shared/fetchUrl";
+import { globalStyles } from "../../style/globalstyle";
 
 const PTZScreen  = ({navigation,route})=>{
-    const {cam} = route.params
+    const {cam, isRec, dateRec} = route.params
+    const[error, setError] = useState('')
     let ptzFtrCalled = false
     const pressCloseDialog = ()=>{
         navigation.pop()
     }
     const closeCam = ()=>{
-
+        pressCloseDialog();
     }
 
     const OpnPtz = async(dir, type)=>{
@@ -34,6 +36,11 @@ const PTZScreen  = ({navigation,route})=>{
 
             let jsonData = await LoadApiDataFrmWeb(sCmd, "POST")
             console.log(jsonData);
+            const {sm, sw} = jsonData
+            if(sm == "Fail" && sw=="Application")
+            {
+                setError("This camera doesn't support PTZ functionality")
+            }
         }
         else {
             sCmd = `/vm/vmd/ptzc?dv=${sCam}&cm=oos${sAct}`;
@@ -49,14 +56,23 @@ const PTZScreen  = ({navigation,route})=>{
     return(
         <DialogOuterCard pressCloseDialog={pressCloseDialog} diagBackColor={"#000"}>
             <View style={{flex:1, marginTop:20}}>
-                <PlayVideo camToPlay ={cam} isRec={false} 
-                            closeCam={closeCam} dateRec={''} />
+                <PlayVideo camToPlay ={cam} isRec={isRec} 
+                            closeCam={closeCam} dateRec={dateRec} />
+
+                <View style={{justifyContent:'center', alignItems:'center', paddingVertical:20}}>
+                    <Text style={globalStyles.text}>{cam}</Text>
+                </View>
             </View>
+
+            {
+                !isRec &&
             <View style={{flexDirection:'row', 
                 justifyContent:'space-evenly', paddingVertical:40
                 , borderTopWidth:5,borderColor:'#a7a7a7',
                 backgroundColor:'#ededed'
                 }}>
+              
+                    
                 <View>
                 <View style={{flexDirection:'row'}}>
                     <Pressable
@@ -128,7 +144,7 @@ const PTZScreen  = ({navigation,route})=>{
                         >
                             <Feather name="plus" size={24} color="black" style={styles.arrow_outer} />
                         </Pressable>
-                        <Text style={{marginHorizontal:5}}>Zoom</Text>
+                        <Text style={[globalStyles.text, {marginHorizontal:5}]}>Zoom</Text>
                         <Pressable
                             onPressIn={() => OpnPtz('vpzo','in')} onPressOut={() => OpnPtz('vpzo', 'out')}
                         >
@@ -139,6 +155,13 @@ const PTZScreen  = ({navigation,route})=>{
 
             </View>
             
+            }
+            
+            { error!= "" && 
+            <View style={{backgroundColor:'pink', padding:5}}>
+                <Text style={{textAlign:'center'}}>{error}</Text>
+            </View>
+            }
         </DialogOuterCard>
     )
 }
