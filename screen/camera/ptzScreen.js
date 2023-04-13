@@ -10,6 +10,8 @@ import { globalStyles } from "../../style/globalstyle";
 const PTZScreen  = ({navigation,route})=>{
     const {cam, isRec, dateRec} = route.params
     const[error, setError] = useState('')
+    const[msg, setMsg] = useState('')
+
     let ptzFtrCalled = false
     const pressCloseDialog = ()=>{
         navigation.pop()
@@ -21,7 +23,34 @@ const PTZScreen  = ({navigation,route})=>{
     const OpnPtz = async(dir, type)=>{
         console.log(`Direction: ${dir} - ${type}`)
         let sAct = dir.substring(2), sCmd = '', sCam = cam, sPrx = "oo";
-
+        switch(dir)
+        {
+            case "vprt":
+                setMsg("Moving right")
+                break;
+            case "vplf":
+                setMsg("Moving left")
+                break;
+            case "vpup":
+                setMsg("Moving up")
+                break;
+            case "vpdn":
+                setMsg("Moving down")
+                break;
+            case "vplu":
+                setMsg("Moving to left up")
+                break;
+            case "vpru":
+                setMsg("Moving to right up")
+                break;
+            case "vpld":
+                setMsg("Moving to left down")
+                break;
+            case "vprd":
+                setMsg("Moving to right down")
+                break;
+        }
+//        setMsg("Moving to right");
         if(type == "in")
         {
             if(!ptzFtrCalled)
@@ -160,6 +189,11 @@ const PTZScreen  = ({navigation,route})=>{
             { error!= "" && 
             <View style={{backgroundColor:'pink', padding:5}}>
                 <Text style={{textAlign:'center'}}>{error}</Text>
+            </View>
+            }
+            { error == "" && msg !="" && 
+            <View style={{backgroundColor:'#eff2dc', padding:5}}>
+                <Text style={{textAlign:'center', color:'gray'}}>{msg}</Text>
             </View>
             }
         </DialogOuterCard>

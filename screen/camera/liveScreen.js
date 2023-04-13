@@ -44,7 +44,7 @@ const LiveScreen = ({navigation, route})=>{
             camNamePressHandler(route.params.camId)
         }
 //        pressHandlerCam(route.params?.camId)
-    },[route.params?.camId])
+    },[route.params?.camId, route.params?.rnd])
 
     useEffect(()=>{
         if(typeof route.params?.selRecCamera != "undefined")

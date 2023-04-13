@@ -98,8 +98,9 @@ const LoginScreen = ({navigation, route})=>{
 //                console.log(context);
                 //setState(user);
                 console.log("setting user values");
-                setUserVal(JSON.parse(user));
-                await pressChkDvHandler(user.id);
+                let parseUsr = JSON.parse(user);
+                setUserVal(parseUsr);
+                await pressChkDvHandler(parseUsr.id);
             }
             else{
                 console.log("user not present")
@@ -116,6 +117,7 @@ const LoginScreen = ({navigation, route})=>{
 
     const pressChkDvHandler = async (usrId, devcLst)=>{
      //   console.log(focusName)
+        console.log(`usrId : ${usrId}`)
         try{
             let chkDevReg = await AsyncStorage.getItem("@reg_dev")
             console.log("checking device registration");
@@ -214,6 +216,14 @@ const LoginScreen = ({navigation, route})=>{
 
     }
 
+    const pressHandlerServer = async()=>{
+        try{
+//            await AsyncStorage.removeItem('@user')            
+            navigation.navigate('ConnectAPI', {resetVal: 'true'});
+        }
+        catch(e){
+        }
+    }
 
     const LayoutRootView = useCallback( ()=>{
  //       SplashScreen.hideAsync()
@@ -367,6 +377,13 @@ const LoginScreen = ({navigation, route})=>{
                 {
                     !isKeyboardVisible &&
                     <React.Fragment>
+                        <View style={[globalStyles.lnk_btn]}>
+                            <TouchableOpacity onPress={pressHandlerServer}>
+                                <Text style={[globalStyles.lnk_btn,{textAlign:'center', fontSize:14}]}>
+                                    Change Server API
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
                         <DesignTriComponent /> 
                     </React.Fragment>
                 }

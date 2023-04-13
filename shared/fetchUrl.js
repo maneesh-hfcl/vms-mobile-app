@@ -22,6 +22,7 @@ export const LoadApiData = async(urlpath, type)=>{
 
 export const LoadApiDataFrmWeb = async(urlpath, type)=>{
     try {
+            console.log(Config.WebUrl);
             let uri = Config.WebUrl + `${urlpath}`
             console.log("LoadApiData - " + uri);
             const response = await fetch(
@@ -43,6 +44,8 @@ export const LoadApiDataFrmWeb = async(urlpath, type)=>{
 export const LoadApiPostData = async(urlpath, type, data)=>{
     try {
             console.log("Inside LoadApiPostData");
+            console.log(Config.ApiUrl);
+
             let uri = Config.ApiUrl + `${urlpath}`
             console.log("goo")
             console.log(uri);

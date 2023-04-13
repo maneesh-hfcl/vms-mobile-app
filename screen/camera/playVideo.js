@@ -44,7 +44,7 @@ const PlayVideo = ({camToPlay, isRec, dateRec, closeCam})=>{
         console.log(`date of recording: ${dateRec}`);
         const camId = camToPlay //"ITEM_hap"
         const type = dateRec==""?'L':'V'
-        const encParams = "480:-1:-1.0"
+        const encParams = "640:-1:-1.0"
 //        const encParams = ""
         const mseSupport = false
         const time = dateRec

@@ -166,6 +166,21 @@ export const globalStyles = StyleSheet.create({
     alignItems:'center',
     justifyContent:'center'
   },
+  vw_more_lnk:{
+    backgroundColor:'#fff',
+    borderWidth:1,
+    borderColor:'#e7e7e7',
+    alignItems:'center',
+    paddingVertical:15,
+    paddingHorizontal:10,
+    flex:1,
+    marginHorizontal:10,
+    borderRadius:10,
+    marginVertical:20,
+    height:80,
+    alignItems:'center',
+    justifyContent:'center'
+  },
   lnk_btn:{
     color:'#3c698c',
     fontWeight:'bold',

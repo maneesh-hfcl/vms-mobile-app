@@ -29,7 +29,7 @@ export default function App() {
     async function prepare(){
       try{
 //        await new Promise(resolve => setTimeout(resolve, 2000))
-        getpushToken();
+        
       }
       catch(e){
         console.log(e)
@@ -43,17 +43,29 @@ export default function App() {
   },[])
 
   useEffect(()=>{
-
+    getpushToken();
 
   })
 
   const getpushToken = async ()=>{
-    let pushToken = await registerForPushNotificationsAsync();
-    console.log(pushToken);
     try{
+      let pushToken = await registerForPushNotificationsAsync();
+      console.log("getting push token")
+      console.log(pushToken);
+      if(pushToken == null){
+        pushToken = "offline"
+      }
+      console.log(`push token: ${pushToken}`)
+    
       await AsyncStorage.setItem("@reg_dev", pushToken);
     }
     catch(e){
+      try{
+        await AsyncStorage.setItem("@reg_dev", "offline");
+      }
+      catch(e){
+        console.log("error occured inside asyncstorage")        
+      }
       console.log("error occured")
     }
   }

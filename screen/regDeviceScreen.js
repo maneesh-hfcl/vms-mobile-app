@@ -53,8 +53,19 @@ const RegDeviceScreen = ({navigation, route})=>{
 
     }
 
-    const registerForm = ()=>{
+    const regDeviceId = async()=>{
+        try
+        {
 
+            await AsyncStorage.setItem("@reg_dev", JSON.stringify(values.ipaddress.trim()))
+            setAppApi(values.ipaddress.trim())
+        }
+        catch(e){
+
+        }
+        finally{
+
+        }
     }
 
     const pressLnkHandler = async ()=>{
@@ -64,13 +75,16 @@ const RegDeviceScreen = ({navigation, route})=>{
 //            let unqDevId = await AsyncStorage.getItem("@reg_dev")
             if(expoPushToken==null)
             {
-                console.log("Device Id is null")
+                console.log("Device Id is null");
+                //expoPushToken = "offline"
+              //  setExpoPushToken("offline")
             }
             let urlPath = "/regDvc"
             let dataToPost = {
                 "userId":usrId,
                 "devToken": expoPushToken
             }
+            console.log(dataToPost)
             let jsonResp = await LoadApiPostData(urlPath,"POST", dataToPost)
             console.log(jsonResp);
             if(jsonResp == 1)

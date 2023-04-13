@@ -54,10 +54,19 @@ const MoreHomeScreen = ({navigation, props})=>{
             navigation.navigate('Login',{resetVal:'true'});
         }
         catch(e){
-
         }
-
     }
+
+    const pressHandlerServer = async()=>{
+        try{
+//            await AsyncStorage.removeItem('@user')            
+            navigation.navigate('ConnectAPI', {resetVal: 'true'});
+        }
+        catch(e){
+        }
+    }
+
+
 
     const pressHandlerAPI = ()=>{
 //        alert('random')
@@ -144,14 +153,21 @@ const MoreHomeScreen = ({navigation, props})=>{
 
             </View>
             <View style={{flexDirection:'row', justifyContent:'space-evenly'}}>
-                <View style={globalStyles.vw_logout}>
+                <View style={globalStyles.vw_more_lnk}>
                     <TouchableOpacity style={{alignItems:'flex-end', flex:1, justifyContent:'flex-end'}}>
                         <Text style={[globalStyles.lnk_btn,{textAlign:'center', fontSize:14}]}>
                             Change password
                         </Text>
                     </TouchableOpacity>
                 </View>
-                <View style={globalStyles.vw_logout}>
+                <View style={globalStyles.vw_more_lnk}>
+                    <TouchableOpacity onPress={pressHandlerServer} style={{alignItems:'flex-end', flex:1, justifyContent:'flex-end'}}>
+                        <Text style={[globalStyles.lnk_btn,{textAlign:'center', fontSize:14}]}>
+                            Change Server API
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={globalStyles.vw_more_lnk}>
                     <TouchableOpacity onPress={pressHandler} style={{alignItems:'center'}}>
                         <MaterialIcons name="logout" size={20} color="gray" style={{marginVertical:5}} />
                         <Text style={[globalStyles.lnk_btn,{textAlign:'center', fontSize:14}]}>Sign out</Text>

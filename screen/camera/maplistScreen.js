@@ -59,7 +59,7 @@ const MapListScreen = ({navigation, route})=>{
         // navigation.dispatch(
         //     StackActions.replace('live',{selCamera:'abcd'})
         // )
-        navigation.navigate('live',{camId:devsym});
+        navigation.navigate('live',{camId:devsym, rnd: Math.random()});
     }
 
     const pressHandlerCamRec = (devsym)=>{
