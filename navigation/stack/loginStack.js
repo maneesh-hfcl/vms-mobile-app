@@ -12,12 +12,11 @@ const Stack = createNativeStackNavigator()
 
 const StackLogin = ()=>{
     return(
-        <Stack.Navigator screenOptions={{headerShown:false}}>
-            <Stack.Screen name="ConnectAPI" component={ConnectApiScreen} />
+        <Stack.Navigator screenOptions={{headerShown:false }} initialRouteName="Login">
+            <Stack.Screen name="ConnectAPI" component={ConnectApiScreen}  />
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="Home" component={TabHome} />
             <Stack.Screen name="RegDevice" component={RegDeviceScreen} />
-            
         </Stack.Navigator>
     )
 }

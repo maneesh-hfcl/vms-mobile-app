@@ -7,7 +7,7 @@ import AppMain from './screen/AppMain';
 import * as Notifications from 'expo-notifications';
 import { registerForPushNotificationsAsync } from './shared/useNotification';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import 'react-native-gesture-handler';
 
 SplashScreen.preventAutoHideAsync();
 

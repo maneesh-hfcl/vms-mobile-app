@@ -9,6 +9,8 @@ import TextInputTemplate from "../component/card/form/textInputTemplate";
 import config from "../configuration/config";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DesignTriComponent from "../component/designTriComponent";
+import { Ionicons } from '@expo/vector-icons';
+import { LoadApiData } from "../shared/fetchUrl";
 
 
 const validationSchema = yup.object().shape({
@@ -17,7 +19,10 @@ const validationSchema = yup.object().shape({
 
 const ConnectApiScreen = ({navigation, route})=>{
     const[ipaddr, setip] = useState(null)
-    var initialValues;
+    const[error, setError] = useState(null)
+    var initialValues={
+        ipaddress: ''
+    };
 
     useEffect(()=>{
         if(route.params != null)
@@ -26,30 +31,38 @@ const ConnectApiScreen = ({navigation, route})=>{
             GetAPIFrmStorage(resetVal)
         }
         else{
+            console.log("else part in useffect")
             GetAPIFrmStorage('')
         }
     },[route.params])
 
-    
- 
-
     const GetAPIFrmStorage = async(val)=>{
         try{
-            let value = await AsyncStorage.getItem("@api")
-            if(value != null)
+//            let value = await AsyncStorage.getItem("@webapi")
+            let webapi = await AsyncStorage.getItem("@webapi")
+            let weburl = await AsyncStorage.getItem("@weburl")
+            let socketurl = await AsyncStorage.getItem("@socketurl")
+
+            let initLst = {
+                webapi : JSON.parse(webapi),
+                weburl : JSON.parse(weburl),
+                socketurl : JSON.parse(socketurl)
+            }
+
+            if(webapi != null)
             {
-                var elemVal = JSON.parse(value)
                 if(val != '')
                 {
-                    getExistingIP(elemVal)
+                    getExistingIP(initLst.webapi)
                 }
                 else{
-                    setAppApi(elemVal)
+                    setAppApi(initLst)
                 }
             }
+            
         }
         catch(e){
-
+            console.log("eXCEPT")
         }
         finally{
 
@@ -59,30 +72,54 @@ const ConnectApiScreen = ({navigation, route})=>{
     const onPressSubmit= async (values, action)=>{
         try
         {
+            setError("")
+            let ip = values.ipaddress.trim()
+            config.ApiUrl = (ip.includes("http")?ip:"http://" + ip)
+            //config.ApiUrl = values.ipaddress.trim()
+            console.log(`config apiurl: ${config.ApiUrl}`)
+            let jsondata = await LoadApiData("/getallurl")
+            if (jsondata != "error"){
+               console.log(jsondata) 
+                
+               console.log("Inside jsondata")
+                let initLst = {
+                    webapi : jsondata.webapi.trimEnd(),
+                    weburl : jsondata.webapp.trimEnd(),
+                    socketurl : jsondata.socket.trimEnd()
+                }
+
+                console.log(initLst);
+                await AsyncStorage.setItem("@webapi", JSON.stringify(initLst.webapi))
+                await AsyncStorage.setItem("@weburl", JSON.stringify(initLst.weburl))
+                await AsyncStorage.setItem("@socketurl", JSON.stringify(initLst.socketurl))
+                setAppApi(initLst)
+            }
+            else{
+                setError("error")
+            }
+            console.log()
             action.setSubmitting(false);
-            await AsyncStorage.setItem("@api", JSON.stringify(values.ipaddress.trim()))
-            setAppApi(values.ipaddress.trim())
+            
         }
         catch(e){
-
+            console.log(e)
         }
         finally{
 
         }
     }
 
-    const setAppApi = (ip)=>{
-        console.log(`ip: ${ip}`)
-        config.ApiUrl = (ip.includes("http")?ip:"http://" + ip) + ":8060",
-        config.WebUrl = (ip.includes("http")?ip:"http://" + ip) + ":8040",
-        config.WebsocketUrl = (ip.includes("http")?ip:"http://" + ip) + ":8050",
-        config.VideoUrl = (ip.includes("http")?ip:"http://" + ip) + ":8040/hls"
-        console.log(config)
-        console.log(`ip address: ${ip}`)
-        
-   
-        setip(ip)
-        navigation.navigate("Login")
+    const setAppApi = (iplst)=>{
+        if(iplst != null)
+        {
+            config.ApiUrl = (iplst.webapi.includes("http")?iplst.webapi:"http://" + iplst.webapi),// + ":8060",
+            config.WebUrl = (iplst.weburl.includes("http")?iplst.weburl:"http://" + iplst.weburl),// + ":8010",
+            config.WebsocketUrl = (iplst.socketurl.includes("http")?iplst.socketurl:"http://" + iplst.socketurl), // + ":8050",
+            config.VideoUrl = config.WebUrl +"/hls", // + ":8010/hls"
+            console.log(config)
+            setip(config.ApiUrl)
+            navigation.navigate("Login")
+        }
 
     }
 
@@ -102,13 +139,10 @@ const ConnectApiScreen = ({navigation, route})=>{
             <Text style={{fontSize:18, fontWeight:'bold', textAlign:'center', marginTop:20}}>
                 Mobile App Server
             </Text>
-            { ipaddr && 
+
             <View style={[globalStyles.container_main,{marginHorizontal:50, marginTop:80}]}>
                 <Formik 
-                    initialValues={{
-                        ipaddress: ipaddr
-                    }
-                    }
+                    initialValues={initialValues}
                     
                     onSubmit={(values, action)=>{
                         console.log('submitting values')
@@ -129,7 +163,7 @@ const ConnectApiScreen = ({navigation, route})=>{
                                 setValErr={formikProps.touched && formikProps.errors.ipaddress}   
                                 setPlaceHolder="e.g: 192.168.0.0"
                             />
-                                                  <View style={{marginTop:30}}>
+                        <View style={{marginTop:30}}>
                             {formikProps.isSubmitting?(
                                 <ActivityIndicator />
                             ):(
@@ -139,6 +173,13 @@ const ConnectApiScreen = ({navigation, route})=>{
                                     <Text style={globalStyles.text_btn}>Save</Text>
                                 </TouchableOpacity>
                             )}
+
+                            {
+                                error =="error" &&
+                                <Text style={[globalStyles.error_text,{marginVertical:10}]}>
+                                    Unable to connect to the server.
+                                </Text>
+                            }
                             <Text style={[globalStyles.small_text,{marginVertical:20}]}>
                                 After saving, you will be able to sign in.
                             </Text>
@@ -148,12 +189,29 @@ const ConnectApiScreen = ({navigation, route})=>{
                     )}
 
                 </Formik>
-
+                {
+                    ipaddr != null && ipaddr!='' &&
+                    <>
+                        <Text style={{marginVertical:30}}>
+                            You were connected to existing server: {ipaddr}
+                        </Text>
+                        <View style={{marginVertical:20, marginHorizontal:20,backgroundColor:'#f7f7f7'
+                                , alignItems:'center', justifyContent:'center'}}>
+                            <TouchableOpacity onPress={() => navigation.navigate('Login',{resetVal:'true'})}
+                                style={{ flexDirection:'row', paddingVertical:10}}>
+                                <Ionicons name="chevron-back-outline" size={20} color="gray" />
+                                <Text style={[globalStyles.lnk_btn,{textAlign:'center', fontSize:14}]}>
+                                     Back to Login
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                    </>
+                }
                 
             </View>
-        }
+
             <React.Fragment>
-                <DesignTriComponent /> 
+                {/* <DesignTriComponent />  */}
             </React.Fragment>
         </View>
     )

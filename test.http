@@ -15,3 +15,8 @@ GET http://119.252.208.55:8010/users HTTP/1.1
 ###
 POST http://192.168.2.197:5006/evtlog/camera/desc HTTP/1.1
 
+###
+POST http://119.252.208.55:8010/vm/vmd/ptzc?dv=ITEM_44&cm=ooblu HTTP/1.1
+
+
+http://119.252.208.55:8010/vm/vmd/ptzc?dv=ITEM_44&cm=ooblu

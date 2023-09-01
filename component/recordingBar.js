@@ -8,7 +8,6 @@ import ActivityIndicatorComponent from "./activityIndicatorComponent";
 
 import { Picker } from "@react-native-picker/picker";
 import Slider from "@react-native-community/slider";
-import { RectButton } from "react-native-gesture-handler";
 import Config from "../configuration/config"
 
 

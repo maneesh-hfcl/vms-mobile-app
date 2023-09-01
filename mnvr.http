@@ -1,0 +1,30 @@
+
+GET http://172.17.26.44/cgi-bin/devAudioInput.cgi?action=getCollect HTTP/1.1
+Authorization: Digest admin admin123
+
+###
+GET http://172.17.26.44/cgi-bin/configManager.cgi?action=getConfig&name=Alarm[0].EventHandler HTTP/1.1
+Authorization: Digest admin admin123
+
+###
+GET http://172.17.26.44/cgi-bin/configManager.cgi?action=getConfig&name=Alarm HTTP/1.1
+Authorization: Digest admin admin123
+
+###
+GET http://172.17.26.44/cgi-bin/configManager.cgi?action=getConfig&name=Tampering HTTP/1.1
+Authorization: Digest admin admin123
+
+###
+GET http://172.17.26.44/cgi-bin/configManager.cgi?action=getConfig&name=BlindDetect[0].EventHandler HTTP/1.1
+Authorization: Digest admin admin123
+
+###
+GET http://172.17.26.44/cgi-bin/eventManager.cgi?action=attach&codes=[MotionDetect] HTTP/1.1
+Authorization: Digest admin admin123
+
+###
+GET http://172.17.26.44/cgi-bin/eventManager.cgi?action=attach&codes=[All]&heartbeat=5 HTTP/1.1
+Authorization: Digest admin admin123
+Accept: text/event-stream
+Cache-Control: no-cache
+Connection: keep-alive

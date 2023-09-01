@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import {View, Text, StyleSheet, ActivityIndicator} from 'react-native'
+import {View, Text, StyleSheet, ActivityIndicator, TouchableOpacity} from 'react-native'
 import TextInputTemplate from "../../../component/card/form/textInputTemplate";
 import { globalStyles } from "../../../style/globalstyle";
 import {Formik} from 'formik'
 import * as yup from "yup"
-import { TouchableOpacity } from "react-native-gesture-handler";
 
 const validationSchema = yup.object().shape({
     sym: yup.string().required("Enter sym")

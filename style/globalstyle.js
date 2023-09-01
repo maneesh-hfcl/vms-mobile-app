@@ -48,7 +48,7 @@ export const globalStyles = StyleSheet.create({
         paddingVertical:0
     },
     touchable_btn:{
-        backgroundColor:'#1742d1',
+        backgroundColor:'#4e77fc',
         alignItems:'center',
         marginVertical:15,
         marginHorizontal:5,
@@ -192,21 +192,21 @@ export const globalStyles = StyleSheet.create({
     position:"absolute",
     left:"10%",
     top:"50%",
-    backgroundColor:'#f1edf7',
+
     borderWidth:0,
     borderColor:'#ebd7b7',
     paddingHorizontal:10,
-    paddingVertical:7,
+    paddingVertical:5,
     borderRadius:5,
     width:"80%",
-    zIndex:1,
+    zIndex:2,
     opacity:1,
-    paddingBottom:10
-    },
-    vw_mst_text:{
-        color:'gray',
-        marginVertical:10,
+    
 
+    },
+    vw_msg_text:{
+        color:'red',
+        marginVertical:5
 
     },
     small_text:{
@@ -214,5 +214,11 @@ export const globalStyles = StyleSheet.create({
         color:"gray",
         paddingHorizontal:10,
         textAlign:"center"
-    }   
+    },
+    error_text:{
+        fontSize:13,
+        color:"red",
+        paddingHorizontal:10,
+        textAlign:"center"
+    }      
 })

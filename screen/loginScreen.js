@@ -19,6 +19,7 @@ import { LoadApiPostData } from "../shared/fetchUrl";
 import MsgCardComponent from "../component/card/msgCard";
 import DesignTriComponent from "../component/designTriComponent";
 import UserContext, { UserContextProvider } from "../shared/usrContext";
+import { Ionicons } from '@expo/vector-icons';
 
 //SplashScreen.preventAutoHideAsync();
 const WIDTH = Dimensions.get('screen').width;
@@ -35,15 +36,16 @@ const LoginScreen = ({navigation, route})=>{
     const[isKeyboardVisible, setIsKeyboardVisible] = useState(false)
     const[emptyVal, setEmptyVal] = useState('')
     const{userVal, setUserVal} = useContext(UserContext);
+    const[errorVal, setErrorVal] = useState('')
 
-    var initialValues = {
+    var initialValues = {   
         username:'',
         password: ''
     }
 
     useEffect(()=>{
         console.log(Constants.sessionId)
-        
+        console.log("useEffect from login screen")
         getLoginFrmStorage()
 
         const showSubscription = Keyboard.addListener('keyboardWillShow', ()=>{
@@ -91,6 +93,7 @@ const LoginScreen = ({navigation, route})=>{
     async function getLoginFrmStorage(){
         try
         {
+            console.log("getLoginFrmStorage from login screen")
             let user = await AsyncStorage.getItem("@user")
             console.log(user);
             if(user!= null)
@@ -164,22 +167,19 @@ const LoginScreen = ({navigation, route})=>{
 
     const onPressSubmit = async (values, action)=>{
        // Alert.alert("hello")
-        action.setSubmitting(false);
+        action.setSubmitting(true);
         setIsValid(true);
         let urlpath = "/login";
 
         //console.log(values);
-        if( values.username.toLowerCase()=="admin" && values.password.toLowerCase()=="admin" )
-        {
-            values.username = 'Administrator',
-            values.password = 'I0wWt9ngHKfO6BJdS8fqaA=='
-        }
+        // if( values.username.toLowerCase()=="admin" && values.password.toLowerCase()=="admin" )
+        // {
+        //     values.username = 'Administrator',
+        //     values.password = 'I0wWt9ngHKfO6BJdS8fqaA=='
+        // }
         // action.resetForm();
         let jsonData = await LoadApiPostData(urlpath,"POST", values);
         
-
-        
-
         if(jsonData != "error")
         {
             if(jsonData.msg == null)
@@ -203,16 +203,19 @@ const LoginScreen = ({navigation, route})=>{
            }
             }
             else{
-                setIsValid(false);                
+                setIsValid(false);
+                setErrorVal("Invalid user")                
             }
 
         }
         else{
             console.log("you have got an error");
             setIsValid(false);
+            setErrorVal("Error occured connecting to the server.")
         }
-
-        //action.setSubmitting(false);
+        console.log("check form submitting: ")
+        console.log(action.isSubmitting)
+        action.setSubmitting(false);
 
     }
 
@@ -264,7 +267,7 @@ const LoginScreen = ({navigation, route})=>{
                     borderColor:'orange',flex:1
                     }]}> 
                     <View style={{marginHorizontal:40, marginTop:30}}>
-                    <View style={{marginVertical:25}}>
+                    <View style={{marginVertical:20}}>
                         <Text style={{fontSize:25, fontWeight:'bold', color:'#e37734', 
                         marginHorizontal:10}}>Sign in</Text>
                         <Text style={{fontSize:13, color:'#856d39',marginVertical:10, marginHorizontal:10}}>
@@ -329,27 +332,24 @@ const LoginScreen = ({navigation, route})=>{
                         </View> 
                         <View style={{marginBottom:0, marginTop:10}}>
                         
-                           
-                                <TouchableOpacity style={[globalStyles.touchable_btn]} 
-                                onPress={formikProps.handleSubmit}>
-                                    <Text style={globalStyles.text_btn}>Go</Text>
-                                </TouchableOpacity>
-
-                            
-                        
+                            <TouchableOpacity style={[globalStyles.touchable_btn]} 
+                            onPress={formikProps.handleSubmit}>
+                                <Text style={globalStyles.text_btn}>Go</Text>
+                            </TouchableOpacity>
 
                     {
                         formikProps.isSubmitting && 
-                        <View>
-                            <MsgCardComponent msg="Validating user....">
+                        <View style={{marginVertical:5}}>
+                            <MsgCardComponent msg="Kindy wait ..." fontColor="gray">
                                 <ActivityIndicator  />
                             </MsgCardComponent>
+
                         </View>
                     }
                     {
-                        !formikProps.isSubmitting && !isValid &&
+                        !isValid &&
                         <View>
-                            <MsgCardComponent msg="Invalid user">
+                            <MsgCardComponent msg={errorVal}>
                                 
                             </MsgCardComponent>
                         </View> 
@@ -363,27 +363,31 @@ const LoginScreen = ({navigation, route})=>{
 
                         )}
                     </Formik>
-                   
-
-                    
-
-                {/* </View> */}
                     
                 </View>
-
 
                 </View> 
 
                 {
                     !isKeyboardVisible &&
                     <React.Fragment>
-                        <View style={[globalStyles.lnk_btn]}>
-                            <TouchableOpacity onPress={pressHandlerServer}>
-                                <Text style={[globalStyles.lnk_btn,{textAlign:'center', fontSize:14}]}>
-                                    Change Server API
+                        <View style={{marginVertical:20, marginHorizontal:20,backgroundColor:'#f7f7f7'
+                                , alignItems:'center', justifyContent:'center', paddingVertical:10}}>
+                            <TouchableOpacity onPress={pressHandlerServer}
+                                style={{ flexDirection:'column', paddingVertical:2}}>
+                                <View style={{flexDirection:'row', justifyContent:'center'}}>
+                                    <Text style={[globalStyles.lnk_btn,{textAlign:'center', fontSize:14}]}>
+                                        Connect to remote server
+                                    </Text>
+                                    <Ionicons name="chevron-forward-outline" size={20} color="gray" />
+                                    </View>
+                                <Text style={globalStyles.small_text}>
+                                    (Click to connect to remote server first time, or, change the exsiting remote server.)
                                 </Text>
                             </TouchableOpacity>
                         </View>
+
+
                         <DesignTriComponent /> 
                     </React.Fragment>
                 }

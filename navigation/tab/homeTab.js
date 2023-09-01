@@ -6,7 +6,6 @@ import CameraStack from "../stack/cameraStack";
 import ConfigStack from "../stack/configStack";
 import { globalStyles } from "../../style/globalstyle";
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
-import { ScrollView } from 'react-native-gesture-handler';
 import EventHomeScreen from "../../screen/eventHomeScreen";
 import MoreHomeScreen from "../../screen/moreHomeScreen";
 import EventStack from "../stack/eventStack";

@@ -180,6 +180,40 @@ const PTZScreen  = ({navigation,route})=>{
                             <Feather name="minus" size={24} color="black" style={styles.arrow_outer} />
                         </Pressable>
                     </View>
+                    <View style={{flexDirection:'row', justifyContent:'center', alignItems:'center'}}>
+                        <Pressable
+                            onPressIn={() => OpnPtz('vpzi','in')} onPressOut={() => OpnPtz('vpzi', 'out')}
+                        >
+                            <Text style={styles.preset_outer}>1</Text>
+                        </Pressable>
+                        <Pressable
+                            onPressIn={() => OpnPtz('vpzi','in')} onPressOut={() => OpnPtz('vpzi', 'out')}
+                        >
+                            <Text style={styles.preset_outer}>2</Text>
+                        </Pressable>
+                        <Pressable
+                            onPressIn={() => OpnPtz('vpzi','in')} onPressOut={() => OpnPtz('vpzi', 'out')}
+                        >
+                            <Text style={styles.preset_outer}>3</Text>
+                        </Pressable>
+                    </View>
+                    <View style={{flexDirection:'row', justifyContent:'center', alignItems:'center'}}>
+                        <Pressable
+                            onPressIn={() => OpnPtz('vpzi','in')} onPressOut={() => OpnPtz('vpzi', 'out')}
+                        >
+                            <Text style={styles.preset_outer}>4</Text>
+                        </Pressable>
+                        <Pressable
+                            onPressIn={() => OpnPtz('vpzi','in')} onPressOut={() => OpnPtz('vpzi', 'out')}
+                        >
+                            <Text style={styles.preset_outer}>5</Text>
+                        </Pressable>
+                        <Pressable
+                            onPressIn={() => OpnPtz('vpzi','in')} onPressOut={() => OpnPtz('vpzi', 'out')}
+                        >
+                            <Text style={styles.preset_outer}>6</Text>
+                        </Pressable>
+                    </View>
                 </View>
 
             </View>
@@ -212,6 +246,18 @@ const styles = StyleSheet.create({
         marginHorizontal:3,
         marginVertical:3,
         fontSize:20,
+        backgroundColor:'#fff'
+        
+    },
+    preset_outer:{
+        paddingHorizontal:15,
+        paddingVertical:8,
+        borderWidth:1,
+        borderColor:"#d7d7d7",
+        color:"#7a7a7a",
+        marginHorizontal:4,
+        marginVertical:3,
+        fontSize:15,
         backgroundColor:'#fff'
         
     }

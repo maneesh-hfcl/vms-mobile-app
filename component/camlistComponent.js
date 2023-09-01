@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {View, Text, StyleSheet, TouchableOpacity, Alert, ActivityIndicator, Modal, Pressable} from 'react-native'
-import { FlatList } from "react-native-gesture-handler";
+import {View, Text, StyleSheet, TouchableOpacity, Alert, ActivityIndicator, Modal, Pressable, FlatList} from 'react-native'
 import { AntDesign, Octicons, Ionicons, Foundation, MaterialCommunityIcons } from '@expo/vector-icons';
 import MapCard from "./card/mapCard";
 import {LoadApiData} from ".././shared/fetchUrl";

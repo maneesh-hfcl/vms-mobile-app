@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "M3S+",
+    "name": "m3s-connectview",
     "slug": "m3s-web-app",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -26,6 +26,7 @@
         "backgroundColor": "#000000"
       },
       "package": "m3s.mobile",
+      "versionCode": 1,
       "googleServicesFile": "./google-services.json"
     },
     "web": {

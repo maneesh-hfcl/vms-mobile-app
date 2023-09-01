@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native'
-import { FlatList } from "react-native-gesture-handler";
+import {View, Text, StyleSheet, TouchableOpacity, FlatList} from 'react-native'
 import { AntDesign, Octicons } from '@expo/vector-icons';
 import MapCard from "./card/mapCard";
 

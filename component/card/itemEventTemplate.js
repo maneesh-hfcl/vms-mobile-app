@@ -29,9 +29,7 @@ const ItemEventTemplate = ({elem, pressLnkHandler})=>{
                         <Pressable style={{ flex:1,backgroundColor:'#fff'}}>
                             <View style={{marginVertical:5, flexDirection:'row'}}>
                                 <MaterialCommunityIcons name="alert" size={20} color="#b32700" />
-                                
                                 <Text style={{fontSize:15, marginLeft:8}}>{elem.evtname} </Text>
-                                
                             </View>
                             <View style={{flexDirection:'row'}}>
                                 <Text style={{fontSize:13, color:'#808080'}}> {ConverToDate(elem.evtime)} </Text>
