@@ -15,7 +15,7 @@ import TextInputTemplate from "../component/card/form/textInputTemplate";
 import DesignCirComponent from "../component/designCirComponent";
 import { Formik } from "formik";
 import * as yup from 'yup';
-import { LoadApiPostData } from "../shared/fetchUrl";
+import { Com_GetAPIFrmStorage, Com_SetAppApi, LoadApiPostData } from "../shared/fetchUrl";
 import MsgCardComponent from "../component/card/msgCard";
 import DesignTriComponent from "../component/designTriComponent";
 import UserContext, { UserContextProvider } from "../shared/usrContext";
@@ -39,8 +39,8 @@ const LoginScreen = ({navigation, route})=>{
     const[errorVal, setErrorVal] = useState('')
 
     var initialValues = {   
-        username:'',
-        password: ''
+        username:'Administrator',
+        password: 'Pol123456'
     }
 
     useEffect(()=>{
@@ -109,6 +109,11 @@ const LoginScreen = ({navigation, route})=>{
                 console.log("user not present")
                 setIsAppReady(true)
             }
+
+            let initLst = await Com_GetAPIFrmStorage()
+            console.log("start:pressChkDvHandler:initLst");
+            console.log(initLst);
+            let configuration = Com_SetAppApi(initLst);
         }
         catch(e){
             console.log(e)
@@ -134,33 +139,46 @@ const LoginScreen = ({navigation, route})=>{
             }
             else{
                 console.log("after checkdev reg")
+                console.log("start 1");
                // Alert.alert("you are here")
                console.log(chkDevReg)
-                let fndDvc = devcLst.find(elem => elem == chkDevReg)
-                console.log(fndDvc)
-                console.log("if loop started")
-                try{
-                    if(typeof fndDvc === "undefined")
-                    {
-                        navigation.navigate("RegDevice", {usrId:usrId})
-                        //console.log(fndDvc)
-                    // 
+               console.log("start 1");
+               console.log("start: device list count");
+               if(devcLst != null)
+               {
+                    console.log(devcLst)
+                    let fndDvc = devcLst.find(elem => elem == chkDevReg)
+                    console.log("{start: finding device here:}")
+                    console.log(fndDvc)
+                    console.log("{end: finding device here:}")
+                    console.log("if loop started")
+                    try{
+                        if(typeof fndDvc === "undefined")
+                        {
+                            navigation.navigate("RegDevice", {usrId:usrId})
+                            //console.log(fndDvc)
+                        // 
+                        }
+                        else{
+                            console.log("you are here else part")
+                            navigation.navigate("Home")
+                        }
                     }
-                    else{
-                        console.log("you are here else part")
-                        navigation.navigate("Home")
+                    catch(ex){
+                        console.log("exception occured here");
+                        console.log(ex)
                     }
-                }
-                catch(ex){
-                    console.log(ex)
                 }
 //                console.log("it crashed")
-//
+//              
+                console.log("end pressChkDvHandler: else loop");
+                
+          
             }
 
         }
         catch(e){
-
+            console.log("start catch pressChkDvHandler: Exception occured")
         }
 
     }
@@ -191,7 +209,9 @@ const LoginScreen = ({navigation, route})=>{
                     values:initialValues
                 });
                 await AsyncStorage.setItem("@user", JSON.stringify(jsonData))
+                console.log("start: json device list");
                 console.log(jsonData);
+                console.log("end: json device")
                 setUserVal(jsonData);
                 //setState(jsonData);
                 
@@ -199,7 +219,7 @@ const LoginScreen = ({navigation, route})=>{
 
             }
            catch(e){
-
+                console.log("exception occured");
            }
             }
             else{

@@ -39,6 +39,14 @@
           "icon": "./assets/adaptive-icon.png",
           "color": "#ffffff"
         }
+      ],
+      [
+      "expo-build-properties",
+        {
+          "android": {
+            "usesCleartextTraffic": true
+          }
+        }
       ]
     ],
     "extra": {

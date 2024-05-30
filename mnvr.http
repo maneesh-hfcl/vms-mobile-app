@@ -22,6 +22,11 @@ Authorization: Digest admin admin123
 GET http://172.17.26.44/cgi-bin/eventManager.cgi?action=attach&codes=[MotionDetect] HTTP/1.1
 Authorization: Digest admin admin123
 
+
+###
+GET http://www.google.co.in HTTP/1.1
+
+
 ###
 GET http://172.17.26.44/cgi-bin/eventManager.cgi?action=attach&codes=[All]&heartbeat=5 HTTP/1.1
 Authorization: Digest admin admin123

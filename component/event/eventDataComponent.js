@@ -42,7 +42,8 @@ const EventDataComponent = ({pressLnkHandler, setHideLoadingVisible, sortBy, sor
             evtname: elem.evtname,
             evstate: elem.evstate,
             objids: elem.objids?.trim(),
-            dtabf: elem.dtabf
+            dtabf: elem.dtabf,
+            dtmestr: elem.dtmestr
         })
         )
 

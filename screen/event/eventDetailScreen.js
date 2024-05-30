@@ -5,20 +5,27 @@ import { LoadApiData } from "../../shared/fetchUrl";
 import { globalStyles } from "../../style/globalstyle";
 import Config from '../../configuration/config'
 import { Video } from "expo-av";
+import PlayVideo from "../../screen/camera/playVideo";
+
+const loadingIcon = require('../../assets/icons/loading.gif')
 
 
 const EventDetailScreen = ({navigation, route})=>{
     const{type, elem} = route.params;
     const[itmDetail,setItmDetail] = useState(null)
     const[isImgLoading, setIsImgLoading] = useState(true)
+    const[playrec, setPlayrec] = useState("")
 
     useEffect(()=>{
+        console.log("event detail per event");
+        console.log(elem);
         loadData()
     },[])
 
     const loadData = async ()=>{
-        let jsonData = await LoadApiData("/evtd/35148")
-        console.log(jsonData)
+        let jsonData = await LoadApiData("/recvideo/"+elem.id+"/"+elem.objids);
+        setPlayrec(jsonData);
+        console.log(jsonData);
     }
 
     const pressDialogClose = ()=>{
@@ -40,7 +47,10 @@ const EventDetailScreen = ({navigation, route})=>{
                 flex:1,
                 bottom:0,
                 width:'100%',
-                height:'80%'
+                height:'80%',
+                justifyContent:'center',
+                alignContent:'center',
+
             }]}>
                 <View style={{alignItems:'center',marginVertical:20,
                 shadowOffset:{width:3, height:3},
@@ -49,31 +59,43 @@ const EventDetailScreen = ({navigation, route})=>{
             }}>
                 { type=='details'?(
                     <View style={{width:'100%', height:'100%'}}>
+
                      { isImgLoading && 
-                        <View style={{marginVertical:50}}>
-                        <ActivityIndicator  />
-                        <Text>Loading </Text>
+                        <View style={{marginVertical:50, 
+                        justifyContent:'center',
+                        alignItems:'center',
+                        flexDirection:"column"}}>
+                            <ActivityIndicator  />
+                            <Text style={{marginVertical:10, marginHorizontal:10, color:'#787878'}}>Loading Image ... </Text>
                         </View>
-                     }   
-                    <Image
+                     }
+
+                    <Image on
                         onLoadEnd={() => setIsImgLoading(false)}
-                        
-                        style={styles.image}
+                                               
+                        style={!isImgLoading && styles.image}
                         resizeMode = "contain"
                         
-                        source={{ uri: Config.ApiUrl +'/image/1'}}
+                        source={{ uri: Config.ApiUrl +'/image/' + elem.id}}
                     />
+
                     </View>
                 )
                 
                 :(
-                    <Video
-                    source={{ uri: Config.ApiUrl +'/video/test2.mp4' }}
-                    style={styles.image}
-                    useNativeControls
-                    isLooping
-                    shouldPlay
-                      />
+                    <View style={{justifyContent:"center", alignItems:"center", alignContent:"center",
+                        width:'100%', height:'100%'}}>
+                        {/* <Video
+                        source={{ uri: playrec }}
+                        style={{width:'80%', height:'80%'}}
+                        useNativeControls
+                        isLooping
+                        shouldPlay
+                        /> */}
+
+                        <PlayVideo camToPlay ={elem.objids} isRec={true} 
+                             dateRec={elem.evtime} />
+                    </View>
                 )
                 }
         
@@ -81,7 +103,7 @@ const EventDetailScreen = ({navigation, route})=>{
                 <View style={{flex:0, marginBottom:10}}>
 
                     <ItemRowTemplateComponent title={'Id'} content={elem.id} />
-                    <ItemRowTemplateComponent title={'Time'} content={elem.evtime} />
+                    <ItemRowTemplateComponent title={'Time'} content={elem.dtmestr} />
                     <ItemRowTemplateComponent title={'Name'} content={elem.evtname} />
                     <ItemRowTemplateComponent title={'Camera'} content={elem.objids} />
                     <ItemRowTemplateComponent title={'Description'} content={elem.dtabf.split("$")[0]} />

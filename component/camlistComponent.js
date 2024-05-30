@@ -85,7 +85,7 @@ const CamListComponent = ({mapId, camNamePress, pressHandlerCamLive, pressHandle
                 </View>
                 <View style={{flexDirection:'column', marginHorizontal:15, marginVertical:3}}>
                     <TouchableOpacity onPress={()=> pressHandlerCamRec(elem.devsym)}>
-                        <Foundation name="record" size={24} color="red" />
+                        {/* <Foundation name="record" size={24} color="red" /> */}
                         <Text style={{fontSize:10, color:'#707070'}}>Rec</Text>
                     </TouchableOpacity>
                 </View>

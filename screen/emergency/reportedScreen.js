@@ -57,8 +57,8 @@ const ReportedScreen = ({ navigation }) => {
                          
                     initLst = jsonVal.map((elem, index) => ({
                         id: index + 1,
-                        images: elem.images.split(','),
-                        videos: [],//elem.videos?.split(','),
+                        images: elem.images?.split(','),
+                        videos: elem.videos?.split(','),
                         text: elem.desc,
                         location: elem.loc,
                         lat: elem.lat,
@@ -97,7 +97,15 @@ const ReportedScreen = ({ navigation }) => {
     }
 
     const imgPress = (img) => {
-        navigation.navigate("ViewEmergencyImage", { imageUrl: imageBaseUrl+"/"+ img })
+        baseImgVidUrl = imageBaseUrl
+        fileType = "image"
+        if(img.includes(".mp4"))
+        {
+            baseImgVidUrl = videoBaseUrl
+            fileType = "video"
+        }
+
+        navigation.navigate("ViewEmergencyImage", { imageUrl: baseImgVidUrl+"/"+ img, fileType: fileType })
         //        console.log(img);
     }
  

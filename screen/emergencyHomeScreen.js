@@ -1,23 +1,64 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import {View, Text, StyleSheet, TouchableOpacity, Alert, Image, FlatList, Pressable, Dimensions} from 'react-native'
-import { Camera, CameraType } from 'expo-camera'
-import { MaterialIcons, Ionicons, FontAwesome } from '@expo/vector-icons';
+import { Camera, CameraType, Constants } from 'expo-camera'
+import { MaterialIcons, Ionicons, FontAwesome, AntDesign } from '@expo/vector-icons';
 import { globalStyles } from '../style/globalstyle';
 import { LnkBtnCard } from '../component/card/lnkBtnCard';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { manipulateAsync, FlipType, SaveFormat } from 'expo-image-manipulator';
 import { useIsFocused } from '@react-navigation/core';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Video, ResizeMode } from 'expo-av';
+import * as VideoThumbnails from 'expo-video-thumbnails';
+
 
 //import { globalStyles } from '../style/global';
+const vidIcon = require('../assets/icon.png')
 
 const EmergencyHome = ({navigation, route})=>{
     const[hasPermission, setHasPermission] = useState(null)
+    const[hasAudioPermission, setHasAudioPermission] = useState(null)
     const[type, setType] = useState(CameraType.back)
     const[camera, setCamera] = useState(null)
     const[image, setImage] = useState([])
     const[curImageIndx, setCurImageIndx] = useState(-1)
     const[camLayout, setCamLayout] = useState(null)
     const[isFocussed, setIsFocussed] = useState(false)
+    const[recVideo, setRecVideo] = useState(false)
+    const[playStatus, setPlayStatus] = useState({});
+    const[vidUri, setVidUri] = useState("");
+    const videoref = useRef(null);
+
+
+    const windowWidth = Dimensions.get('window').width;
+    const windowHeight = Dimensions.get('window').height;
+    const [thumbnail, setThumbnail] = useState(null);
+    const[lastVid, setLastVid] = useState(null)
+    const[thumbnailArr, setThumbnailArr] = useState([])
+
+
+    const getVidThumbnail = async ()=>{
+       // let tempAll = [...image];
+        console.log("video thumbnail function");
+        console.log(lastVid)
+        try
+        {
+            const { uri } = await VideoThumbnails.getThumbnailAsync(
+                    lastVid
+                    ,
+                    {
+                        time:1500,
+                    }
+                );
+            console.log("Video Image thumbnail");
+        //console.log(uri);
+   //     setThumbnail(uri);
+            setThumbnailArr([uri, ...thumbnailArr])   
+        }
+        catch(e){
+            console.log(e);
+        }
+    }
 
     useEffect(()=>{
         const unsubscribe = navigation.addListener('focus', () => {
@@ -32,20 +73,26 @@ const EmergencyHome = ({navigation, route})=>{
             const {status} = await Camera.requestCameraPermissionsAsync()
             setHasPermission(status === 'granted')
 
+            const {audioStatus} = await Camera.requestMicrophonePermissionsAsync();
+            setHasAudioPermission(audioStatus === 'granted')
+
             })()
         return unsubscribe;
     },[])
 
     useEffect(()=>{
 //        console.log("you are calling the useffect screen");
-
+     //   getVidThumbnail2();
+        setRecVideo(false);
+        console.log("you are here!!!!");
+        console.log("useffect recvideo: " + recVideo);
         if(route.params?.retVal == "added")
         {
             console.log("Record added to the system");
             setImage([])
             setCurImageIndx(-1)
         }
-    },[route.params?.retVal])
+    },[route.params?.rnd])
 
     if(hasPermission === null){
         return <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
@@ -64,12 +111,12 @@ const EmergencyHome = ({navigation, route})=>{
         if(camera){
          //   const options = {quality: 0}
             const{lytHeight, lytWidth} = camLayout
-            const options = { quality: 0, skipProcessing: true };
+            const options = { quality: 2, skipProcessing: true };
             
             const data = await camera.takePictureAsync(options)
             console.log(`data to show: `)
             console.log(data)
-            const {height, uri, width} =data;
+            let {height, uri, width} =data;
 //            let new_height = 640
 //            let new_width = width/height * new_height
             console.log("saving image to low resolution")
@@ -84,9 +131,12 @@ const EmergencyHome = ({navigation, route})=>{
         }
     }
 
+ 
+
     const imgPress = (item, index)=>{
         console.log(image[index]);
-        setCurImageIndx(index)
+        setCurImageIndx(index);
+        setVidUri(image[index]);
         
     }
 
@@ -97,6 +147,27 @@ const EmergencyHome = ({navigation, route})=>{
         setCurImageIndx(-1)
         
         
+    }
+
+
+    const getVidThumbnail2 = async (viduri)=>{
+        console.log("video uri => " + viduri)
+        try
+        {
+          const { uri } = await VideoThumbnails.getThumbnailAsync(
+            'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4'
+            ,
+            {
+                time:1
+            }
+            );
+        console.log("Video Image thumbnail");
+        console.log(uri);
+            return undefined
+        }
+        catch(e){
+            console.log(e);
+        }
     }
 
     const renderItem = ({item, index})=>{
@@ -113,11 +184,40 @@ const EmergencyHome = ({navigation, route})=>{
                             }} />
                             ):
                             (
+                                !item.includes(".mp4")?(
                                 <Image source={{uri:item}} style={{width:60, 
                                     height:60, borderRadius:30,
                                     borderWidth:3, borderColor:'#fff',
                                     marginHorizontal:2
                                 }} />
+                                ):
+                                (
+                                    <View style={{width:60, 
+                                        height:60, borderRadius:30,
+                                        borderWidth:3, borderColor:'#fff',
+                                        alignItems:'center',
+                                        alignSelf:'center',
+                                        justifyContent:'center',
+                                        backgroundColor:'black'
+                                    }}>
+                                        {/* <Video 
+                                            source={{
+                                                uri: item,
+                                            }}
+                                            useNativeControls
+                                            resizeMode="contain"
+
+                                        />  */}
+                                        { thumbnailArr &&
+                                        <Image source={{uri:thumbnailArr[index]}} style={{width:60, 
+                                            height:60, borderRadius:30,
+                                            borderWidth:3, borderColor:'#fff',
+                                            marginHorizontal:2
+                                        }} />   
+                                        }
+                                        {/* <MaterialCommunityIcons name="record-rec" size={40} color="red" /> */}
+                                    </View>
+                                )
                             )
                         }
                     </TouchableOpacity>
@@ -182,9 +282,21 @@ const EmergencyHome = ({navigation, route})=>{
 
     const pressShowModal = ()=>{
         //Alert.alert('showing modal')
-   
+        let tempAll = [...image];
+        console.log("start -> tempAll")
+        console.log(tempAll);
+        let findImg = tempAll.filter(x=> !x.includes(".mp4"))
+        let findVid = tempAll.filter(x=> x.includes(".mp4"))
+        console.log("findImg ->")
+        console.log(findImg)
+        console.log("findVid ->")
+        console.log(findVid)
        // console.log(user)
-        navigation.navigate("AddEmergency",{img:image, vid:image})
+       // setImage([])
+        navigation.navigate("AddEmergency",{img:findImg, vid:findVid})
+        console.log("saving all image -> ")
+        console.log(image);
+
     }
 
     const delData = ()=>{
@@ -198,26 +310,150 @@ const EmergencyHome = ({navigation, route})=>{
         console.log("camera layout")
     }
 
+    const startRec =async ()=>{
+        console.log("Starting video recording");
+
+        if(camera){
+             setRecVideo(true);
+            //   const options = {quality: 0}
+               const{lytHeight, lytWidth} = camLayout
+               const options = { 
+//                    VideoQuality:['480p']
+                    quality: Constants.VideoQuality['480p'],
+                    videoBitrate: 0.25*1000*1000
+                };
+               
+               const data = await camera.recordAsync(options);
+               console.log(`data to show: `)
+               console.log(data);
+               console.log(data.uri)
+               setLastVid(data.uri);
+               setImage([data.uri, ...image])
+               setRecVideo(false);
+               getVidThumbnail(); 
+//                const {height, uri, width} =data;
+//    //            let new_height = 640
+//    //            let new_width = width/height * new_height
+//                console.log("saving image to low resolution")
+//                const manipResult = await manipulateAsync(
+//                    uri,
+//                    [{ resize: { width: lytWidth, height: lytHeight } }],
+//                    { format: 'jpeg', compress:0.5 }
+//                );
+//                console.log(manipResult);
+//                setImage([manipResult.uri, ...image])
+               //console.log(image)
+           }
+           
+     }
+
+    const pressIn = ()=>{
+        console.log("Press in the button");
+    }
+
+    const pressOut = async ()=>{
+        console.log("on press out event")
+        if(camera) camera.stopRecording();
+
+        setRecVideo(false);
+
+    }
+
+    function toggleCameraType() {
+        setType(current => (current === CameraType.back ? CameraType.front : CameraType.back));
+      }
+    
     return(
 
         <View style={globalStyles.container_main}>
-            <View style={{flex:1}}>
-            { curImageIndx == -1 && isFocussed ?(
-                
-                    <Camera onLayout={getCameraLayout} type={type} style={{flex:1}} 
-                        ref={ref=> setCamera(ref)}></Camera>
-                
-            ):(
-                <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
-                    <Text>Opening camera .... </Text>
-                </View>    
-            )
+
+            { curImageIndx < 0 &&
+                <View style={{flex:1}}>
+                    { curImageIndx == -1 && isFocussed ?(
+                        
+                            <Camera onLayout={getCameraLayout} type={type} style={{flex:1, backgroundColor:"yellow"}} 
+                                ref={ref=> setCamera(ref)}
+                               useCamera2Api = {true}
+                                ></Camera>
+                        
+                    ):(
+                        curImageIndx < 0 &&
+                        <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
+                            <Text>Opening camera .... </Text>
+                        </View>    
+                    )
+                    }
+
+                    <View style={{bottom:0, alignItems:'center', 
+                                width:'100%',
+                                position:'absolute', backgroundColor:'#e7e7e7', marginBottom:0}}>
+                        {
+                            !recVideo?(
+                                <Text style={{color:"#555", padding:1, fontSize:13}}>
+                                    Press to click picture. Long press to record video.
+                                </Text>
+                            ):(
+                                <Text style={{color:"red", padding:1,}}>Recording started</Text>
+                            )
+                        }
+
+                    </View>
+                    
+                </View>
             }
-            </View>
+            {/* {thumbnail && <Image source={{uri:thumbnail}} style={{flex:1}} /> } */}
+            
             { curImageIndx > -1 && 
                 <View style={{flex:1}} >
+                    {!image[curImageIndx].includes(".mp4")?
+                        (
+                            <Image source={{uri:image[curImageIndx]}} style={{flex:1}} /> 
+                        ):
+                        (
+                            <View style={{justifyContent:"center"}}>
+                                                                { vidUri && 
+                                <Video ref={videoref}
+                                    style={{width: windowWidth, height: windowHeight}}
+                                    source={{
+                                       uri: vidUri //"https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4" 
+                                    }}
+                                    useNativeControls
+                                    resizeMode={ResizeMode.CONTAIN}
+                                    isLooping = {false}
+                                    onPlaybackStatusUpdate={playStatus =>{ 
+                                            //console.log(playStatus);
+                                            setPlayStatus(() => playStatus)}
+                                    }
+                                />
+                                }
+
+
+                            </View>
+                        )
+                    }
+
+                    {image[curImageIndx].includes(".mp4") &&
+                    <View style={{position:"absolute", justifyContent:"center",  flexDirection:"row", 
+                        width:'100%',
+                        opacity:0.7,
+                        marginHorizontal:0,
+                        opacity:1,
+                        marginVertical:30,
+                        alignContent:'center',
+                        
+                        }}>
+                               
+                            <AntDesign
+                            name={playStatus.isPlaying?"pausecircle":"caretright"} size={45} color="#afe69e" 
+                                onPress={() =>
+                                 playStatus.isPlaying? videoref.current.pauseAsync()
+                                 :
+                                 playStatus?.didJustFinish?videoref.current.playFromPositionAsync(0):
+                                 videoref.current.playAsync()} />
                     
-                    <Image source={{uri:image[curImageIndx]}} style={{flex:1}} /> 
+                        </View>    
+
+                    }
                     <View style={{position:"absolute", bottom:14, backgroundColor:'black'
                         , flexDirection:"row", 
                         width:'100%',
@@ -254,28 +490,28 @@ const EmergencyHome = ({navigation, route})=>{
                         alignItems:'center'
 
                 }}>
-                <View style={{flex:0.5, alignItems:'stretch', justifyContent:'center'}}>
+                <View style={{flex:0.5, alignItems:'stretch', justifyContent:'center', backgroundColor:'#000'}}>
                     <LnkBtnCard 
                         iconName={'report'}
                         iconSize={25}
                         iconColor={'yellow'}
                         label="View Reported"
                         labelColor={'#ededed'}
+                        
                         pressLnkHandler={pressLnkViewReport}
                     />
 
                 </View>
                 <View style={{flex:1}}>
-                    <TouchableOpacity onPress={takePic}>
+                    <TouchableOpacity onPress={takePic} onLongPress={startRec} onPressOut={pressOut} onPressIn={pressIn} >
                         {/* <MaterialIcons name="camera" size={34} color="red" /> */}
-                        
-                            <View style={styles.vw_capture_icon}></View>
-                        
-                        
+                        <View style={[styles.vw_capture_icon , {backgroundColor:"red"} ]}></View>
                     </TouchableOpacity>
                 </View>
+
                 <View style={{flex:0.5, alignItems:'stretch'}}>
-                    <Pressable onPress={()=> type == CameraType.back? setType(CameraType.front):setType(CameraType.back)}>
+                    
+                    <Pressable onPress={toggleCameraType}>
                         <MaterialIcons name="flip-camera-android" size={30}
                                         style={{alignSelf:"center"}}
                                     color="gray" />
@@ -327,7 +563,7 @@ const styles = StyleSheet.create({
 
     },
     vw_capture_icon:{
-        backgroundColor:'#a6d5ed',
+
         borderWidth:5,
         borderColor:"#a3bbc7",
         height:60,
@@ -350,5 +586,10 @@ const styles = StyleSheet.create({
     vw_text:{
         marginHorizontal:5,
         marginVertical:5
+    },
+    video: {
+        flex:1,
+        borderWidth:2,
+        borderColor:'green'
     }
 }) 

@@ -32,7 +32,7 @@ const ItemEventTemplate = ({elem, pressLnkHandler})=>{
                                 <Text style={{fontSize:15, marginLeft:8}}>{elem.evtname} </Text>
                             </View>
                             <View style={{flexDirection:'row'}}>
-                                <Text style={{fontSize:13, color:'#808080'}}> {ConverToDate(elem.evtime)} </Text>
+                                <Text style={{fontSize:13, color:'#808080'}}> {elem.dtmestr} </Text>
                                 <Entypo name="dot-single" size={18} color="black" />
                                 <Text style={{fontSize:13, color:'#808080'}}> {elem.objids?elem.objids:"Camera 17"} </Text>
                             </View>

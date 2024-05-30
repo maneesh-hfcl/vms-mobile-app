@@ -35,8 +35,9 @@ const PlayVideo = ({camToPlay, isRec, dateRec, closeCam})=>{
 
     useEffect(()=>{
         //setIsLoadingVideo(true)
-        console.log("calling useffect")
+        console.log("calling useffect PlayVideo.js");
         pressHandlerSocketConn()
+        console.log(`cam to play: ${camToPlay}/${isRec}/${dateRec}`);
 //setBase64Encode('hello')
     },[camToPlay, isRec, dateRec])
 

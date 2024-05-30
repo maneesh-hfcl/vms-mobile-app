@@ -59,6 +59,9 @@ const MoreHomeScreen = ({navigation, props})=>{
 
     const pressHandlerServer = async()=>{
         try{
+            await AsyncStorage.removeItem("@webapi")
+            await AsyncStorage.removeItem("@weburl")
+            await AsyncStorage.removeItem("@socketurl")
 //            await AsyncStorage.removeItem('@user')            
             navigation.navigate('ConnectAPI', {resetVal: 'true'});
         }

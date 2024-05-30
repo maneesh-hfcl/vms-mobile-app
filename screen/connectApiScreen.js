@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {View, Text, StyleSheet, Image, TouchableOpacity, ActivityIndicator} from 'react-native'
+import {View, Text, StyleSheet, Image, TouchableOpacity, ActivityIndicator, Alert} from 'react-native'
 import { globalStyles } from "../style/globalstyle";
 import HeaderCardComponent from "../component/card/headerCard";
 const logoIcon = require('../assets/icons/logo.png')
@@ -10,7 +10,7 @@ import config from "../configuration/config";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DesignTriComponent from "../component/designTriComponent";
 import { Ionicons } from '@expo/vector-icons';
-import { LoadApiData } from "../shared/fetchUrl";
+import { Com_SaveApiStorage, Com_SetAppApi, Com_GetAPIFrmStorage, LoadApiData, LoadApiDataFrmURL, LoadApiDataFrmWeb } from "../shared/fetchUrl";
 
 
 const validationSchema = yup.object().shape({
@@ -20,6 +20,8 @@ const validationSchema = yup.object().shape({
 const ConnectApiScreen = ({navigation, route})=>{
     const[ipaddr, setip] = useState(null)
     const[error, setError] = useState(null)
+    const[log, setLog] = useState("")
+
     var initialValues={
         ipaddress: ''
     };
@@ -27,6 +29,7 @@ const ConnectApiScreen = ({navigation, route})=>{
     useEffect(()=>{
         if(route.params != null)
         {
+            console.log("ConnectApiScreen useEffect method");
             const{resetVal} =route.params;
             GetAPIFrmStorage(resetVal)
         }
@@ -39,17 +42,10 @@ const ConnectApiScreen = ({navigation, route})=>{
     const GetAPIFrmStorage = async(val)=>{
         try{
 //            let value = await AsyncStorage.getItem("@webapi")
-            let webapi = await AsyncStorage.getItem("@webapi")
-            let weburl = await AsyncStorage.getItem("@weburl")
-            let socketurl = await AsyncStorage.getItem("@socketurl")
+ 
+            let initLst = await Com_GetAPIFrmStorage()
 
-            let initLst = {
-                webapi : JSON.parse(webapi),
-                weburl : JSON.parse(weburl),
-                socketurl : JSON.parse(socketurl)
-            }
-
-            if(webapi != null)
+            if(initLst.webapi != null)
             {
                 if(val != '')
                 {
@@ -72,13 +68,27 @@ const ConnectApiScreen = ({navigation, route})=>{
     const onPressSubmit= async (values, action)=>{
         try
         {
-            setError("")
             let ip = values.ipaddress.trim()
+           
+            setError("")
+            setLog("1: "+ ip + " | ");
             config.ApiUrl = (ip.includes("http")?ip:"http://" + ip)
+            setLog(log  => log + "2: "+ config.ApiUrl + " | ");
             //config.ApiUrl = values.ipaddress.trim()
+        //    Alert.alert(config.ApiUrl)
             console.log(`config apiurl: ${config.ApiUrl}`)
-            let jsondata = await LoadApiData("/getallurl")
+            let apiurl = (ip.includes("http")?ip:"http://" + ip)
+           
+ //          let jsondata = await LoadApiData("/getallurl")
+            setLog(log => log  + "3: posting json data: "+ values.ipaddress.trim()  + " | ");
+            let jsondata = await LoadApiDataFrmURL(values, "POST")
+         //   Alert.alert("jsondata ")
+         //   let urlpath = "/getallurl";
+        //    let jsonData = await LoadApiDataFrmURL(urlpath,"POST", values);
+            //jsondata = "error";
             if (jsondata != "error"){
+           //     Alert.alert("Inside if ")
+               setLog(log => log + "4: error json data "); 
                console.log(jsondata) 
                 
                console.log("Inside jsondata")
@@ -89,12 +99,12 @@ const ConnectApiScreen = ({navigation, route})=>{
                 }
 
                 console.log(initLst);
-                await AsyncStorage.setItem("@webapi", JSON.stringify(initLst.webapi))
-                await AsyncStorage.setItem("@weburl", JSON.stringify(initLst.weburl))
-                await AsyncStorage.setItem("@socketurl", JSON.stringify(initLst.socketurl))
+             //   Alert.alert("initLst found ")
+                await Com_SaveApiStorage(initLst);
                 setAppApi(initLst)
             }
             else{
+              //  Alert.alert("inside else part ")
                 setError("error")
             }
             console.log()
@@ -102,7 +112,9 @@ const ConnectApiScreen = ({navigation, route})=>{
             
         }
         catch(e){
-            console.log(e)
+          //  Alert.alert("inside catch ")
+            Alert.alert("2:"+e.message)
+            console.log(e.message)
         }
         finally{
 
@@ -112,13 +124,15 @@ const ConnectApiScreen = ({navigation, route})=>{
     const setAppApi = (iplst)=>{
         if(iplst != null)
         {
-            config.ApiUrl = (iplst.webapi.includes("http")?iplst.webapi:"http://" + iplst.webapi),// + ":8060",
-            config.WebUrl = (iplst.weburl.includes("http")?iplst.weburl:"http://" + iplst.weburl),// + ":8010",
-            config.WebsocketUrl = (iplst.socketurl.includes("http")?iplst.socketurl:"http://" + iplst.socketurl), // + ":8050",
-            config.VideoUrl = config.WebUrl +"/hls", // + ":8010/hls"
-            console.log(config)
-            setip(config.ApiUrl)
-            navigation.navigate("Login")
+            // config.ApiUrl = (iplst.webapi.includes("http")?iplst.webapi:"http://" + iplst.webapi);// + ":8060",
+            // config.WebUrl = (iplst.weburl.includes("http")?iplst.weburl:"http://" + iplst.weburl);// + ":8010",
+            // config.WebsocketUrl = (iplst.socketurl.includes("http")?iplst.socketurl:"http://" + iplst.socketurl); // + ":8050",
+            // config.VideoUrl = config.WebUrl +"/hls"; // + ":8010/hls"
+            let configuration = Com_SetAppApi(iplst);
+            console.log("start:setAppApi setting configuration here");
+            console.log(configuration);
+            setip(configuration.ApiUrl);
+            navigation.navigate("Login");
         }
 
     }
@@ -161,7 +175,7 @@ const ConnectApiScreen = ({navigation, route})=>{
                                 setChangeText={formikProps.handleChange("ipaddress")}
 
                                 setValErr={formikProps.touched && formikProps.errors.ipaddress}   
-                                setPlaceHolder="e.g: 192.168.0.0"
+                                setPlaceHolder="e.g: 192.168.0.0:8010"
                             />
                         <View style={{marginTop:30}}>
                             {formikProps.isSubmitting?(
@@ -205,14 +219,16 @@ const ConnectApiScreen = ({navigation, route})=>{
                                 </Text>
                             </TouchableOpacity>
                         </View>
+                        <React.Fragment>
+                            {/* <DesignTriComponent />  */}
+                            {/* <Text>{log}</Text> */}
+                        </React.Fragment>
                     </>
                 }
                 
             </View>
 
-            <React.Fragment>
-                {/* <DesignTriComponent />  */}
-            </React.Fragment>
+           
         </View>
     )
 }

@@ -1,8 +1,10 @@
-import Config from '../configuration/config'
+import { Alert } from 'react-native';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import config from "../configuration/config";
 
 export const LoadApiData = async(urlpath, type)=>{
     try {
-            let uri = Config.ApiUrl + `${urlpath}`
+            let uri = config.ApiUrl + `${urlpath}`
             console.log("LoadApiData - " + uri);
             const response = await fetch(
                 uri,
@@ -11,24 +13,66 @@ export const LoadApiData = async(urlpath, type)=>{
                     
                 }
             );
+
             return await response.json();
         //            return json.movies;
         } catch (error) {
-            console.error(error);
             return "error"
         }
 
 }
 
+
+export const LoadApiDataFrmURL = async(values, type)=>{
+    let ip = values.ipaddress.trim()
+    // Alert.alert("urplath: " + urlpath);
+ 
+
+    let uri = (ip.includes("http")?ip:"http://" + ip)+"/getallurlp";
+    try {
+          //  uri = "http://192.168.0.106:8060/getallurl";
+          //  uri = "https://reactnative.dev/movies.json"
+            // Alert.alert("Inside LoadApiFrmURL")
+            // Alert.alert(uri)
+//            Alert.alert("LoadApiFrmURL - " + uri);
+            const response = await fetch(
+                uri,
+                {
+                    method: type,
+                    headers:{
+                        "Content-Type": "application/json"
+                    }
+                    
+                }
+            );
+            // const jsonmovies = await response.json();
+            // console.log(jsonmovies.movies);
+            // Alert.alert(jsonmovies.movies);
+            // return jsonmovies;
+            return await response.json();
+        //            return json.movies;
+        } catch (error) {
+           // Alert.alert("In LoadApiFrmURL error" + uri);
+           // Alert.alert("11: " + error.message)
+           // console.error(error.message);
+            return "error"
+        }
+
+}
+
+
 export const LoadApiDataFrmWeb = async(urlpath, type)=>{
     try {
-            console.log(Config.WebUrl);
+            console.log(config.WebUrl);
             let uri = Config.WebUrl + `${urlpath}`
             console.log("LoadApiData - " + uri);
             const response = await fetch(
                 uri,
                 {
-                    method: type == null?"GET":type
+                    method: type == null?"GET":type,
+                    headers:{
+                        "Content-Type": "application/json"
+                    }
                     
                 }
             );
@@ -44,9 +88,9 @@ export const LoadApiDataFrmWeb = async(urlpath, type)=>{
 export const LoadApiPostData = async(urlpath, type, data)=>{
     try {
             console.log("Inside LoadApiPostData");
-            console.log(Config.ApiUrl);
+            console.log(config.ApiUrl);
 
-            let uri = Config.ApiUrl + `${urlpath}`
+            let uri = config.ApiUrl + `${urlpath}`
             console.log("goo")
             console.log(uri);
             
@@ -90,4 +134,56 @@ export const CurrentDateTime = (dt)=>{
         + ('00' + second).slice(-2); 
     console.log("date : "+ datetime);
     return datetime;
+}
+
+
+export const Com_GetAPIFrmStorage = async()=>{
+    try{
+//            let value = await AsyncStorage.getItem("@webapi")
+        let webapi = await AsyncStorage.getItem("@webapi")
+        let weburl = await AsyncStorage.getItem("@weburl")
+        let socketurl = await AsyncStorage.getItem("@socketurl")
+
+        let initLst = {
+            webapi : JSON.parse(webapi),
+            weburl : JSON.parse(weburl),
+            socketurl : JSON.parse(socketurl)
+        }
+
+
+        return initLst;        
+    }
+    catch(e){
+        console.log("catch:Com_GetAPIFrmStorage: exception occured");
+    }
+    finally{
+
+    }
+}
+
+
+export const Com_SetAppApi = (iplst)=>{
+    if(iplst != null)
+    {
+        config.ApiUrl = (iplst.webapi.includes("http")?iplst.webapi:"http://" + iplst.webapi);// + ":8060",
+        config.WebUrl = (iplst.weburl.includes("http")?iplst.weburl:"http://" + iplst.weburl);// + ":8010",
+        config.WebsocketUrl = (iplst.socketurl.includes("http")?iplst.socketurl:"http://" + iplst.socketurl); // + ":8050",
+        config.VideoUrl = config.WebUrl +"/hls"; // + ":8010/hls"
+        console.log("start:Com_SetAppApi Setting api");
+        console.log(config);
+        return config;
+        // setip(config.ApiUrl)
+        // navigation.navigate("Login")
+    }
+    else
+    {
+        console.log("start:Com_SetAppApi: list of ip/webapi is null");
+    }
+
+}
+
+export const Com_SaveApiStorage = async (initLst)=>{
+    await AsyncStorage.setItem("@webapi", JSON.stringify(initLst.webapi))
+    await AsyncStorage.setItem("@weburl", JSON.stringify(initLst.weburl))
+    await AsyncStorage.setItem("@socketurl", JSON.stringify(initLst.socketurl))
 }

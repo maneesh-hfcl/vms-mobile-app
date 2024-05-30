@@ -8,8 +8,9 @@ export default{
     // VideoUrl: "http://119.252.208.55:8010/hls" 
 
     ApiUrl : "http://192.168.0.106:8060",
-    WebUrl: "http://192.168.0.106:8010",
-    WebsocketUrl: "http://192.168.0.106:8050",
-    VideoUrl: "http://192.168.0.106:8010/hls"
+    WebUrl: "http://192.168.0.106:8040",
+//    WebsocketUrl: "http://172.17.35.160:8050",
+    WebsocketUrl: "http://192.168.0.106:7008",
+    VideoUrl: "http://192.168.0.106:8040/hls"
 
 }

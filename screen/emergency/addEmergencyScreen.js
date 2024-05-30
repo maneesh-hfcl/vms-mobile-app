@@ -90,6 +90,15 @@ const AddEmergencyScreen = ({navigation, route})=>{
               })
             i++;
         }
+        for(let vuri of vid)
+        {
+            formData.append(`file${i}`,{ 
+                uri: vuri, 
+                name: vuri.split('/')[vuri.split('/').length - 1], 
+                type: `video/mp4` 
+              })
+            i++;
+        }
 
 
 
@@ -108,7 +117,7 @@ const AddEmergencyScreen = ({navigation, route})=>{
             if( result == "Success")
             {
                 //pressCloseDialog(); 
-                navigation.navigate("EmergencyHome",{retVal:'added'})
+                navigation.navigate("EmergencyHome",{retVal:'added', rnd: Math.random()})
                   
             }
         })
