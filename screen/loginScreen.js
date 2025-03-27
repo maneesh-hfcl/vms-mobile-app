@@ -157,7 +157,7 @@ const LoginScreen = ({navigation, route})=>{
                         {
                             navigation.navigate("RegDevice", {usrId:usrId})
                             //console.log(fndDvc)
-                        // 
+                        // o
                         }
                         else{
                             console.log("you are here else part")

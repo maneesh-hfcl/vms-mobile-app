@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import {View, Text, StyleSheet, TouchableOpacity, Image, Alert, ActivityIndicator} from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 //import * as FileSystem from 'expo-file-system';
-import WebView from "react-native-webview";
+//import WebView from "react-native-webview";
 //import RNFS from 'react-native-fs';
 import Config from '../../configuration/config'
 import { MaterialIcons } from '@expo/vector-icons';

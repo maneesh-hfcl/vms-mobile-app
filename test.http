@@ -23,3 +23,6 @@ http://119.252.208.55:8010/vm/vmd/ptzc?dv=ITEM_44&cm=ooblu
 
 ###
 POST https://192.168.0.106:8060/getallurlp HTTP/1.1
+
+###
+POST http://172.17.24.55:8021/getallurlp HTTP/1.1

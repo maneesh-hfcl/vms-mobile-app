@@ -64,7 +64,7 @@ export const LoadApiDataFrmURL = async(values, type)=>{
 export const LoadApiDataFrmWeb = async(urlpath, type)=>{
     try {
             console.log(config.WebUrl);
-            let uri = Config.WebUrl + `${urlpath}`
+            let uri = config.WebUrl + `${urlpath}`
             console.log("LoadApiData - " + uri);
             const response = await fetch(
                 uri,
@@ -148,16 +148,17 @@ export const Com_GetAPIFrmStorage = async()=>{
             webapi : JSON.parse(webapi),
             weburl : JSON.parse(weburl),
             socketurl : JSON.parse(socketurl)
+          //  socketapi : JSON.parse(socketapi)
         }
-
 
         return initLst;        
     }
     catch(e){
+        console.log(e);
         console.log("catch:Com_GetAPIFrmStorage: exception occured");
     }
     finally{
-
+        
     }
 }
 

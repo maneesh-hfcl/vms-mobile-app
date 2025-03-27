@@ -5,7 +5,7 @@ const BaseContainer = ({children})=>{
     return(
         
             <KeyboardAvoidingView style={styles.container}
-                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                //behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                 >
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                     <SafeAreaView style={[styles.container, {}]}>

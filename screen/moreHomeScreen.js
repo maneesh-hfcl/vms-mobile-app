@@ -1,7 +1,7 @@
 import { Video } from "expo-av";
 import React, { useEffect, useState } from "react";
 import {View, Text, StyleSheet, TouchableOpacity, Alert} from 'react-native'
-import {WebView} from "react-native-webview";
+//import {WebView} from "react-native-webview";
 import { globalStyles } from "../style/globalstyle";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import UserDetailComponent from "../component/more/usrDetailComponent";

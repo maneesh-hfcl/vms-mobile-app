@@ -93,7 +93,7 @@ const AddEmergencyScreen = ({navigation, route})=>{
         for(let vuri of vid)
         {
             formData.append(`file${i}`,{ 
-                uri: vuri, 
+                uri: vuri.replace(".mov", ".mp4"), 
                 name: vuri.split('/')[vuri.split('/').length - 1], 
                 type: `video/mp4` 
               })

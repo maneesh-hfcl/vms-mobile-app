@@ -3,7 +3,6 @@ import {View, Text, StyleSheet, Alert, ScrollView, FlatList, TouchableOpacity, M
 import { globalStyles } from "../../style/globalstyle";
 import { Entypo, Ionicons, MaterialIcons, Feather, FontAwesome, MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 import MapComponent from "../../component/mapComponent";
-import {WebView} from "react-native-webview";
 import StackMap from "../../navigation/stack/mapStack";
 import PlayVideo from "./playVideo";
 
@@ -100,16 +99,19 @@ const LiveScreen = ({navigation, route})=>{
         var rectt = new Date(rectime)
         let trecdt = (recdt.getFullYear()+"/"+(recdt.getMonth()+1) +"/" + recdt.getDate());
         let trect = (rectt.getHours()+":"+rectt.getMinutes()+":" + rectt.getSeconds())
-
-        let dtofrec = new Date(trecdt+" " + trect)
+        let dtrecpass = trecdt+" " + trect;
+        let dtofrec = rectt //new Date(rectime)
         
-
+        console.log("Date: " + trecdt+" " + trect);
+        console.log("calling date")
+        console.log(dtofrec);
         let tempTileCam = [...tileCam];
 
         let findCam = tempTileCam.find(x=>x.isCurSel == true)
+        findCam.cam = elemCam;
         //return;
         console.log('finding camera: ')
-        console.log(findCam?.cam + "/" + dtofrec)
+        console.log(findCam?.cam + "/" + dtofrec.toISOString())
         if(findCam != null)
         {
             findCam.cam = elemCam?elemCam:'Select'

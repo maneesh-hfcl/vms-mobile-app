@@ -1,5 +1,6 @@
+
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, SafeAreaView, SafeAreaViewBase, Button } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, SafeAreaViewBase, Button, Alert } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
 import { useCallback, useEffect, useState } from 'react';
 import Entypo from '@expo/vector-icons/Entypo';
@@ -26,6 +27,7 @@ export default function App() {
   const[appIsReady, setAppIsReady] = useState(false);
 
   useEffect(()=>{
+
     async function prepare(){
       try{
 //        await new Promise(resolve => setTimeout(resolve, 2000))
@@ -43,14 +45,18 @@ export default function App() {
   },[])
 
   useEffect(()=>{
+
     getpushToken();
 
   })
 
   const getpushToken = async ()=>{
     try{
+      console.log("start push token");
       let pushToken = await registerForPushNotificationsAsync();
+
       console.log("getting push token")
+      console.log("new code");
       console.log(pushToken);
       if(pushToken == null){
         pushToken = "offline"
@@ -90,6 +96,7 @@ export default function App() {
    },[])
 
   const onLayoutRootView = useCallback(async()=>{
+    console.log("onlayout view");
     if(appIsReady){
       await SplashScreen.hideAsync()
     }
@@ -112,7 +119,7 @@ export default function App() {
     })
   }
 
-  return (
+  return (  
     <>
          
          <AppMain />

@@ -144,14 +144,14 @@ const ConnectApiScreen = ({navigation, route})=>{
     }
 
     return(
-        <View style={[globalStyles.container_main,{flex:1}]}>
+        <View style={[globalStyles.container_main,{flex:1, paddingTop:0}]}>
             <View style={[globalStyles.container_screen]}>
                 <HeaderCardComponent>
                     <Image source={logoIcon} />
                 </HeaderCardComponent>
             </View> 
             <Text style={{fontSize:18, fontWeight:'bold', textAlign:'center', marginTop:20}}>
-                Mobile App Server
+                Mobile Server
             </Text>
 
             <View style={[globalStyles.container_main,{marginHorizontal:50, marginTop:80}]}>
