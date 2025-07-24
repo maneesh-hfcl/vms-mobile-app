@@ -1,15 +1,15 @@
 {
   "project_info": {
     "project_number": "69888032685",
-    "project_id": "m3s-mobile",
-    "storage_bucket": "m3s-mobile.appspot.com"
+    "project_id": "hfcl-vms-mobile",
+    "storage_bucket": "hfcl-m3s-mobile.appspot.com"
   },
   "client": [
     {
       "client_info": {
         "mobilesdk_app_id": "1:69888032685:android:e92e07b6767b9070ef6b24",
         "android_client_info": {
-          "package_name": "m3s.mobile"
+          "package_name": "hfcl.vms.mobile"
         }
       },
       "oauth_client": [

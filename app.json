@@ -25,7 +25,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#000000"
       },
-      "package": "m3s.mobile",
+      "package": "hfcl.vms.mobile",
       "versionCode": 1,
       "googleServicesFile": "./google-services.json"
     },

@@ -21,14 +21,14 @@ const EmergencyHome = ({navigation, route})=>{
     const[hasAudioPermission, setHasAudioPermission] = useState(null)
     const[type, setType] = useState('back')
 
-  //  const [facing, setFacing] = useState<CameraType>('back');
+//    const [facing, setFacing] = useState<CameraType>('back');
     const [permission, requestPermission] = useCameraPermissions();
 
     const[camera, setCamera] = useState(null)
     const[image, setImage] = useState([])
     const[curImageIndx, setCurImageIndx] = useState(-1)
     const[camLayout, setCamLayout] = useState(null)
-    const[isFocussed, setIsFocussed] = useState(false)
+    const[isFocussed, setIsFocussed] = useState(true)
     const[recVideo, setRecVideo] = useState(false)
     const[playStatus, setPlayStatus] = useState({});
     const[vidUri, setVidUri] = useState("");
@@ -68,7 +68,7 @@ const EmergencyHome = ({navigation, route})=>{
     useEffect(()=>{
         if(!permission){
             requestPermission();
-            setHasPermission(true);
+    //        setHasPermission(true);
         } 
  
          // (async()=>{
@@ -246,7 +246,7 @@ const EmergencyHome = ({navigation, route})=>{
 
     const pressLnkViewReport = async ()=>{
       //  await savePicturesAsync()
-        setIsFocussed(false)
+        setIsFocussed(true)
         navigation.navigate("EmergencyReport")
     }
 
@@ -365,7 +365,7 @@ const EmergencyHome = ({navigation, route})=>{
     }
 
     function toggleCameraType() {
-        setType(current => (current === CameraType.back ? CameraType.front : CameraType.back));
+        setType(current => (current === 'back' ? 'front' : 'back'));
       }
     
     return(
@@ -384,7 +384,7 @@ const EmergencyHome = ({navigation, route})=>{
                     ):(
                         curImageIndx < 0 &&
                         <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
-                            <Text>Opening camera .... </Text>
+                            <Text>Opening camera .... {curImageIndx}</Text>
                         </View>    
                     )
                     }
