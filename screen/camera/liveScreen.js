@@ -192,7 +192,7 @@ const LiveScreen = ({navigation, route})=>{
                     }
 
                 </View>
-                <View style={{flexDirection:'row', backgroundColor:'red', }}>
+                <View style={{flexDirection:'row', backgroundColor:'#394a66', }}>
                     
                     <Pressable
                         android_ripple={{color: 'black', borderless: true}}

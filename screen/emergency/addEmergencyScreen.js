@@ -141,8 +141,9 @@ const AddEmergencyScreen = ({navigation, route})=>{
             </Pressable>
             <View style={{marginTop:110, alignItems:'center', marginHorizontal:10, marginVertical:10}}>
                 <FontAwesome onPress={pressCloseDialog} name="close" size={30} color="#fff" />
+                <Text>close X</Text>
             </View>
-            <View style={[styles.modal_dialog,{ flex:1, marginTop:0}]}>
+            <View style={[styles.modal_dialog,{ marginTop:0}]}>
             <Formik
                 initialValues={initialValues}
                 onSubmit={(values, action)=>{
@@ -155,7 +156,7 @@ const AddEmergencyScreen = ({navigation, route})=>{
        
                     <View>
                 
-                <View style={{marginHorizontal:0, marginTop:20}}>
+                        <View style={{marginHorizontal:0, marginTop:20}}>
 
                     <View style={{}}>  
 
@@ -209,9 +210,9 @@ const AddEmergencyScreen = ({navigation, route})=>{
                             alignSelf:'stretch', 
                             justifyContent:'center',
                             alignItems:'center',
-                            marginVertical:0,
+                            marginVertical:20,
                             width: Dimensions.get('screen').width-20,
-                             height:200,
+                             
                             marginLeft:0
                             }}
                         >
@@ -232,12 +233,8 @@ const AddEmergencyScreen = ({navigation, route})=>{
                 
                 </View>
             }
-                </View>
-                    { formikProps.isSubmitting && 
-                    <MsgCardComponent msg="Kindly wait. Saving data to server ....">
-                        <ActivityIndicator  />
-                    </MsgCardComponent>
-                    }
+                    </View>
+
                     <View style={{marginVertical:10}}>
                         <TouchableOpacity style={globalStyles.form_btn}
                             onPress={formikProps.handleSubmit}
@@ -245,7 +242,12 @@ const AddEmergencyScreen = ({navigation, route})=>{
                             <Text style={[globalStyles.text_btn,{padding:5}]}>Save All</Text>
                         </TouchableOpacity>
                     </View>
-                </View>
+                    { formikProps.isSubmitting && 
+                        <MsgCardComponent msg="Kindly wait. Saving data to server ...." fontColor="save">
+                            <ActivityIndicator  />
+                        </MsgCardComponent>
+                    }
+                    </View>
                 )}
                 </Formik>    
             </View>

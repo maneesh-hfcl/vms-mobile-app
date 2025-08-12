@@ -8,7 +8,7 @@ import AppMain from './screen/AppMain';
 import * as Notifications from 'expo-notifications';
 import { registerForPushNotificationsAsync } from './shared/useNotification';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import 'react-native-gesture-handler';
+import {GestureHandlerRootView } from 'react-native-gesture-handler';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -121,13 +121,14 @@ export default function App() {
 
   return (  
     <>
-         
-         <AppMain />
-         <View onLayout={onLayoutRootView}>
+      <GestureHandlerRootView>
+        <AppMain />
+        <View onLayout={onLayoutRootView}>
           {/* <Text>hello sir</Text>
           <Button title='Schedule Notification' onPress={scheduleNotificationHandler} /> */}
         </View>
-     </> 
+      </GestureHandlerRootView>
+    </> 
   );
 }
 

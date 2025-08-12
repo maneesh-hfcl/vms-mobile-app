@@ -201,7 +201,7 @@ export const globalStyles = StyleSheet.create({
     width:"80%",
     zIndex:2,
     opacity:1,
-    
+        
 
     },
     vw_msg_text:{

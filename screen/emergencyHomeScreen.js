@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
+import { CameraView, CameraType, Constants,useCameraPermissions } from 'expo-camera';
 import {View, Text, StyleSheet, TouchableOpacity, Alert, Image, FlatList, Pressable, Dimensions} from 'react-native'
 //import { Camera, Constants } from 'expo-camera'
-import { CameraView, CameraType, Constants,useCameraPermissions } from 'expo-camera';
+
 import { MaterialIcons, Ionicons, FontAwesome, AntDesign } from '@expo/vector-icons';
 import { globalStyles } from '../style/globalstyle';
 import { LnkBtnCard } from '../component/card/lnkBtnCard';
@@ -9,7 +10,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { manipulateAsync, FlipType, SaveFormat } from 'expo-image-manipulator';
 import { useIsFocused } from '@react-navigation/core';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Video, ResizeMode } from 'expo-av';
+import { Video, ResizeMode, Audio } from 'expo-av';
 import * as VideoThumbnails from 'expo-video-thumbnails';
 
 
@@ -19,7 +20,9 @@ const vidIcon = require('../assets/icon.png')
 const EmergencyHome = ({navigation, route})=>{
 //    const[hasPermission, setHasPermission] = useState(null)
     const[hasAudioPermission, setHasAudioPermission] = useState(null)
+  //  const {status} = await Audio.requestPermissionsAsync();
     const[type, setType] = useState('back')
+    const[mode, setMode] = useState('picture')
 
 //    const [facing, setFacing] = useState<CameraType>('back');
     const [permission, requestPermission] = useCameraPermissions();
@@ -68,6 +71,7 @@ const EmergencyHome = ({navigation, route})=>{
     useEffect(()=>{
         if(!permission){
             requestPermission();
+
     //        setHasPermission(true);
         } 
  
@@ -317,25 +321,42 @@ const EmergencyHome = ({navigation, route})=>{
 
     const startRec =async ()=>{
         console.log("Starting video recording");
-
+        //setMode('video');
+        setMode(current => (current === 'picture' ? 'video' : 'picture'));
+        console.log(`Mode -- ${mode}`);
         if(camera){
-             setRecVideo(true);
+            console.log('inside if loop');
+            setRecVideo(true);
             //   const options = {quality: 0}
-               const{lytHeight, lytWidth} = camLayout
-               const options = { 
-//                    VideoQuality:['480p']
-                    quality: Constants.VideoQuality['480p'],
-                    videoBitrate: 0.25*1000*1000
-                };
-               
-               const data = await camera.recordAsync(options);
-               console.log(`data to show: `)
-               console.log(data);
-               console.log(data.uri)
-               setLastVid(data.uri);
-               setImage([data.uri, ...image])
-               setRecVideo(false);
-               getVidThumbnail(); 
+            const{lytHeight, lytWidth} = camLayout
+            console.log(camLayout);
+            try
+            {
+                const options = { 
+                        videoQuality:['480p'],
+        //                  quality: Constants.VideoQuality['480p'],
+                        videoBitrate: 0.25*1000*1000
+                    };
+                
+
+                console.log('not coming ere')
+                const data = await camera.recordAsync(options);
+                console.log(`data to show: `)
+                
+                console.log({data});
+                console.log(data.uri);
+                setMode(current => (current === 'picture' ? 'video' : 'picture'));
+                console.log(`Mode -- ${mode}`);
+                setLastVid(data.uri);
+                setImage([data.uri, ...image])
+                setRecVideo(false);
+                getVidThumbnail(); 
+
+            }
+            catch(e){
+                console.log('recording error')
+                console.log(e);
+            }
 //                const {height, uri, width} =data;
 //    //            let new_height = 640
 //    //            let new_width = width/height * new_height
@@ -358,9 +379,11 @@ const EmergencyHome = ({navigation, route})=>{
 
     const pressOut = async ()=>{
         console.log("on press out event")
-        if(camera) camera.stopRecording();
+       // if(camera) camera.stopRecording();
 
         setRecVideo(false);
+        setMode('picture');
+        console.log(`Mode -- ${mode}`);
 
     }
 
@@ -376,9 +399,9 @@ const EmergencyHome = ({navigation, route})=>{
                 <View style={{flex:1}}>
                     { curImageIndx == -1 && isFocussed ?(
                         
-                            <CameraView onLayout={getCameraLayout} facing={type} style={{flex:1, backgroundColor:"yellow"}} 
+                            <CameraView  mode={mode} onLayout={getCameraLayout} facing={type} style={{flex:1, backgroundColor:"yellow"}} 
                                 ref={ref=> setCamera(ref)}
-                               useCamera2Api = {true}
+                               useCamera2Api = {true} 
                                 ></CameraView>
                         
                     ):(
@@ -495,12 +518,14 @@ const EmergencyHome = ({navigation, route})=>{
                         alignItems:'center'
 
                 }}>
-                <View style={{flex:0.5, alignItems:'stretch', justifyContent:'center', backgroundColor:'#000'}}>
+                <View style={{flex:0.6, alignItems:'stretch', justifyContent:'center'
+                                ,  borderRightWidth:0,
+                     borderColor:'#40312F',}}>
                     <LnkBtnCard 
                         iconName={'report'}
                         iconSize={25}
                         iconColor={'yellow'}
-                        label="View Reported"
+                        label="View All"
                         labelColor={'#ededed'}
                         
                         pressLnkHandler={pressLnkViewReport}

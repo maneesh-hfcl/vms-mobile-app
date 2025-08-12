@@ -12,3 +12,7 @@ web-build/
 
 # macOS
 .DS_Store
+android/keystores/release.keystore
+package - Copy.json
+app - Copy.json
+
