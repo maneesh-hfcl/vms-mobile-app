@@ -192,7 +192,6 @@ export const Com_SaveApiStorage = async (initLst)=>{
 
 
 export const PrivacyPolicy = ()=>{
-    Alert.alert("privacy policy");
     // Linking.openURL('https://expo.dev/');
 
     let uri = config.ApiUrl+"/privacy-policy.html";

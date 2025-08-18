@@ -414,11 +414,14 @@ const LoginScreen = ({navigation, route})=>{
                             </TouchableOpacity>
                         </View>
 
-                        <Pressable onPress={() => PrivacyPolicy()}>
-                            <Text style={[globalStyles.privacy_policy]}>Privacy Policy</Text>
-                        </Pressable>
 
                         <DesignTriComponent /> 
+
+                        <Pressable style={[globalStyles.privacy_policy]} onPress={PrivacyPolicy}>
+                            <Text style={[globalStyles.lnk_underline]}>Privacy Policy</Text>
+                        </Pressable>
+
+
                     </React.Fragment>
                 }
 

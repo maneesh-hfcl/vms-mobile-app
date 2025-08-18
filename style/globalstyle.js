@@ -222,13 +222,16 @@ export const globalStyles = StyleSheet.create({
         textAlign:"center"
     } ,
     privacy_policy:{
+
+        textDecorationLine:"underline",
+        alignSelf:'center',
+        position:'absolute',
+        bottom:90
+    },    
+    lnk_underline:{
         fontSize:14,
         color:"gray",
-        marginVertical:80,
-        paddingHorizontal:10,
-        textAlign:"center",
         textDecorationLine:"underline",
-        position:'absolute',
-        alignSelf:'center'
-    },     
+
+    } 
 })
