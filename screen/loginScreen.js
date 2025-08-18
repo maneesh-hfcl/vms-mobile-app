@@ -1,6 +1,7 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import {View, Text, StyleSheet, Image, TextInput, TouchableOpacity, Alert, Dimensions, ActivityIndicator ,
-         KeyboardAvoidingView, Keyboard} from 'react-native';
+         KeyboardAvoidingView, Keyboard,
+         Pressable} from 'react-native';
 import HeaderCardComponent from "../component/card/headerCard";
 import FooterScreen from "../component/footer";
 import { globalStyles } from "../style/globalstyle";
@@ -15,7 +16,7 @@ import TextInputTemplate from "../component/card/form/textInputTemplate";
 import DesignCirComponent from "../component/designCirComponent";
 import { Formik } from "formik";
 import * as yup from 'yup';
-import { Com_GetAPIFrmStorage, Com_SetAppApi, LoadApiPostData } from "../shared/fetchUrl";
+import { Com_GetAPIFrmStorage, Com_SetAppApi, LoadApiPostData, PrivacyPolicy } from "../shared/fetchUrl";
 import MsgCardComponent from "../component/card/msgCard";
 import DesignTriComponent from "../component/designTriComponent";
 import UserContext, { UserContextProvider } from "../shared/usrContext";
@@ -28,6 +29,12 @@ const validationSchema = yup.object().shape({
     username: yup.string().required(),
     password:yup.string().required()   
 })
+
+const handlePrivacyPolicy = ()=>{
+    PrivacyPolicy();
+
+}
+
 
 const LoginScreen = ({navigation, route})=>{
     const[isAppReady, setIsAppReady] = useState(false)
@@ -407,6 +414,9 @@ const LoginScreen = ({navigation, route})=>{
                             </TouchableOpacity>
                         </View>
 
+                        <Pressable onPress={() => PrivacyPolicy()}>
+                            <Text style={[globalStyles.privacy_policy]}>Privacy Policy</Text>
+                        </Pressable>
 
                         <DesignTriComponent /> 
                     </React.Fragment>

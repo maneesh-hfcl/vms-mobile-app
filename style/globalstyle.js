@@ -220,5 +220,15 @@ export const globalStyles = StyleSheet.create({
         color:"red",
         paddingHorizontal:10,
         textAlign:"center"
-    }      
+    } ,
+    privacy_policy:{
+        fontSize:14,
+        color:"gray",
+        marginVertical:80,
+        paddingHorizontal:10,
+        textAlign:"center",
+        textDecorationLine:"underline",
+        position:'absolute',
+        alignSelf:'center'
+    },     
 })

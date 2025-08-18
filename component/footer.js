@@ -1,10 +1,12 @@
 import React from "react";
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Pressable, Alert} from 'react-native';
+import { globalStyles } from "../style/globalstyle";
 
 const FooterScreen = ()=>{
+    
     return(
-        <View style={styles.container}>
-            <Text style={{color:'lightgray'}}>Copyright @ 2025, HFCL, ver 1.0.4</Text>
+        <View style={[styles.container, {flexDirection:'row', alignItems:'center', justifyContent:'space-evenly'}]}>
+            <Text style={{color:'lightgray' }}>© HFCL, ver 1.0.5</Text>
         </View>
     )
 }

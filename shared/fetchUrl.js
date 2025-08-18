@@ -1,6 +1,7 @@
 import { Alert } from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import config from "../configuration/config";
+import * as Linking from 'expo-linking';
 
 export const LoadApiData = async(urlpath, type)=>{
     try {
@@ -187,4 +188,15 @@ export const Com_SaveApiStorage = async (initLst)=>{
     await AsyncStorage.setItem("@webapi", JSON.stringify(initLst.webapi))
     await AsyncStorage.setItem("@weburl", JSON.stringify(initLst.weburl))
     await AsyncStorage.setItem("@socketurl", JSON.stringify(initLst.socketurl))
+}
+
+
+export const PrivacyPolicy = ()=>{
+    Alert.alert("privacy policy");
+    // Linking.openURL('https://expo.dev/');
+
+    let uri = config.ApiUrl+"/privacy-policy.html";
+    console.log(uri);
+    Linking.openURL(uri);
+//        navigation.navigate('MapHome',{cam:selCam, recdt:recdate, rectime:time});
 }
