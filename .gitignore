@@ -15,4 +15,7 @@ web-build/
 android/keystores/release.keystore
 package - Copy.json
 app - Copy.json
+/android
+/ios
+
 

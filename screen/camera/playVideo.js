@@ -4,7 +4,7 @@ import {View, Text, StyleSheet, TouchableOpacity, Image, Alert, ActivityIndicato
 import AsyncStorage from '@react-native-async-storage/async-storage';
 //import * as FileSystem from 'expo-file-system';
 //import WebView from "react-native-webview";
-//import RNFS from 'react-native-fs';
+
 import Config from '../../configuration/config'
 import { MaterialIcons } from '@expo/vector-icons';
 import { globalStyles } from "../../style/globalstyle";
