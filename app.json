@@ -26,8 +26,10 @@
         "backgroundColor": "#000000"
       },
       "package": "com.hfclvms.m3smobile",
-      "versionCode": 12,
-      "googleServicesFile": "./google-services.json"
+      "versionCode": 13,
+      "googleServicesFile": "./google-services.json",
+      "blockedPermissions": [ "android.permission.ACTIVITY_RECOGNITION"]
+  
     },
     "web": {
       "favicon": "./assets/adaptive-icon.png"
