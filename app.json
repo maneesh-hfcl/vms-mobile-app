@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "m3s-connectview",
+    "name": "M3S-Mobile",
     "slug": "m3s-web-app",
     "version": "1.0.3",
     "orientation": "portrait",
@@ -26,10 +26,11 @@
         "backgroundColor": "#000000"
       },
       "package": "com.hfclvms.m3smobile",
-      "versionCode": 13,
+      "versionCode": 14,
       "googleServicesFile": "./google-services.json",
-      "blockedPermissions": [ "android.permission.ACTIVITY_RECOGNITION"]
-  
+      "blockedPermissions": [
+        "android.permission.ACTIVITY_RECOGNITION"
+      ]
     },
     "web": {
       "favicon": "./assets/adaptive-icon.png"
