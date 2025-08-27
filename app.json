@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "M3S-Mobile",
+    "name": "m3s-mobile",
     "slug": "m3s-web-app",
     "version": "1.0.3",
     "orientation": "portrait",
@@ -59,7 +59,8 @@
           "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone",
           "recordAudioAndroid": true
         }
-      ]
+      ],
+      "expo-audio"
     ],
     "extra": {
       "eas": {
