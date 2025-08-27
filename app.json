@@ -6,6 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/adaptive-icon.png",
     "userInterfaceStyle": "light",
+    "newArchEnabled": true,
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "cover",
@@ -26,7 +27,7 @@
         "backgroundColor": "#000000"
       },
       "package": "com.hfclvms.m3smobile",
-      "versionCode": 14,
+      "versionCode": 15,
       "googleServicesFile": "./google-services.json",
       "blockedPermissions": [
         "android.permission.ACTIVITY_RECOGNITION"
