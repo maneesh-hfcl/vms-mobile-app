@@ -27,7 +27,7 @@
         "backgroundColor": "#000000"
       },
       "package": "com.hfclvms.m3smobile",
-      "versionCode": 15,
+      "versionCode": 18,
       "googleServicesFile": "./google-services.json",
       "blockedPermissions": [
         "android.permission.ACTIVITY_RECOGNITION"
